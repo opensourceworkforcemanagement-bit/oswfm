@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: authservice
+server:
+  port: 1112
+#  ssl:
+#    key-store: classpath:keystore.p12
+#    key-store-password: abc123
+#    key-store-type: PKCS12
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVICE_URL:http://localhost:8761/eureka/}
+
+environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - LOG_FILE_PATH=/app/logs/authservice.log
+volumes:
+      # Windows-friendly relative path
+      - C:\development\TA\app_logs:/app/logs
+      
+# Logging Configuration
+logging:
+  level:
+    org.springframework.security.web.access.ExceptionTranslationFilter: DEBUG
+    org.springframework.security.web.FilterChainProxy: DEBUG
+    org.springframework.security.web.authentication: DEBUG
+    org.springframework.security.web.access.intercept.FilterSecurityInterceptor: DEBUG
+    org.springframework.security.access.intercept.AbstractSecurityInterceptor: DEBUG
+    root: INFO
+  
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  
+  file:
+    name: ${LOG_FILE_PATH:logs/authservice.log}
+    max-size: ${LOG_MAX_SIZE:50MB}
+    max-history: ${LOG_MAX_HISTORY:30}
+    total-size-cap: ${LOG_TOTAL_SIZE:1GB}
+  
+  logback:
+    rollingpolicy:
+      file-name-pattern: ${LOG_FILE_PATH:logs/authservice}-%d{yyyy-MM-dd}-%i.log
+      max-file-size: ${LOG_MAX_SIZE:50MB}
+      max-history: ${LOG_MAX_HISTORY:30}
+      total-size-cap: ${LOG_TOTAL_SIZE:1GB}

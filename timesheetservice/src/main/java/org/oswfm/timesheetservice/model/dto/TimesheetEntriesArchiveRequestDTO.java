@@ -1,0 +1,55 @@
+package org.oswfm.timesheetservice.model.dto;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.*;
+import java.math.BigDecimal;
+
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class TimesheetEntriesArchiveRequestDTO {
+
+    @NotNull
+    private Integer employeeId;
+
+    @NotNull
+    private Integer payPeriodId;
+
+    @NotNull
+    private Integer workCodeId;
+
+    @NotNull
+    private Integer accountCodeId;
+
+    private BigDecimal su1Hours;
+
+    private BigDecimal m1Hours;
+
+    private BigDecimal t1Hours;
+
+    private BigDecimal w1Hours;
+
+    private BigDecimal th1Hours;
+
+    private BigDecimal f1Hours;
+
+    private BigDecimal sa1Hours;
+
+    private BigDecimal su2Hours;
+
+    private BigDecimal m2Hours;
+
+    private BigDecimal t2Hours;
+
+    private BigDecimal w2Hours;
+
+    private BigDecimal th2Hours;
+
+    private BigDecimal f2Hours;
+
+    private BigDecimal sa2Hours;
+
+}

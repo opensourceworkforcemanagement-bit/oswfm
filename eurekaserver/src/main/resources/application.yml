@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: eurekaserver
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+
+server:
+  port: 8761
+#  ssl:
+#      key-store: classpath:keystore.p12
+#      key-store-password: abc123
+#      key-store-type: PKCS12

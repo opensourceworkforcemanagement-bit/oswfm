@@ -1,0 +1,86 @@
+spring:
+  application:
+    name: timesheetservice
+
+  config:
+    import: optional:file:.env[.properties]
+
+  environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - LOG_FILE_PATH=/app/logs/timesheetservice.log
+  volumes:
+      # Windows-friendly relative path
+      - C:\development\TA\app_logs:/app/logs
+          
+  datasource:
+    name: postgresql
+    url: jdbc:postgresql://${SECURITY_DB_IP:localhost}:${SECURITY_DB_PORT:5432}/OSTM?currentSchema=ostm&charSet=UTF-8
+    #    jdbc:postgresql://${SECURITY_DB_IP:localhost}:${SECURITY_DB_PORT:5432}/OSTM
+    username: ${DATABASE_USERNAME:OSTM}
+    password: ${DATABASE_PASSWORD:ostm}
+    driver-class-name: org.postgresql.Driver
+    
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  # Flyway specific properties
+  flyway:
+    enabled: true  # Flyway is enabled by default if the dependency is present, but you can explicitly enable/disable it
+    locations: classpath:db/migration # Specifies where migration scripts are located (default is classpath:db/migration)
+    baseline-on-migrate: true # Sets a baseline version if the schema is not empty
+    # ... other Flyway properties can be added here
+    table: timesheetservice_migration_history # Custom table name for tracking migrations (default is flyway_schema_history)
+    
+
+# Logging Configuration
+logging:
+  level:
+    org.oswfm.timesheetservice: DEBUG
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.postgresql: INFO
+    org.springframework.security.web.access.ExceptionTranslationFilter: DEBUG
+    org.springframework.security.web.FilterChainProxy: DEBUG
+    org.springframework.security.web.authentication: DEBUG
+    org.springframework.security.web.access.intercept.FilterSecurityInterceptor: DEBUG
+    org.springframework.security.access.intercept.AbstractSecurityInterceptor: DEBUG
+    root: INFO
+  
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  
+  file:
+    name: ${LOG_FILE_PATH:logs/timesheetservice.log}
+    max-size: ${LOG_MAX_SIZE:50MB}
+    max-history: ${LOG_MAX_HISTORY:30}
+    total-size-cap: ${LOG_TOTAL_SIZE:1GB}
+  
+  logback:
+    rollingpolicy:
+      file-name-pattern: ${LOG_FILE_PATH:logs/timesheetservice}-%d{yyyy-MM-dd}-%i.log
+      max-file-size: ${LOG_MAX_SIZE:50MB}
+      max-history: ${LOG_MAX_HISTORY:30}
+      total-size-cap: ${LOG_TOTAL_SIZE:1GB}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVICE_URL:http://localhost:8761/eureka/}
+
+server:
+  port: 1114
+#  ssl:
+#      key-store: classpath:keystore.p12
+#      key-store-password: abc123
+#      key-store-type: PKCS12

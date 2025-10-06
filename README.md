@@ -1,2 +1,1 @@
-# oswfm
-Open Source Workforce Management
+# Open Source Workforce Management
