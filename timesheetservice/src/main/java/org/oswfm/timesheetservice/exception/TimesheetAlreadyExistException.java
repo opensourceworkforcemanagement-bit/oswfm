@@ -3,7 +3,7 @@ package org.oswfm.timesheetservice.exception;
 import java.io.Serial;
 
 /**
- * Exception class named {@link TimesheetAlreadyExistException} thrown when attempting to create a product that already exists.
+ * Exception class named {@link TimesheetAlreadyExistException} thrown when attempting to create a timesheet that already exists.
  */
 public class TimesheetAlreadyExistException extends RuntimeException{
 
