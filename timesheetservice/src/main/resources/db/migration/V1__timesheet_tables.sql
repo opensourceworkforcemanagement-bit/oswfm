@@ -20,7 +20,10 @@ CREATE INDEX idx_timesheet_operations_types_operation_type_name ON timesheet_ope
 
 CREATE TABLE work_codes (
     work_code_id SERIAL PRIMARY KEY,
-    work_code VARCHAR(50) NOT NULL,
+    prefix VARCHAR(10),
+    suffix VARCHAR(10),
+    short_work_code VARCHAR(10) NOT NULL,
+    long_work_code VARCHAR(50) NOT NULL,
     description TEXT,
     status int2 NULL
 );

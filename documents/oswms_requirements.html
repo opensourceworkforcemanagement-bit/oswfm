@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OSWMS – Requirements Document</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background: #f5f5f5; }
+    .cover-page { min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 3rem; text-align: center; }
+    .cover-content h1 { font-size: 3rem; margin-bottom: 1rem; }
+    .cover-content h2 { font-size: 1.5rem; font-weight: 300; margin-bottom: 2rem; }
+    .meta { font-size: 0.9rem; opacity: 0.9; margin: 0.5rem 0; }
+    .logo-accent { font-size: 6rem; font-weight: bold; margin-top: 2rem; opacity: 0.3; }
+    .cover-footer { font-size: 0.85rem; opacity: 0.8; }
+    .toc { background: white; padding: 2rem 3rem; margin: 2rem auto; max-width: 1200px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .toc h2 { color: #667eea; margin-bottom: 1.5rem; }
+    .toc ol { margin-left: 1.5rem; }
+    .toc li { margin: 0.5rem 0; }
+    .toc a { color: #333; text-decoration: none; }
+    .toc a:hover { color: #667eea; text-decoration: underline; }
+    .content { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    section { background: white; padding: 2.5rem; margin: 2rem 0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    section h2 { color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+    section h3 { color: #764ba2; margin-top: 2rem; margin-bottom: 1rem; }
+    ul, ol { margin-left: 2rem; }
+    li { margin: 0.75rem 0; }
+    strong { color: #667eea; }
+    table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+    table th { background: #667eea; color: white; padding: 0.75rem; text-align: left; }
+    table td { padding: 0.75rem; border-bottom: 1px solid #ddd; }
+    table tr:hover { background: #f9f9f9; }
+    .code { background: #f4f4f4; padding: 1rem; border-left: 4px solid #667eea; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 0.9rem; margin: 1rem 0; }
+    .erd-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin: 2rem 0; }
+    .erd-grid figure { text-align: center; }
+    .erd-grid img { max-width: 100%; border: 1px solid #ddd; border-radius: 4px; }
+    .erd-grid figcaption { margin-top: 0.5rem; font-size: 0.9rem; color: #666; }
+    .doc-footer { text-align: center; padding: 2rem; color: #666; font-style: italic; }
+    @media print {
+      .cover-page { page-break-after: always; }
+      section { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Cover -->
+  <div class="cover-page" id="cover">
+    <div class="cover-content">
+      <h1>Open Source Workforce Management System (OSWMS)</h1>
+      <h2>Requirements Document for version .1</h2>
+      <p class="meta">Compiled: October 26, 2025</p>
+      <p class="meta">Includes: User Management; Time &amp; Attendance; Scheduling; Leave; Performance; Analytics; Payroll Integration; Hiring &amp; Recruitment (I-9 handling)</p>
+      <div class="logo-accent">OSWMS</div>
+    </div>
+    <div class="cover-footer">Prepared by: Team | Version: 1</div>
+  </div>
+
+  <!-- Table of contents -->
+  <nav class="toc" id="toc">
+    <h2>Table of Contents</h2>
+    <ol>
+      <li><a href="#overview">Document Overview</a></li>
+      <li><a href="#um">1. User Management</a></li>
+      <li><a href="#ta">2. Time &amp; Attendance</a></li>
+      <li><a href="#sched">3. Scheduling &amp; Shift Management</a></li>
+      <li><a href="#leave">4. Leave &amp; Absence Management</a></li>
+      <li><a href="#perf">5. Performance &amp; Productivity Tracking</a></li>
+      <li><a href="#analytics">6. Workforce Analytics &amp; Reporting</a></li>
+      <li><a href="#payroll">7. Payroll &amp; Compensation</a></li>
+      <li><a href="#hrw">8. Hiring &amp; Recruitment Workflow</a></li>
+      <li><a href="#api">9. API Reference</a></li>
+      <li><a href="#erd">10. ERDs (working on them)</a></li>
+      <li><a href="#changes">11. Change Tracking & Revision Log</a></li>
+      <li><a href="#future">12. Future Enhancements</a></li>
+    </ol>
+  </nav>
+
+  <main class="content">
+    <section id="overview">
+      <h2>Document Overview</h2>
+      <p>This requirements document contains module-level requirements for the Open Source Workforce Management System (OSWMS) version .1. It includes compliance, hiring workflows including Form I-9 handling, SOC 2 requirements across modules, API reference, change-tracking guidance, and a future enhancements section. Each requirement has a unique identifier to facilitate traceability and is intended as a living artifact for product, engineering, and compliance teams.</p>
+    </section>
+
+    <section id="um">
+      <h2>1. User Management</h2>
+      <p><em>Overview:</em> Identity, authentication, Role-Based Access Control (RBAC), profiles, org structure, integrations.</p>
+      <h3>Functional Requirements</h3>
+      <ul>
+        <li id="UM-FR-001"><strong>UM-FR-001</strong> – Create new user accounts manually or via bulk import (CSV, API, integrations).</li>
+        <li id="UM-FR-002"><strong>UM-FR-002</strong> – Edit user information (name, contact, role, department, employment type) and manage lifecycle (deactivate/archive/delete subject to retention policy).</li>
+        <li id="UM-FR-003"><strong>UM-FR-003</strong> – RBAC with custom roles, role inheritance, and dynamic permission updates.</li>
+        <li id="UM-FR-004"><strong>UM-FR-004</strong> – SSO (OAuth2/SAML/OIDC), MFA (email/SMS/authenticator), password policies and reset flows.</li>
+        <li id="UM-FR-005"><strong>UM-FR-005</strong> – User profiles (photo, contacts, emergency contact, employment metadata) with profile versioning and audit trail for changes.</li>
+        <li id="UM-FR-006"><strong>UM-FR-006</strong> – Auto-generate employee IDs and usernames; provide search/sort/filter capabilities.</li>
+        <li id="UM-FR-007"><strong>UM-FR-007</strong> – Organizational structure (departments, locations, teams), multiple assignments, and org chart visualization.</li>
+        <li id="UM-FR-008"><strong>UM-FR-008</strong> – Notifications for account creation, role changes, and access requests.</li>
+        <li id="UM-FR-009"><strong>UM-FR-009</strong> – Full audit trail for user activity and administrative actions.</li>
+        <li id="UM-FR-010"><strong>UM-FR-010</strong> – Integrations with AD, OpenID
+		REST/GraphQL APIs for CRUD and sync.</li>
+      </ul>
+      <h3>Non-Functional & Compliance</h3>
+      <ul>
+        <li id="UM-NFR-001"><strong>UM-NFR-001</strong> – SOC 2: Ensure module design meets SOC 2 security and availability controls (logging, access controls, monitoring).</li>
+        <li id="UM-NFR-002"><strong>UM-NFR-002</strong> – GDPR/CCPA privacy controls; encryption at rest/in transit.</li>
+        <li id="UM-NFR-003"><strong>UM-NFR-003</strong> – Performance: support 10,000+ concurrent active users; user queries &lt;200ms.</li>
+        <li id="UM-NFR-004"><strong>UM-NFR-004</strong> – Scalability: horizontal scaling, multi-tenant capable.</li>
+        <li id="UM-NFR-005"><strong>UM-NFR-005</strong> – Security: OWASP hardened.</li>
+        <li id="UM-NFR-006"><strong>UM-NFR-006</strong> – Availability: 99.9% uptime for auth and user APIs.</li>
+        
+      </ul>
+      <h3>Future Enhancements</h3>
+      <ul>
+	    <li id="UM-NFR-007"><strong>UM-NFR-007</strong> – Compliance: ISO 27001 support.</li>
+        <li>Biometric/Smart-card authentication; AI-driven role recommendations; delegated admin; Self-service improvements; adaptive access; Integrations Workday, HRIS.</li>
+      </ul>
+    </section>
+
+    <section id="ta">
+      <h2>2. Time &amp; Attendance</h2>
+      <p><em>Overview:</em> Clocking methods, shift calculations, break & overtime rules, integrations to payroll.</p>
+      <h3>Functional Requirements</h3>
+      <ol>
+        <li id="TA-FR-001"><strong>TA-FR-001</strong> – Clock in/out via web, mobile, kiosk; capture timestamp, IP, device, location (GPS), and method metadata.</li>
+        <li id="TA-FR-002"><strong>TA-FR-002</strong> – Biometric device integrations (fingerprint, facial recognition), QR/NFC attendance, and anti-spoofing controls.</li>
+        <li id="TA-FR-003"><strong>TA-FR-003</strong> – GPS-based verification for mobile check-ins and additional anti-spoofing measures.</li>
+        <li id="TA-FR-004"><strong>TA-FR-004</strong> – Shift definitions (fixed, flexible, rotating), automatic hours calculation, rounding rules, and grace periods.</li>
+        <li id="TA-FR-005"><strong>TA-FR-005</strong> – Break tracking (meal/rest), overtime calculation, and alerts when overtime thresholds are exceeded.</li>
+        <li id="TA-FR-006"><strong>TA-FR-006</strong> – Missed punch detection, manual edits with approval workflows.</li>
+        <li id="TA-FR-007"><strong>TA-FR-007</strong> – Timesheet generation and export to payroll.</li>
+        <li id="TA-FR-008"><strong>TA-FR-008</strong> – Integration with payroll and scheduling via APIs and webhooks for time data exchange.</li>
+        <li id="TA-FR-009"><strong>TA-FR-009</strong> – Audit logs for all time events and retention per policy.</li>
+      </ol>
+      <h3>Non-Functional & Compliance</h3>
+      <ul>
+        <li id="TA-NFR-001"><strong>TA-NFR-001</strong> – SOC 2: Ensure secure logging of time events, integrity checks, and access controls for time data.</li>
+        <li id="TA-NFR-002"><strong>TA-NFR-002</strong> – Offline sync reliability and data reconciliation.</li>
+        <li id="TA-NFR-003"><strong>TA-NFR-003</strong> – Performance: record attendance in real-time with &lt;1s latency.</li>
+        <li id="TA-NFR-004"><strong>TA-NFR-004</strong> – Scalability: support 50,000+ daily clock events.</li>
+        <li id="TA-NFR-005"><strong>TA-NFR-005</strong> – Availability: 99.95% uptime; offline sync for mobile clients.</li>
+      </ul>
+      <h3>Future Enhancements</h3>
+      <ul>
+        <li>AI anomaly detection (buddy punching), wearable/voice check-ins, predictive overtime alerts, advanced anti-spoofing.</li>
+      </ul>
+    </section>
+
+    <section id="sched">
+      <h2>3. Scheduling &amp; Shift Management</h2>
+      <p><em>Overview:</em> Shift templates, auto-scheduling, swap workflows, publish/notify and calendar integrations.</p>
+      <h3>Functional Requirements</h3>
+      <ul>
+        <li id="SCH-FR-001"><strong>SCH-FR-001</strong> – Shift templates with attributes (start/end, location, role requirements), recurring patterns, and rules enforcement.</li>
+        <li id="SCH-FR-002"><strong>SCH-FR-002</strong> – Auto-scheduler using skills, availability, workload, and demand forecasting.</li>
+        <li id="SCH-FR-003"><strong>SCH-FR-003</strong> – Drag-and-drop calendar view; prevent double-booking; bulk assignment; preview total hours before publish.</li>
+        <li id="SCH-FR-004"><strong>SCH-FR-004</strong> – Swap requests and approvals with compliance checks.</li>
+        <li id="SCH-FR-005"><strong>SCH-FR-005</strong> – Calendar integration (Google, Outlook, iCal) and publish/notify features.</li>
+        <li id="SCH-FR-006"><strong>SCH-FR-006</strong> – Forecasting and optimization suggestions using historical data.</li>
+      </ul>
+      <h3>Non-Functional & Compliance</h3>
+      <ul>
+        <li id="SCH-NFR-001"><strong>SCH-NFR-001</strong> – SOC 2: Protect scheduling data, access segregation for editors and viewers.</li>
+        <li id="SCH-NFR-002"><strong>SCH-NFR-002</strong> – UI updates &lt;200ms for 1,000+ employees.</li>
+        <li id="SCH-NFR-003"><strong>SCH-NFR-003</strong> – Multi-timezone support and 99.9% API uptime.</li>
+      </ul>
+      <h3>Future Enhancements</h3>
+      <ul>
+        <li>AI-powered auto-scheduler, gamified preference handling, workload balancing, mobile offline scheduling.</li>
+      </ul>
+    </section>
+
+    <section id="leave">
+      <h2>4. Leave &amp; Absence Management</h2>
+      <p><em>Overview:</em> Leave types, accrual, approvals, calendar visibility, payroll sync.</p>
+      <h3>Functional Requirements</h3>
+      <ol>
+        <li id="LV-FR-001"><strong>LV-FR-001</strong> – Custom leave types and eligibility rules with carry-forward, expiry, and accrual rules.</li>
+        <li id="LV-FR-002"><strong>LV-FR-002</strong> – Accrual engine (daily/monthly/annual), manual adjustments, and balance display.</li>
+        <li id="LV-FR-003"><strong>LV-FR-003</strong> – Leave request workflows, multi-level approvals, and notifications.</li>
+        <li id="LV-FR-004"><strong>LV-FR-004</strong> – Team leave calendar and conflict detection when approving.</li>
+        <li id="LV-FR-005"><strong>LV-FR-005</strong> – Integration with payroll and scheduling for paid/unpaid leave handling.</li>
+		<li id="LV-FR-005"><strong>LV-FR-005</strong> – Support for leave banks allowing employee to donate leave to each other.</li>
+      </ol>
+      <h3>Non-Functional & Compliance</h3>
+      <ul>
+        <li id="LV-NFR-001"><strong>LV-NFR-001</strong> – SOC 2: Secure leave PII, role-based access to medical leave info, and encrypted storage for sensitive attachments.</li>
+        <li id="LV-NFR-002"><strong>LV-NFR-002</strong> – Process leave requests in &lt;1s; support 10,000+ employees.</li>
+        <li id="LV-NFR-003"><strong>LV-NFR-003</strong> – Secure sensitive medical leave data with strict access controls.</li>
+      </ul>
+      <h3>Future Enhancements</h3>
+      <ul>
+        <li>AI leave forecasting, leave simulation tools, smart approvals, geo-aware validations.</li>
+      </ul>
+    </section>
+
+    <section id="perf">
+      <h2>5. Performance &amp; Productivity Tracking</h2>
+      <p><em>Overview:</em> Goals, KPIs, reviews, continuous feedback, competency frameworks.</p>
+      <h3>Functional Requirements</h3>
+      <ul>
+        <li id="PF-FR-001"><strong>PF-FR-001</strong> – SMART goals, hierarchical alignment, weights and progress tracking.</li>
+        <li id="PF-FR-002"><strong>PF-FR-002</strong> – KPI definitions, automated calculations, and integrations for productivity signals/data.</li>
+        <li id="PF-FR-003"><strong>PF-FR-003</strong> – Performance cycles with templates, self/manager/peer reviews, calibration, weighted scoring, and multi-reviewer support.</li>
+        <li id="PF-FR-004"><strong>PF-FR-004</strong> – Continuous feedback, recognition, and anonymous feedback options.</li>
+        <li id="PF-FR-005"><strong>PF-FR-005</strong> – Competency management and integration with LMS for learning paths.</li>
+      </ul>
+      <h3>Non-Functional & Compliance</h3>
+      <ul>
+        <li id="PF-NFR-001"><strong>PF-NFR-001</strong> – SOC 2: Secure storage of sensitive review content, auditability, and access controls.</li>
+        <li id="PF-NFR-002"><strong>PF-NFR-002</strong> – Real-time updates &lt;1s; scale to 100k+ performance records per cycle.</li>
+        <li id="PF-NFR-003"><strong>PF-NFR-003</strong> – GDPR compliance for review data.</li>
+      </ul>
+      <h3>Future Enhancements</h3>
+      <ul>
+        <li>AI-driven insights, natural-language feedback summarization, gamification.</li>
+      </ul>
+    </section>
+
+    <section id="analytics">
+      <h2>6. Workforce Analytics &amp; Reporting</h2>
+      <p><em>Overview:</em> ETL, dashboards, KPIs, predictive models, and BI integrations.</p>
+      <h3>Functional Requirements</h3>
+      <ul>
+        <li id="AN-FR-001"><strong>AN-FR-001</strong> – Centralized data warehouse, ETL jobs, streaming support for real-time metrics.</li>
+        <li id="AN-FR-002"><strong>AN-FR-002</strong> – Dashboards (pre-built and custom) with drill-down, cross-filtering, custom visualizations, and exports.</li>
+        <li id="AN-FR-003"><strong>AN-FR-003</strong> – Standard KPIs, custom KPI formulas, and benchmarking.</li>
+        <li id="AN-FR-004"><strong>AN-FR-004</strong> – Predictive models for demand forecasting, attrition risk, and cost forecasting with prescriptive recommendations.</li>
+        <li id="AN-FR-005"><strong>AN-FR-005</strong> – Reporting engine with scheduled and ad-hoc exports (PDF/CSV/Excel/JSON).</li>
+      </ul>
+      <h3>Non-Functional & Compliance</h3>
+      <ul>
+        <li id="AN-NFR-001"><strong>AN-NFR-001</strong> – SOC 2: Data governance, access logging, data masking for PII in analytics.</li>
+        <li id="AN-NFR-002"><strong>AN-NFR-002</strong> – Dashboards render &lt;2s for datasets ≤1M rows; scale to 100M+ records.</li>
+        <li id="AN-NFR-003"><strong>AN-NFR-003</strong> – 99.95% availability; RBAC and data masking for sensitive fields.</li>
+      </ul>
+      <h3>Future Enhancements</h3>
+      <ul>
+        <li>Narrative analytics, NL query interfaces, anomaly detection, streaming dashboards, mobile analytics companion app.</li>
+      </ul>
+    </section>
+
+    <section id="payroll">
+      <h2>7. Payroll &amp; Compensation</h2>
+      <p><em>Overview:</em> Payroll runs, taxes, deductions, bank file generation, GL exports.</p>
+      <h3>Functional Requirements</h3>
+      <ol>
+        <li id="PR-FR-001"><strong>PR-FR-001</strong> – Support multiple pay frequencies, pay methods (direct deposit, check, pay card), and multi-currency payroll.</li>
+        <li id="PR-FR-002"><strong>PR-FR-002</strong> – Earnings types including salary, hourly, contractor, bonuses, commissions, premiums.</li>
+        <li id="PR-FR-003"><strong>PR-FR-003</strong> – Import approved timesheets; apply overtime, rounding, and jurisdiction rules; tax engine for statutory taxes, pre/post-tax deductions, garnishments, and compliance per jurisdiction.</li>
+        <li id="PR-FR-004"><strong>PR-FR-004</strong> – Payroll runs with staged validation, approvals, holds, rollback, and off-cycle support.</li>
+        <li id="PR-FR-005"><strong>PR-FR-005</strong> – ACH / bank file generation, bank reconciliation, and failed payment handling.</li>
+        <li id="PR-FR-006"><strong>PR-FR-006</strong> – Employee self-service for paystubs, tax forms, bank updates and dispute workflows.</li>
+        <li id="PR-FR-007"><strong>PR-FR-007</strong> – GL exports, tax reports, remittance summaries, and year-end forms generation.</li>
+		<li id="PR-FR-008"><strong>PR-FR-008</strong> – Mileage tracking and reimbursement: employees submit claims with start/end locations, distance, date, and purpose; support multiple rate types (standard IRS rate, company custom rates, international rates); GPS verification for mobile submissions; integration with mapping services for distance calculation; approval workflows; tax treatment per jurisdiction.</li>
+        <li id="PR-FR-009"><strong>PR-FR-009</strong> – Mileage reporting and compliance: track limits and caps per employee/period; generate mileage reports for tax compliance (e.g., IRS Form 2106); audit trail for all claims; alerts for unusual patterns or potential fraud.</li>
+      </ol>
+      <h3>Non-Functional & Compliance</h3>
+      <ul>
+        <li id="PR-NFR-001"><strong>PR-NFR-001</strong> – SOC 2: Financial data protection, strict separation of duties, encrypted payroll exports and secure key management; ISO 27001 alignment.</li>
+        <li id="PR-NFR-002"><strong>PR-NFR-002</strong> – Accuracy &amp; auditability: immutable logs and validation to minimize errors.</li>
+        <li id="PR-NFR-003"><strong>PR-NFR-003</strong> – Reliability: idempotent/resumable payroll processes and secure backups.</li>
+      </ul>
+      <h3>Future Enhancements</h3>
+      <ul>
+        <li>Integrated tax filing, payroll forecasting, earned wage access, fraud detection, global payout networks, pay equity analysis.</li>
+      </ul>
+    </section>
+
+    <section id="hrw">
+      <h2>8. Hiring &amp; Recruitment Workflow (HRW)</h2>
+      <p><em>Overview:</em> End-to-end hiring automation – job posting, resume parsing, review automation, interview scheduling, onboarding, and compliance documents (Form I-9).</p>
+      <h3>Functional Requirements</h3>
+      <ol>
+        <li id="HRW-FR-001"><strong>HRW-FR-001</strong> – Post job openings to integrated platforms and internal careers site; track source analytics.</li>
+        <li id="HRW-FR-002"><strong>HRW-FR-002</strong> – Resume parsing (structured extraction), resume storage, and candidate profile creation.</li>
+        <li id="HRW-FR-003"><strong>HRW-FR-003</strong> – Automated resume review pipelines with configurable filters, AI-based candidate scoring, and shortlisting.</li>
+        <li id="HRW-FR-004"><strong>HRW-FR-004</strong> – Interview scheduling, multi-round feedback capture, and offer approval workflows.</li>
+        <li id="HRW-FR-005"><strong>HRW-FR-005</strong> – <em>Form I-9 handling</em>: collect I-9 documents, verification steps (Section 1 &amp; 2 capture), secure storage, retention rules, and optional E-Verify integration.</li>
+        <li id="HRW-FR-006"><strong>HRW-FR-006</strong> – Onboarding automation: checklist, equipment provisioning, account provisioning (User Management sync).</li>
+      </ol>
+      <h3>Non-Functional & Compliance</h3>
+      <ul>
+        <li id="HRW-NFR-001"><strong>HRW-NFR-001</strong> – SOC 2: Ensure recruitment data (candidates, resumes, I-9s) is access-controlled, encrypted at rest/in transit, and logged for audits.</li>
+        <li id="HRW-NFR-002"><strong>HRW-NFR-002</strong> – Compliance with Form I-9 retention and E-Verify rules where applicable; GDPR data subject access controls for applicants.</li>
+      </ul>
+      <h3>Future Enhancements</h3>
+      <ul>
+        <li>AI candidate scoring, chatbot pre-screening, bias detection & fairness reporting, automated background checks, E-Verify automation, resume anonymization for unbiased review.</li>
+      </ul>
+    </section>
+
+    <section id="api">
+      <h2>9. API Reference</h2>
+      <p>API covering core modules. Each endpoint has a unique ID for traceability.</p>
+
+      <table>
+        <thead><tr><th>ID</th><th>Endpoint</th><th>Method</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr id="API-001"><td><strong>API-001</strong></td><td>/api/v1/users</td><td>GET</td><td>List users (supports filters: department, role, status)</td></tr>
+          <tr id="API-002"><td><strong>API-002</strong></td><td>/api/v1/users</td><td>POST</td><td>Create a user (body: name, email, role, dept)</td></tr>
+          <tr id="API-003"><td><strong>API-003</strong></td><td>/api/v1/auth/login</td><td>POST</td><td>Authenticate user (SSO/OIDC tokens supported)</td></tr>
+          <tr id="API-004"><td><strong>API-004</strong></td><td>/api/v1/time/clock</td><td>POST</td><td>Record clock-in/out (body: userId, timestamp, method, gps)</td></tr>
+          <tr id="API-005"><td><strong>API-005</strong></td><td>/api/v1/timesheets</td><td>GET</td><td>Retrieve generated timesheets for payroll export</td></tr>
+          <tr id="API-006"><td><strong>API-006</strong></td><td>/api/v1/schedules</td><td>POST</td><td>Create or publish a schedule (supports bulk assignment)</td></tr>
+          <tr id="API-007"><td><strong>API-007</strong></td><td>/api/v1/leave/requests</td><td>POST</td><td>Submit leave request (body: userId, type, from, to)</td></tr>
+          <tr id="API-008"><td><strong>API-008</strong></td><td>/api/v1/performance/goals</td><td>POST</td><td>Create personal/manager goals</td></tr>
+          <tr id="API-009"><td><strong>API-009</strong></td><td>/api/v1/analytics/kpis</td><td>GET</td><td>Fetch KPI metrics and trends (supports date range)</td></tr>
+          <tr id="API-010"><td><strong>API-010</strong></td><td>/api/v1/payroll/runs</td><td>POST</td><td>Initiate payroll run (staged run, returns validation results)</td></tr>
+          <tr id="API-011"><td><strong>API-011</strong></td><td>/api/v1/hrw/candidates</td><td>POST</td><td>Create candidate profile (parsed resume fields)</td></tr>
+          <tr id="API-012"><td><strong>API-012</strong></td><td>/api/v1/hrw/i9</td><td>POST</td><td>Upload I-9 documents and metadata (secure upload)</td></tr>
+          <tr id="API-013"><td><strong>API-013</strong></td><td>/api/v1/webhooks</td><td>POST</td><td>Receive webhooks for events (timesheet approved, hire completed, payroll posted)</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Example API contract (create user)</h3>
+      <pre class="code">POST /api/v1/users
+Request body:
+{
+  "name":"Jane Doe",
+  "email":"jane@example.com",
+  "role":"employee",
+  "department":"Customer Support",
+  "startDate":"2025-11-01"
+}
+Response 201:
+{
+  "id":"u_12345",
+  "name":"Jane Doe",
+  "email":"jane@example.com",
+  "status":"onboarding"
+}</pre>
+
+    </section>
+
+    <section id="erd">
+      <h2>10. Entity-Relationship Diagrams (Working On)</h2>
+      <p>Below are simplified ERD images illustrating the core entities and relationships across modules. These are suitable for embedding and printing.</p>
+
+      <div class="erd-grid">
+        <figure>
+          <img src="A_flowchart_in_the_image_illustrates_a_Workforce_M.png" alt="WMS ERD overview" />
+          <figcaption>System-level ERD: Users, TimeEvents, Shifts, LeaveRecords, Candidates, PayrollRuns, KPIs.</figcaption>
+        </figure>
+
+        <figure>
+          <img src="A_requirements_document_for_a_Workforce_Management.png" alt="WMS document preview" />
+          <figcaption>Document cover visual (for print style reference).</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="changes">
+      <h2>11. Change Tracking & Revision Log</h2>
+      <p>Change tracking guidelines and revision history. All changes must include: change id, author, date, affected requirement IDs, reason, and approver.</p>
+
+      <table>
+        <thead><tr><th>Change ID</th><th>Date</th><th>Author</th><th>Affected IDs</th><th>Description</th><th>Approver</th></tr></thead>
+        <tbody>
+          <tr><td>CHG-0001</td><td>2025-10-24</td><td>System Designer</td><td>All modules</td><td>Initial consolidated requirements for modules UM, TA, Scheduling, Leave, Performance, Analytics, Payroll.</td><td>Lead Architect</td></tr>
+          <tr><td>CHG-0002</td><td>2025-10-26</td><td>System Designer</td><td>HRW-FR-005, HRW-NFR-001</td><td>Added Hiring module and Form I-9 handling; SOC 2 compliance updates across all modules.</td><td>Lead Architect</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Change tracking requirements</h3>
+      <ul>
+        <li>All requirement edits must be logged with user id, timestamp and delta diff.</li>
+        <li>Major changes require approval (sign-off) recorded in the revision log.</li>
+        <li>Audit exports must be supported for compliance and SOC 2 reviews.</li>
+      </ul>
+    </section>
+
+    <section id="future">
+      <h2>12. Future Enhancements (Consolidated)</h2>
+      <p>This consolidated list aggregates all previously mentioned future enhancements across modules and system-wide ideas.</p>
+
+      <h3>User Management</h3>
+      <ul>
+        <li>Biometric/smart-card authentication; AI role recommendation; delegated admin; adaptive access; enhanced self-service capabilities.</li>
+      </ul>
+
+      <h3>Time & Attendance</h3>
+      <ul>
+        <li>AI anomaly detection (buddy punching), wearable/voice check-ins, predictive overtime alerts, advanced anti-spoofing.</li>
+      </ul>
+
+      <h3>Scheduling</h3>
+      <ul>
+        <li>AI-powered auto-scheduler, gamified preference handling, workload balancing, mobile offline scheduling.</li>
+      </ul>
+
+      <h3>Leave & Absence</h3>
+      <ul>
+        <li>AI leave forecasting, leave balance simulation, smart approvals, geo-aware validations.</li>
+      </ul>
+
+      <h3>Performance</h3>
+      <ul>
+        <li>AI-driven performance insights, natural-language summarization of feedback, gamification.</li>
+      </ul>
+
+      <h3>Analytics</h3>
+      <ul>
+        <li>Narrative analytics, NL query interfaces, anomaly detection, streaming dashboards, mobile companion app.</li>
+      </ul>
+
+      <h3>Payroll</h3>
+      <ul>
+        <li>Auto tax filing integrations, payroll forecasting, earned wage access, global payout networks, pay equity analysis, fraud detection.</li>
+      </ul>
+
+      <h3>Hiring & Recruitment</h3>
+      <ul>
+        <li>AI resume scoring, chatbot pre-screening, automated background checks, E-Verify automation, resume anonymization, bias detection and fairness reporting.</li>
+      </ul>
+
+      <h3>System-wide</h3>
+      <ul>
+        <li>Cross-module automation (e.g., hire → auto-provision accounts → schedule initial onboarding shift), end-to-end auditability for SOC 2, and ML platform for custom models.</li>
+      </ul>
+
+    </section>
+
+    <footer class="doc-footer">
+      <p>End of document – Open Source Workforce Management System Requirements</p>
+    </footer>
+  </main>
+</body>
+</html>
