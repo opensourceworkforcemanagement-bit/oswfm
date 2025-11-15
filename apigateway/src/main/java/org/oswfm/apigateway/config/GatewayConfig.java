@@ -1,13 +1,14 @@
 package org.oswfm.apigateway.config;
 
+import java.util.List;
+
 import org.oswfm.apigateway.filter.JwtAuthenticationFilter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Configuration class named {@link GatewayConfig} for setting up API Gateway routes.
@@ -47,6 +48,10 @@ public class GatewayConfig {
                         .filters(f -> f.filter(jwtAuthFilter.apply(new JwtAuthenticationFilter.Config()
                                 .setPublicEndpoints(PUBLIC_ENDPOINTS))))
                         .uri("lb://userservice"))
+                 .route("employees", r -> r.path("/api/v1/employees/**")
+                        .filters(f -> f.filter(jwtAuthFilter.apply(new JwtAuthenticationFilter.Config()
+                                .setPublicEndpoints(PUBLIC_ENDPOINTS))))
+                        .uri("lb://userservice"))                       
                 .build();
     }
 

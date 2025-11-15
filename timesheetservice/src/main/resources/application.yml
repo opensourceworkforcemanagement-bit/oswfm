@@ -14,10 +14,9 @@ spring:
           
   datasource:
     name: postgresql
-    url: jdbc:postgresql://${SECURITY_DB_IP:localhost}:${SECURITY_DB_PORT:5432}/OSTM?currentSchema=ostm&charSet=UTF-8
-    #    jdbc:postgresql://${SECURITY_DB_IP:localhost}:${SECURITY_DB_PORT:5432}/OSTM
-    username: ${DATABASE_USERNAME:OSTM}
-    password: ${DATABASE_PASSWORD:ostm}
+    url: jdbc:postgresql://${SECURITY_DB_IP:localhost}:${SECURITY_DB_PORT:5432}/opensourceworkforcemanagement?currentSchema=oswfm&charSet=UTF-8
+    username: ${DATABASE_USERNAME:oswfm}
+    password: ${DATABASE_PASSWORD:oswfm}
     driver-class-name: org.postgresql.Driver
     
   jpa:

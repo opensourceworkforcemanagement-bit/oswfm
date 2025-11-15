@@ -1,8 +1,8 @@
 package org.oswfm.timesheetservice.model.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -16,5 +16,9 @@ public class WorkCodesResponseDTO {
     private String description;
 
     private Integer status;
+
+    private String prefix;
+
+    private String suffix;
 
 }

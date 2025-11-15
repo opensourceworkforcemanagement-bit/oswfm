@@ -1,11 +1,9 @@
 package org.oswfm.userservice.config;
 
+import java.util.List;
+
 import org.oswfm.userservice.filter.CustomBearerTokenAuthenticationFilter;
 import org.oswfm.userservice.security.CustomAuthenticationEntryPoint;
-import jakarta.ws.rs.HttpMethod;
-import lombok.RequiredArgsConstructor;
-
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -24,7 +22,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Security configuration class named {@link SecurityConfig} for setting up security filters and policies.
@@ -34,8 +32,6 @@ import java.util.List;
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableMethodSecurity
-@EntityScan(basePackages = {"org.oswfm.userservice.model.user.entity",
-        "org.oswfm.employeeservice.model.entity"})
 public class SecurityConfig {
 
     /**
@@ -69,8 +65,7 @@ public class SecurityConfig {
                 .cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(customizer -> customizer
-                        .requestMatchers(HttpMethod.POST, "/api/v1/users/**").permitAll()
-                        .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 )
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(customBearerTokenAuthenticationFilter, BearerTokenAuthenticationFilter.class);

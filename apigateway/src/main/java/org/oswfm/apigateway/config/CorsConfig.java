@@ -31,9 +31,9 @@ public class CorsConfig {
         
         // Add React Native Metro bundler origin
         corsConfig.setAllowedOrigins(Arrays.asList(
-            "http://localhost:8081"//,  // Metro bundler
+           // "http://localhost:8081"//,  // Metro bundler
             //"http://localhost:19006", // Expo web
-           // "http://localhost:3000"//,  // Common React dev server
+            "http://localhost:3000"//,  // Common React dev server
            // "*"  // Allow all for development
         ));
         

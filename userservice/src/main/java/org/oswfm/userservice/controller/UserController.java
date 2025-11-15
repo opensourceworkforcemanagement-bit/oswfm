@@ -8,14 +8,24 @@ import org.oswfm.userservice.model.user.dto.request.TokenInvalidateRequest;
 import org.oswfm.userservice.model.user.dto.request.TokenRefreshRequest;
 import org.oswfm.userservice.model.user.dto.response.TokenResponse;
 import org.oswfm.userservice.model.user.mapper.TokenToTokenResponseMapper;
-import org.oswfm.userservice.service.*;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.oswfm.userservice.service.LogoutService;
+import org.oswfm.userservice.service.RefreshTokenService;
+import org.oswfm.userservice.service.RegisterService;
+import org.oswfm.userservice.service.TokenService;
+import org.oswfm.userservice.service.UserLoginService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * REST controller named {@link UserController} for managing user-related operations.
@@ -73,7 +83,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public CustomResponse<TokenResponse> loginUser(@RequestBody @Valid final LoginRequest loginRequest) {
-        log.info("UserController | validateToken");
+        log.info("UserController | login");
         final Token token = userLoginService.login(loginRequest);
         final TokenResponse tokenResponse = tokenToTokenResponseMapper.map(token);
         return CustomResponse.successOf(tokenResponse);

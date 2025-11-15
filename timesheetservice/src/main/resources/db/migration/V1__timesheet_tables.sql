@@ -1,3 +1,14 @@
+CREATE TABLE pay_periods (
+    pay_period_id  SERIAL PRIMARY KEY,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL
+);
+-- Index for faster queries
+CREATE UNIQUE INDEX idx_unique_pay_period ON pay_periods(start_date, end_date);
+CREATE INDEX idx_pay_periods_start_date ON pay_periods(start_date);
+CREATE INDEX idx_pay_periods_end_date ON pay_periods(end_date);
+CREATE INDEX idx_pay_periods_pay_period_id ON pay_periods(pay_period_id);
+
 -- Timesheet related tables
 CREATE TABLE timesheet (
     timesheet_id SERIAL PRIMARY KEY,
@@ -49,37 +60,26 @@ CREATE TABLE task_codes (
 CREATE INDEX idx_task_codes_task_code ON task_codes(task_code_id);
 CREATE INDEX idx_task_codes_status ON task_codes(status);
 
-CREATE TABLE pay_periods (
-    pay_period_id  SERIAL PRIMARY KEY,
-    start_date DATE NOT NULL,
-    end_date DATE NOT NULL
-);
--- Index for faster queries
-CREATE UNIQUE INDEX idx_unique_pay_period ON pay_periods(start_date, end_date);
-CREATE INDEX idx_pay_periods_start_date ON pay_periods(start_date);
-CREATE INDEX idx_pay_periods_end_date ON pay_periods(end_date);
-CREATE INDEX idx_pay_periods_pay_period_id ON pay_periods(pay_period_id);
-
 -- Timesheet entries and related tables
 CREATE TABLE timesheet_entries (
     timesheet_entries_id SERIAL PRIMARY KEY,
     timesheet_id INTEGER NOT NULL REFERENCES timesheet(timesheet_id),
     work_code_id INTEGER NOT NULL REFERENCES work_codes(work_code_id),
     account_code_id INTEGER NOT NULL REFERENCES account_codes(account_code_id),
-    su1_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    m1_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    t1_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    w1_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    th1_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    f1_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    sa1_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    su2_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24), 
-    m2_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    t2_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    w2_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    th2_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    f2_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    sa2_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24)    
+    su1_hours DECIMAL(4,2) NOT NULL ,
+    m1_hours DECIMAL(4,2) NOT NULL ,
+    t1_hours DECIMAL(4,2) NOT NULL ,
+    w1_hours DECIMAL(4,2) NOT NULL ,
+    th1_hours DECIMAL(4,2) NOT NULL ,
+    f1_hours DECIMAL(4,2) NOT NULL ,
+    sa1_hours DECIMAL(4,2) NOT NULL ,
+    su2_hours DECIMAL(4,2) NOT NULL , 
+    m2_hours DECIMAL(4,2) NOT NULL ,
+    t2_hours DECIMAL(4,2) NOT NULL ,
+    w2_hours DECIMAL(4,2) NOT NULL ,
+    th2_hours DECIMAL(4,2) NOT NULL ,
+    f2_hours DECIMAL(4,2) NOT NULL ,
+    sa2_hours DECIMAL(4,2) NOT NULL     
 );
 
 -- Index for faster queries
@@ -166,20 +166,20 @@ CREATE TABLE timesheet_entries_old (
     pay_period_id INTEGER NOT NULL REFERENCES pay_periods(pay_period_id),
     work_code_id INTEGER NOT NULL REFERENCES work_codes(work_code_id),
     account_code_id INTEGER NOT NULL REFERENCES account_codes(account_code_id),
-    su1_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    m1_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    t1_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    w1_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    th1_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    f1_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    sa1_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    su2_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24), 
-    m2_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    t2_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    w2_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    th2_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    f2_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24),
-    sa2_hours DECIMAL(4,2) NOT NULL CHECK (hours >= 0 AND hours <= 24)    
+    su1_hours DECIMAL(4,2) NOT NULL ,
+    m1_hours DECIMAL(4,2) NOT NULL ,
+    t1_hours DECIMAL(4,2) NOT NULL ,
+    w1_hours DECIMAL(4,2) NOT NULL ,
+    th1_hours DECIMAL(4,2) NOT NULL ,
+    f1_hours DECIMAL(4,2) NOT NULL ,
+    sa1_hours DECIMAL(4,2) NOT NULL ,
+    su2_hours DECIMAL(4,2) NOT NULL , 
+    m2_hours DECIMAL(4,2) NOT NULL ,
+    t2_hours DECIMAL(4,2) NOT NULL ,
+    w2_hours DECIMAL(4,2) NOT NULL ,
+    th2_hours DECIMAL(4,2) NOT NULL ,
+    f2_hours DECIMAL(4,2) NOT NULL ,
+    sa2_hours DECIMAL(4,2) NOT NULL     
 );
 
 -- Index for faster queries
