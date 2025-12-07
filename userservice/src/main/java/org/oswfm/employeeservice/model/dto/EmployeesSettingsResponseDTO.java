@@ -9,9 +9,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EmployeesSettingsResponseDTO {
 
-    private Integer employeeSettingId;
+    private Integer  employeeSettingId;
 
-    private Integer employeeId;
+    private Integer  employeeId;
 
     private String settingKey;
 

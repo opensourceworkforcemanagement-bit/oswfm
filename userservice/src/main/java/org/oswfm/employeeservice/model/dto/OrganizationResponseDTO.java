@@ -9,14 +9,14 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class OrganizationResponseDTO {
 
-    private Integer organizationId;
+    private Integer  organizationId;
 
-    private Integer parentOrganizationId;
+    private Integer  parentOrganizationId;
 
     private String organization;
 
     private String description;
 
-    private Integer status;
+    private Integer  status;
 
 }

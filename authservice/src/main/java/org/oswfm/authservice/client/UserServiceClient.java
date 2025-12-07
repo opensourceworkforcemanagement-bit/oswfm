@@ -1,18 +1,19 @@
 package org.oswfm.authservice.client;
 
-import org.oswfm.authservice.model.auth.User;
-import org.oswfm.authservice.model.auth.dto.request.LoginRequest;
-import org.oswfm.authservice.model.auth.dto.request.RegisterRequest;
-import org.oswfm.authservice.model.auth.dto.request.TokenInvalidateRequest;
-import org.oswfm.authservice.model.auth.dto.request.TokenRefreshRequest;
-import org.oswfm.authservice.model.auth.dto.response.TokenResponse;
-import org.oswfm.authservice.model.common.dto.response.CustomResponse;
-import jakarta.validation.Valid;
+import org.oswfm.commons.model.common.dto.response.CustomResponse;
+import org.oswfm.commons.model.user.User;
+import org.oswfm.commons.model.user.dto.request.LoginRequest;
+import org.oswfm.commons.model.user.dto.request.RegisterRequest;
+import org.oswfm.commons.model.user.dto.request.TokenInvalidateRequest;
+import org.oswfm.commons.model.user.dto.request.TokenRefreshRequest;
+import org.oswfm.commons.model.user.dto.response.TokenResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import jakarta.validation.Valid;
 
 /**
  * Feign client interface named {@link UserServiceClient} for interacting with the User Service.

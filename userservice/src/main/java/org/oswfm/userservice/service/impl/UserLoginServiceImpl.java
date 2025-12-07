@@ -2,15 +2,17 @@ package org.oswfm.userservice.service.impl;
 
 import org.oswfm.userservice.exception.PasswordNotValidException;
 import org.oswfm.userservice.exception.UserNotFoundException;
-import org.oswfm.userservice.model.user.Token;
-import org.oswfm.userservice.model.user.dto.request.LoginRequest;
-import org.oswfm.userservice.model.user.entity.UserEntity;
+import org.oswfm.commons.model.user.Token;
+import org.oswfm.commons.model.user.dto.request.LoginRequest;
+import org.oswfm.commons.model.user.entity.UserEntity;
 import org.oswfm.userservice.repository.UserEntityRepository;
+import org.oswfm.userservice.service.PasswordService;
+import org.oswfm.userservice.service.PasswordService.PasswordVerificationResult;
 import org.oswfm.userservice.service.TokenService;
 import org.oswfm.userservice.service.UserLoginService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * Implementation of {@link UserLoginService} for handling user login operations.
@@ -22,9 +24,9 @@ public class UserLoginServiceImpl implements UserLoginService {
 
     private final UserEntityRepository userRepository;
 
-    private final PasswordEncoder passwordEncoder;
-
     private final TokenService tokenService;
+
+    private final PasswordService passwordService;
 
     /**
      * Authenticates a user based on the provided login request and generates a JWT token upon successful login.
@@ -41,14 +43,13 @@ public class UserLoginServiceImpl implements UserLoginService {
     public Token login(LoginRequest loginRequest) {
 
         final UserEntity userEntityFromDB = userRepository
-                .findUserEntityByEmail(loginRequest.getEmail())
-                .orElseThrow(
-                        () -> new UserNotFoundException("Can't find with given email: "
-                                + loginRequest.getEmail())
+                .findUserEntityByUserName(loginRequest.getUserName()).orElseThrow(
+                        () -> new UserNotFoundException("Can't find with given user name: " + loginRequest.getUserName())                    
                 );
+                
+        PasswordVerificationResult passwordVerificationResult  = passwordService.verifyPasswordCredential(loginRequest.getUserName(), loginRequest.getPassword());
 
-        if (Boolean.FALSE.equals(passwordEncoder.matches(
-                loginRequest.getPassword(), userEntityFromDB.getPassword()))) {
+        if (!passwordVerificationResult.isValid()) {
             throw new PasswordNotValidException();
         }
 

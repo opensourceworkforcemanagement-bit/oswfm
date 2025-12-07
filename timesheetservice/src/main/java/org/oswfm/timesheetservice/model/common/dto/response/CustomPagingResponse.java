@@ -18,13 +18,13 @@ public class CustomPagingResponse<T> {
 
     private List<T> content;
 
-    private Integer pageNumber;
+    private Integer  pageNumber;
 
-    private Integer pageSize;
+    private Integer  pageSize;
 
     private Long totalElementCount;
 
-    private Integer totalPageCount;
+    private Integer  totalPageCount;
 
     /**
      * Builder class for CustomPagingResponse, allowing initialization from a CustomPage object.

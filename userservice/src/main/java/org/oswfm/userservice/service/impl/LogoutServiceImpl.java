@@ -1,6 +1,6 @@
 package org.oswfm.userservice.service.impl;
 
-import org.oswfm.userservice.model.user.dto.request.TokenInvalidateRequest;
+import org.oswfm.commons.model.user.dto.request.TokenInvalidateRequest;
 import org.oswfm.userservice.service.InvalidTokenService;
 import org.oswfm.userservice.service.LogoutService;
 import org.oswfm.userservice.service.TokenService;

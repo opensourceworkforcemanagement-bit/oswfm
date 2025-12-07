@@ -11,12 +11,12 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class TimesheetOldAuditLogResponseDTO {
 
-    private Integer timesheetAuditLogId;
+    private Integer  timesheetAuditLogId;
 
-    private Integer timesheeId;
+    private Integer  timesheeId;
 
     private LocalTime createdAt;
 
-    private Integer createdBy;
+    private Integer  createdBy;
 
 }

@@ -16,12 +16,12 @@ public class RolePermissions {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "role_permission_id")
-    private Integer rolePermissionId;
+    private Integer  rolePermissionId;
 
     @Column(name = "employee_role_id", nullable = false)
     private String employeeRoleId;
 
     @Column(name = "permissioins_id", nullable = false)
-    private Integer permissioinsId;
+    private Integer  permissioinsId;
 
 }

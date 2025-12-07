@@ -9,9 +9,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EmployeesSsnResponseDTO {
 
-    private Integer employeeSsnId;
+    private Integer  employeeSsnId;
 
-    private Integer employeeId;
+    private Integer  employeeId;
 
     private String ssn;
 

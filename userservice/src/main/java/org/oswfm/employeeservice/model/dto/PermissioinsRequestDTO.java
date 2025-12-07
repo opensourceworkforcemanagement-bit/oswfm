@@ -11,7 +11,7 @@ import jakarta.validation.constraints.*;
 public class PermissioinsRequestDTO {
 
     @NotNull
-    private Integer permissionTag;
+    private Integer  permissionTag;
 
     @NotNull
     @NotBlank

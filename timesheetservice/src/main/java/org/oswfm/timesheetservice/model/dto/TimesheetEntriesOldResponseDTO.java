@@ -11,15 +11,15 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class TimesheetEntriesOldResponseDTO {
 
-    private Integer timesheeId;
+    private Integer  timesheeId;
 
-    private Integer employeeId;
+    private Integer  employeeId;
 
-    private Integer payPeriodId;
+    private Integer  payPeriodId;
 
-    private Integer workCodeId;
+    private Integer  workCodeId;
 
-    private Integer accountCodeId;
+    private Integer  accountCodeId;
 
     private BigDecimal su1Hours;
 

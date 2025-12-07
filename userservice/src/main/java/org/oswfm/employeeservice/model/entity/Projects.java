@@ -17,7 +17,7 @@ public class Projects {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "project_id")
-    private Integer projectId;
+    private Integer  projectId;
 
     @Column(nullable = false)
     private String project;
@@ -31,6 +31,6 @@ public class Projects {
     private LocalDate endDate;
 
     @Column(nullable = false)
-    private Integer status;
+    private Integer  status;
 
 }

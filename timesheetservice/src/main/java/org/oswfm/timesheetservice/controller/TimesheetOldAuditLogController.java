@@ -34,7 +34,7 @@ public class TimesheetOldAuditLogController {
      * GET /api/timesheet-old-audit-log/{id}
      */
     @GetMapping("/{id}")
-    public ResponseEntity<TimesheetOldAuditLogResponseDTO> getById(@PathVariable Integer id) {
+    public ResponseEntity<TimesheetOldAuditLogResponseDTO> getById(@PathVariable Integer  id) {
         return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -56,7 +56,7 @@ public class TimesheetOldAuditLogController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<TimesheetOldAuditLogResponseDTO> update(
-            @PathVariable Integer id,
+            @PathVariable Integer  id,
             @Valid @RequestBody TimesheetOldAuditLogRequestDTO requestDTO) {
         return service.update(id, requestDTO)
                 .map(ResponseEntity::ok)
@@ -68,7 +68,7 @@ public class TimesheetOldAuditLogController {
      * DELETE /api/timesheet-old-audit-log/{id}
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer  id) {
         if (service.delete(id)) {
             return ResponseEntity.noContent().build();
         }
@@ -80,7 +80,7 @@ public class TimesheetOldAuditLogController {
      * HEAD /api/timesheet-old-audit-log/{id}
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
-    public ResponseEntity<Void> exists(@PathVariable Integer id) {
+    public ResponseEntity<Void> exists(@PathVariable Integer  id) {
         if (service.exists(id)) {
             return ResponseEntity.ok().build();
         }

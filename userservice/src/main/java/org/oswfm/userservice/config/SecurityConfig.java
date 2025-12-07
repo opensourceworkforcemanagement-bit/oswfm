@@ -62,7 +62,7 @@ public class SecurityConfig {
 
         httpSecurity
                 .exceptionHandling(customizer -> customizer.authenticationEntryPoint(customAuthenticationEntryPoint))
-                .cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
+                //.cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(customizer -> customizer
                 .anyRequest().permitAll()

@@ -13,12 +13,12 @@ import java.time.LocalTime;
 public class TimesheetApprovalsRequestDTO {
 
     @NotNull
-    private Integer timesheetId;
+    private Integer  timesheetId;
 
     @NotNull
-    private Integer approverId;
+    private Integer  approverId;
 
-    private Integer operationTypeId;
+    private Integer  operationTypeId;
 
     private LocalTime approvalDate;
 

@@ -9,9 +9,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PermissioinsResponseDTO {
 
-    private Integer permissioinsId;
+    private Integer  permissioinsId;
 
-    private Integer permissionTag;
+    private Integer  permissionTag;
 
     private String permissionName;
 

@@ -1,6 +1,6 @@
 package org.oswfm.userservice.config;
 
-import org.oswfm.userservice.model.user.enums.ConfigurationParameter;
+import org.oswfm.commons.model.user.enums.ConfigurationParameter;
 import org.oswfm.userservice.utils.KeyConverter;
 import lombok.Getter;
 import org.springframework.context.annotation.Configuration;
@@ -23,11 +23,11 @@ public class TokenConfigurationParameter {
 
     public TokenConfigurationParameter() {
 
-        this.accessTokenExpireMinute = Integer.parseInt(
+        this.accessTokenExpireMinute = Integer .parseInt(
                 ConfigurationParameter.AUTH_ACCESS_TOKEN_EXPIRE_MINUTE.getDefaultValue()
         );
 
-        this.refreshTokenExpireDay = Integer.parseInt(
+        this.refreshTokenExpireDay = Integer .parseInt(
                 ConfigurationParameter.AUTH_REFRESH_TOKEN_EXPIRE_DAY.getDefaultValue()
         );
 

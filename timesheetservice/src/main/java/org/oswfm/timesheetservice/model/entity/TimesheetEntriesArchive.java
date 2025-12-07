@@ -17,19 +17,19 @@ public class TimesheetEntriesArchive {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "timeshee_id")
-    private Integer timesheeId;
+    private Integer  timesheeId;
 
     @Column(name = "employee_id", nullable = false)
-    private Integer employeeId;
+    private Integer  employeeId;
 
     @Column(name = "pay_period_id", nullable = false)
-    private Integer payPeriodId;
+    private Integer  payPeriodId;
 
     @Column(name = "work_code_id", nullable = false)
-    private Integer workCodeId;
+    private Integer  workCodeId;
 
     @Column(name = "account_code_id", nullable = false)
-    private Integer accountCodeId;
+    private Integer  accountCodeId;
 
     @Column(name = "su1_hours")
     private BigDecimal su1Hours;

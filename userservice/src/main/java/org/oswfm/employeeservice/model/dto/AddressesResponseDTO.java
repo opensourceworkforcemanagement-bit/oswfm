@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AddressesResponseDTO {
 
-    private Integer addressId;
+    private Integer  addressId;
 
     private String addressLine1;
 

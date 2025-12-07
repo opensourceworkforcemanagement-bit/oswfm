@@ -17,16 +17,16 @@ public class TimesheetEntries {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "timesheet_entries_id")
-    private Integer timesheetEntriesId;
+    private Integer  timesheetEntriesId;
 
     @Column(name = "timesheet_id", nullable = false)
-    private Integer timesheetId;
+    private Integer  timesheetId;
 
     @Column(name = "work_code_id", nullable = false)
-    private Integer workCodeId;
+    private Integer  workCodeId;
 
     @Column(name = "account_code_id", nullable = false)
-    private Integer accountCodeId;
+    private Integer  accountCodeId;
 
     @Column(name = "su1_hours")
     private BigDecimal su1Hours;

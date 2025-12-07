@@ -9,11 +9,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class TimesheetEntriesCommentsResponseDTO {
 
-    private Integer timesheetEntriesCommentsId;
+    private Integer  timesheetEntriesCommentsId;
 
-    private Integer timesheeId;
+    private Integer  timesheeId;
 
-    private Integer entryDay;
+    private Integer  entryDay;
 
     private String comments;
 

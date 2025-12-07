@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.oswfm.userservice.base.AbstractRestControllerTest;
 import org.oswfm.userservice.exception.*;
-import org.oswfm.userservice.model.common.CustomError;
+import org.oswfm.commons.model.common.CustomError;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Path;

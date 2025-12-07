@@ -9,10 +9,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class TimesheetResponseDTO {
 
-    private Integer timesheetId;
+    private Integer  timesheetId;
 
-    private Integer employeeId;
+    private Integer  employeeId;
 
-    private Integer payPeriodId;
+    private Integer  payPeriodId;
 
 }

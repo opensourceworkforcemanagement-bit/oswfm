@@ -1,6 +1,6 @@
 package org.oswfm.userservice.service;
 
-import org.oswfm.userservice.model.user.dto.request.TokenInvalidateRequest;
+import org.oswfm.commons.model.user.dto.request.TokenInvalidateRequest;
 
 /**
  * Service interface named {@link LogoutService} for handling user logout operations.

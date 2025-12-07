@@ -7,8 +7,8 @@ import lombok.*;
 @Getter
 @Setter
 public class TimesheetEntry{
-        private Integer workCodeId;
-        private Integer accountCodeId;
+        private Integer  workCodeId;
+        private Integer  accountCodeId;
         private BigDecimal su1Hours;
         private BigDecimal m1Hours;
         private BigDecimal t1Hours;

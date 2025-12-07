@@ -1,7 +1,7 @@
 package org.oswfm.authservice.service;
 
-import org.oswfm.authservice.model.auth.User;
-import org.oswfm.authservice.model.auth.dto.request.RegisterRequest;
+import org.oswfm.commons.model.user.User;
+import org.oswfm.commons.model.user.dto.request.RegisterRequest;
 
 /**
  * Service interface named {@link RegisterService} for user registration operations.

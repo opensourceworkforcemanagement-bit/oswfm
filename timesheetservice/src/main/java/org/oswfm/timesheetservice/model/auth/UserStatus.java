@@ -5,6 +5,7 @@ package org.oswfm.timesheetservice.model.auth;
  */
 public enum UserStatus {
     ACTIVE,
-    PASSIVE,
+    INACTIVE,
+    LOCKED,
     SUSPENDED
 }

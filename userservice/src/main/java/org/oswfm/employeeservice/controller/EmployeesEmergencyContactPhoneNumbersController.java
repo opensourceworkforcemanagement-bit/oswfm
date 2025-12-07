@@ -34,7 +34,7 @@ public class EmployeesEmergencyContactPhoneNumbersController {
      * GET /api/employees-emergency-contact-phone-numbers/{id}
      */
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeesEmergencyContactPhoneNumbersResponseDTO> getById(@PathVariable Integer id) {
+    public ResponseEntity<EmployeesEmergencyContactPhoneNumbersResponseDTO> getById(@PathVariable Integer  id) {
         return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -56,7 +56,7 @@ public class EmployeesEmergencyContactPhoneNumbersController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<EmployeesEmergencyContactPhoneNumbersResponseDTO> update(
-            @PathVariable Integer id,
+            @PathVariable Integer  id,
             @Valid @RequestBody EmployeesEmergencyContactPhoneNumbersRequestDTO requestDTO) {
         return service.update(id, requestDTO)
                 .map(ResponseEntity::ok)
@@ -68,7 +68,7 @@ public class EmployeesEmergencyContactPhoneNumbersController {
      * DELETE /api/employees-emergency-contact-phone-numbers/{id}
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer  id) {
         if (service.delete(id)) {
             return ResponseEntity.noContent().build();
         }
@@ -80,7 +80,7 @@ public class EmployeesEmergencyContactPhoneNumbersController {
      * HEAD /api/employees-emergency-contact-phone-numbers/{id}
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
-    public ResponseEntity<Void> exists(@PathVariable Integer id) {
+    public ResponseEntity<Void> exists(@PathVariable Integer  id) {
         if (service.exists(id)) {
             return ResponseEntity.ok().build();
         }

@@ -9,13 +9,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class WorkCodesResponseDTO {
 
-    private Integer workCodeId;
+    private Integer  workCodeId;
 
-    private String workCode;
+    private String short_work_code;
+
+    private String long_work_code;
 
     private String description;
 
-    private Integer status;
+    private Integer  status;
 
     private String prefix;
 

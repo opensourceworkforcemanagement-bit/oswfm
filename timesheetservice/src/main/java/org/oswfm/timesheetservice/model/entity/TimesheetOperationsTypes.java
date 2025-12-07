@@ -16,7 +16,7 @@ public class TimesheetOperationsTypes {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "operation_type_id")
-    private Integer operationTypeId;
+    private Integer  operationTypeId;
 
     @Column(name = "operation_type_name", nullable = false)
     private String operationTypeName;

@@ -13,14 +13,14 @@ import java.time.LocalTime;
 public class TimesheetRemarksRequestDTO {
 
     @NotNull
-    private Integer timesheetId;
+    private Integer  timesheetId;
 
     private String remarks;
 
-    private Integer remarksOrder;
+    private Integer  remarksOrder;
 
     private LocalTime createdAt;
 
-    private Integer createdBy;
+    private Integer  createdBy;
 
 }

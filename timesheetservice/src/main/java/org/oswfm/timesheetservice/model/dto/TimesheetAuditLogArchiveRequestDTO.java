@@ -13,11 +13,11 @@ import java.time.LocalTime;
 public class TimesheetAuditLogArchiveRequestDTO {
 
     @NotNull
-    private Integer timesheeId;
+    private Integer  timesheeId;
 
     private LocalTime createdAt;
 
-    private Integer createdBy;
+    private Integer  createdBy;
 
     @NotNull
     @NotBlank

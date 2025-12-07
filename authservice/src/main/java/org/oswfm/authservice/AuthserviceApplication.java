@@ -2,6 +2,7 @@ package org.oswfm.authservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
@@ -9,7 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * This application is a Eureka client that registers itself with a Eureka server.
  * The application is configured with the {@link SpringBootApplication} annotation.
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableFeignClients
 public class AuthserviceApplication {
 

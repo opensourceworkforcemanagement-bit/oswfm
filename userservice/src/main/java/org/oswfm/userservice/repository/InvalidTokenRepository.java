@@ -1,6 +1,6 @@
 package org.oswfm.userservice.repository;
 
-import org.oswfm.userservice.model.user.entity.InvalidTokenEntity;
+import org.oswfm.commons.model.user.entity.InvalidTokenEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

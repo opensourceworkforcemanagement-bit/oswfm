@@ -2,7 +2,7 @@ package org.oswfm.userservice.service.impl;
 
 import org.oswfm.userservice.base.AbstractBaseServiceTest;
 import org.oswfm.userservice.exception.TokenAlreadyInvalidatedException;
-import org.oswfm.userservice.model.user.entity.InvalidTokenEntity;
+import org.oswfm.commons.model.user.entity.InvalidTokenEntity;
 import org.oswfm.userservice.repository.InvalidTokenRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;

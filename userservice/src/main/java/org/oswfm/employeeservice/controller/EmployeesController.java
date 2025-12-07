@@ -47,7 +47,7 @@ public class EmployeesController {
      * GET /api/employees/{id}
      */
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeesResponseDTO> getById(@PathVariable Integer id) {
+    public ResponseEntity<EmployeesResponseDTO> getById(@PathVariable Integer  id) {
         return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -69,7 +69,7 @@ public class EmployeesController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<EmployeesResponseDTO> update(
-            @PathVariable Integer id,
+            @PathVariable Integer  id,
             @Valid @RequestBody EmployeesRequestDTO requestDTO) {
         return service.update(id, requestDTO)
                 .map(ResponseEntity::ok)
@@ -81,7 +81,7 @@ public class EmployeesController {
      * DELETE /api/employees/{id}
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer  id) {
         if (service.delete(id)) {
             return ResponseEntity.noContent().build();
         }
@@ -93,7 +93,7 @@ public class EmployeesController {
      * HEAD /api/employees/{id}
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
-    public ResponseEntity<Void> exists(@PathVariable Integer id) {
+    public ResponseEntity<Void> exists(@PathVariable Integer  id) {
         if (service.exists(id)) {
             return ResponseEntity.ok().build();
         }

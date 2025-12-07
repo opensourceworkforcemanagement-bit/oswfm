@@ -16,13 +16,13 @@ public class TimesheetEntriesComments {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "timesheet_entries_comments_id")
-    private Integer timesheetEntriesCommentsId;
+    private Integer  timesheetEntriesCommentsId;
 
     @Column(name = "timeshee_id", nullable = false)
-    private Integer timesheeId;
+    private Integer  timesheeId;
 
     @Column(name = "entry_day", nullable = false)
-    private Integer entryDay;
+    private Integer  entryDay;
 
     private String comments;
 

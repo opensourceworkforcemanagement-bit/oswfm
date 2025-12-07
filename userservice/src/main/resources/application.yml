@@ -25,7 +25,8 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     hibernate:
-      ddl-auto: update
+      #ddl-auto: update
+      ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     database-platform: org.hibernate.dialect.PostgreSQLDialect

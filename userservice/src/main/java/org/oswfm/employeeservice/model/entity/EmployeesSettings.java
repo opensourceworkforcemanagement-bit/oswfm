@@ -16,10 +16,10 @@ public class EmployeesSettings {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "employee_setting_id")
-    private Integer employeeSettingId;
+    private Integer  employeeSettingId;
 
     @Column(name = "employee_id", nullable = false)
-    private Integer employeeId;
+    private Integer  employeeId;
 
     @Column(name = "setting_key", nullable = false)
     private String settingKey;

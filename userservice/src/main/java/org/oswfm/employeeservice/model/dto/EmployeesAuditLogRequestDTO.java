@@ -13,7 +13,7 @@ import java.time.LocalTime;
 public class EmployeesAuditLogRequestDTO {
 
     @NotNull
-    private Integer employeeId;
+    private Integer  employeeId;
 
     @NotNull
     @NotBlank
@@ -21,6 +21,6 @@ public class EmployeesAuditLogRequestDTO {
 
     private LocalTime actionTimestamp;
 
-    private Integer actionBy;
+    private Integer  actionBy;
 
 }

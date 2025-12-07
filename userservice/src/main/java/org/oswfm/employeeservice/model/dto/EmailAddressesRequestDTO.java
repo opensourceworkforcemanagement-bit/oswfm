@@ -11,14 +11,14 @@ import jakarta.validation.constraints.*;
 public class EmailAddressesRequestDTO {
 
     @NotNull
-    private Integer employeeId;
+    private Integer  employeeId;
 
     @NotNull
     @NotBlank
     private String email;
 
     @NotNull
-    private Integer type;
+    private Integer  type;
 
     private Boolean isPrimary;
 

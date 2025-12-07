@@ -18,13 +18,13 @@ import java.util.List;
 public class CustomPage<T> {
     private List<T> content;
 
-    private Integer pageNumber;
+    private Integer  pageNumber;
 
-    private Integer pageSize;
+    private Integer  pageSize;
 
     private Long totalElementCount;
 
-    private Integer totalPageCount;
+    private Integer  totalPageCount;
 
     /**
      * Constructs a CustomPage instance from a domain model page.

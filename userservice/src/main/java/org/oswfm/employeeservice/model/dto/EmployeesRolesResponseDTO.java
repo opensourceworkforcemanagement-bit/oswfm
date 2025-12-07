@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EmployeesRolesResponseDTO {
 
-    private Integer employeeRoleId;
+    private Integer  employeeRoleId;
 
     private String role;
 

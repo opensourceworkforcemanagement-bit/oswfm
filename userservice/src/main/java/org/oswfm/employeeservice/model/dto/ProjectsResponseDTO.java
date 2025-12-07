@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class ProjectsResponseDTO {
 
-    private Integer projectId;
+    private Integer  projectId;
 
     private String project;
 
@@ -21,6 +21,6 @@ public class ProjectsResponseDTO {
 
     private LocalDate endDate;
 
-    private Integer status;
+    private Integer  status;
 
 }

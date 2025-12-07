@@ -17,20 +17,20 @@ public class TimesheetRemarksOld {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "timesheet_remarks_id")
-    private Integer timesheetRemarksId;
+    private Integer  timesheetRemarksId;
 
     @Column(name = "timesheet_id", nullable = false)
-    private Integer timesheetId;
+    private Integer  timesheetId;
 
     private String remarks;
 
     @Column(name = "remarks_order")
-    private Integer remarksOrder;
+    private Integer  remarksOrder;
 
     @Column(name = "created_at")
     private LocalTime createdAt;
 
     @Column(name = "created_by")
-    private Integer createdBy;
+    private Integer  createdBy;
 
 }

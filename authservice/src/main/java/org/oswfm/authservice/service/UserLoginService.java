@@ -1,8 +1,8 @@
 package org.oswfm.authservice.service;
 
-import org.oswfm.authservice.model.auth.dto.request.LoginRequest;
-import org.oswfm.authservice.model.auth.dto.response.TokenResponse;
-import org.oswfm.authservice.model.common.dto.response.CustomResponse;
+import org.oswfm.commons.model.common.dto.response.CustomResponse;
+import org.oswfm.commons.model.user.dto.request.LoginRequest;
+import org.oswfm.commons.model.user.dto.response.TokenResponse;
 
 /**
  * Service interface named {@link UserLoginService} for user login operations.

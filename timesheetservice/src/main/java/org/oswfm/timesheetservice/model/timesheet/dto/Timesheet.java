@@ -13,9 +13,9 @@ import java.util.List;
 // @AllArgsConstructor
 public class Timesheet{
 
-    private Integer timesheetId;
-    private Integer employeeId;
-    private Integer payPeriodId;
+    private Integer  timesheetId;
+    private Integer  employeeId;
+    private Integer  payPeriodId;
     private List <TimesheetEntry> timesheetEntries;
     private List <TimesheetEntryInOut> timesheetEntriesInOut;
 }

@@ -1,10 +1,11 @@
 package org.oswfm.authservice.service;
 
-import org.oswfm.authservice.model.auth.dto.request.TokenRefreshRequest;
-import org.oswfm.authservice.model.auth.dto.response.TokenResponse;
-import org.oswfm.authservice.model.common.dto.response.CustomResponse;
-import jakarta.validation.Valid;
+import org.oswfm.commons.model.common.dto.response.CustomResponse;
+import org.oswfm.commons.model.user.dto.request.TokenRefreshRequest;
+import org.oswfm.commons.model.user.dto.response.TokenResponse;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import jakarta.validation.Valid;
 
 /**
  * Service interface named {@link RefreshTokenService} for handling token refresh operations.

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 import org.apache.commons.lang3.StringUtils;
-import org.oswfm.userservice.model.user.Token;
+import org.oswfm.commons.model.user.Token;
 import org.oswfm.userservice.service.InvalidTokenService;
 import org.oswfm.userservice.service.TokenService;
 import org.springframework.http.HttpHeaders;

@@ -88,7 +88,7 @@ CREATE INDEX idx_timesheet_task_code ON timesheet_entries(work_code_id);
 CREATE INDEX idx_timesheet_account_code ON timesheet_entries(account_code_id);
 
 CREATE TABLE timesheet_entries_in_out (
-    timeshee_id SERIAL PRIMARY KEY,
+    timesheet_id SERIAL PRIMARY KEY,
     su1_in_time varchar(12),
     m1_in_time varchar(12),
     t1_in_time varchar(12),
@@ -119,19 +119,19 @@ CREATE TABLE timesheet_entries_in_out (
 );
 
 -- Index for faster queries
-CREATE INDEX idx_timesheet_entries_in_out_timeshee_id ON timesheet_entries_in_out(timeshee_id);
+CREATE INDEX idx_timesheet_entries_in_out_timesheet_id ON timesheet_entries_in_out(timesheet_id);
 
 
 CREATE TABLE timesheet_entries_comments (
     timesheet_entries_comments_id SERIAL PRIMARY KEY,
-    timeshee_id INTEGER NOT NULL REFERENCES employees(employee_id),
+    timesheet_id INTEGER NOT NULL REFERENCES employees(employee_id),
     entry_day INTEGER NOT NULL,
     comments TEXT
 );
 
 -- Index for faster queries
 CREATE INDEX idx_timesheet_entries_comments_timesheet_entries_comments_id ON timesheet_entries_comments(timesheet_entries_comments_id);
-CREATE INDEX idx_timesheet_entries_comments_timeshee_id ON timesheet_entries_comments(timeshee_id);
+CREATE INDEX idx_timesheet_entries_comments_timesheet_id ON timesheet_entries_comments(timesheet_id);
 
 
 CREATE TABLE timesheet_remarks (
@@ -149,19 +149,19 @@ CREATE INDEX idx_timesheet_remarks_timesheet_id ON timesheet_remarks(timesheet_i
 
 CREATE TABLE timesheet_audit_log (
     timesheet_audit_log_id SERIAL PRIMARY KEY,
-    timeshee_id INTEGER NOT NULL REFERENCES employees(employee_id),
+    timesheet_id INTEGER NOT NULL REFERENCES employees(employee_id),
     created_at timestamp(6) NULL,
 	created_by INTEGER
     operation_type_id INTEGER NULL
 ); 
 -- Index for faster queries
-CREATE INDEX idx_timesheet_audit_log_timeshee_id ON timesheet_audit_log(timeshee_id);
+CREATE INDEX idx_timesheet_audit_log_timesheet_id ON timesheet_audit_log(timesheet_id);
 CREATE INDEX idx_timesheet_audit_log_action_timestamp ON timesheet_audit_log(created_at);
 
 
 
 CREATE TABLE timesheet_entries_old (
-    timeshee_id SERIAL PRIMARY KEY,
+    timesheet_id SERIAL PRIMARY KEY,
     employee_id INTEGER NOT NULL REFERENCES employees(employee_id),
     pay_period_id INTEGER NOT NULL REFERENCES pay_periods(pay_period_id),
     work_code_id INTEGER NOT NULL REFERENCES work_codes(work_code_id),
@@ -189,7 +189,7 @@ CREATE INDEX idx_timesheet_entries_old_account_code ON timesheet_entries_old(acc
 
 
 CREATE TABLE timesheet_entries_in_out_old (
-    timeshee_id SERIAL PRIMARY KEY,
+    timesheet_id SERIAL PRIMARY KEY,
     su1_in_time varchar(12),
     m1_in_time varchar(12),
     t1_in_time varchar(12),
@@ -221,19 +221,19 @@ CREATE TABLE timesheet_entries_in_out_old (
 );
 
 -- Index for faster queries
-CREATE INDEX idx_timesheet_entries_in_out_old_timeshee_id ON timesheet_entries_in_out_old(timeshee_id);
+CREATE INDEX idx_timesheet_entries_in_out_old_timesheet_id ON timesheet_entries_in_out_old(timesheet_id);
 
 
 CREATE TABLE timesheet_entries_comments_old (
     timesheet_entries_comments_id SERIAL PRIMARY KEY,
-    timeshee_id INTEGER NOT NULL REFERENCES employees(employee_id),
+    timesheet_id INTEGER NOT NULL REFERENCES employees(employee_id),
     entry_day INTEGER NOT NULL,
     comments TEXT
 );
 
 -- Index for faster queries
 CREATE INDEX idx_timesheet_entries_comments_old_timesheet_entries_comments_id ON timesheet_entries_comments(timesheet_entries_comments_id);
-CREATE INDEX idx_timesheet_entries_comments_old_timeshee_id ON timesheet_entries_comments(timeshee_id);
+CREATE INDEX idx_timesheet_entries_comments_old_timesheet_id ON timesheet_entries_comments(timesheet_id);
 
 CREATE TABLE timesheet_remarks_old (
     timesheet_remarks_id SERIAL PRIMARY KEY,
@@ -250,19 +250,19 @@ CREATE INDEX idx_timesheet_remarks_old_timesheet_id ON timesheet_remarks_old(tim
 
 CREATE TABLE timesheet_old_audit_log (
     timesheet_audit_log_id SERIAL PRIMARY KEY,
-    timeshee_id INTEGER NOT NULL REFERENCES employees(employee_id),
+    timesheet_id INTEGER NOT NULL REFERENCES employees(employee_id),
     created_at timestamp(6) NULL,
 	created_by INTEGER
     operation_type_id INTEGER NULL
 ); 
 -- Index for faster queries
-CREATE INDEX idx_timesheet_audit_old_log_timeshee_id ON timesheet_audit_old_log(timeshee_id);
+CREATE INDEX idx_timesheet_audit_old_log_timesheet_id ON timesheet_audit_old_log(timesheet_id);
 CREATE INDEX idx_timesheet_audit_old_log_action_timestamp ON timesheet_audit_old_log(created_at);
 
 -- Archive tables for timesheet data
 
 CREATE TABLE timesheet_entries_archive (
-    timeshee_id SERIAL PRIMARY KEY,
+    timesheet_id SERIAL PRIMARY KEY,
     employee_id INTEGER NOT NULL REFERENCES employees(employee_id),
     pay_period_id INTEGER NOT NULL REFERENCES pay_periods(pay_period_id),
     work_code_id INTEGER NOT NULL REFERENCES work_codes(work_code_id),
@@ -288,7 +288,7 @@ CREATE INDEX idx_timesheet_entries_archive_work_code_id ON timesheet_entries_arc
 CREATE INDEX idx_timesheet_entries_archive_account_code_id ON timesheet_entries_archive(account_code_id);
 
 CREATE TABLE timesheet_entries_in_out_archive (
-    timeshee_id SERIAL PRIMARY KEY,
+    timesheet_id SERIAL PRIMARY KEY,
     su1_in_time varchar(12),
     m1_in_time varchar(12),
     t1_in_time varchar(12),
@@ -319,22 +319,22 @@ CREATE TABLE timesheet_entries_in_out_archive (
     sa2_out_time varchar(12)
 );
 
-CREATE INDEX idx_timesheet_entries_in_out_archive_timeshee_id ON timesheet_entries_in_out_archive(timeshee_id);
+CREATE INDEX idx_timesheet_entries_in_out_archive_timesheet_id ON timesheet_entries_in_out_archive(timesheet_id);
 
 CREATE TABLE timesheet_entries_comments_archive (
     timesheet_entries_comments_id SERIAL PRIMARY KEY,
-    timeshee_id INTEGER NOT NULL REFERENCES employees(employee_id),
+    timesheet_id INTEGER NOT NULL REFERENCES employees(employee_id),
     entry_day INTEGER NOT NULL,
     comments TEXT
 );
 
 CREATE INDEX idx_timesheet_entries_comments_archive_id ON timesheet_entries_comments_archive(timesheet_entries_comments_id);
-CREATE INDEX idx_timesheet_entries_comments_archive_timeshee_id ON timesheet_entries_comments_archive(timeshee_id);
+CREATE INDEX idx_timesheet_entries_comments_archive_timesheet_id ON timesheet_entries_comments_archive(timesheet_id);
 
 
 CREATE TABLE timesheet_remarks_archive (
     timesheet_remarks_id SERIAL PRIMARY KEY,
-    timesheet_id INTEGER NOT NULL REFERENCES timesheet_entries_archive(timeshee_id),
+    timesheet_id INTEGER NOT NULL REFERENCES timesheet_entries_archive(timesheet_id),
     remarks TEXT,
     remarks_order INTEGER,
     created_at timestamp(6) NULL,
@@ -345,13 +345,13 @@ CREATE INDEX idx_timesheet_remarks_archive_timesheet_id ON timesheet_remarks_arc
 
 CREATE TABLE timesheet_audit_log_archive (
     timesheet_audit_log_id SERIAL PRIMARY KEY,
-    timeshee_id INTEGER NOT NULL REFERENCES employees(employee_id),
+    timesheet_id INTEGER NOT NULL REFERENCES employees(employee_id),
     created_at timestamp(6) NULL,
     created_by INTEGER,
     operation_type_id VARCHAR(50) NOT NULL
 );
 
-CREATE INDEX idx_timesheet_audit_log_archive_timeshee_id ON timesheet_audit_log_archive(timeshee_id);
+CREATE INDEX idx_timesheet_audit_log_archive_timesheet_id ON timesheet_audit_log_archive(timesheet_id);
 CREATE INDEX idx_timesheet_audit_log_archive_action_timestamp ON timesheet_audit_log_archive(created_at);
 
 CREATE TABLE timesheet_summary_archive (
@@ -370,7 +370,7 @@ CREATE INDEX idx_timesheet_summary_archive_total_hours ON timesheet_summary_arch
 
 CREATE TABLE timesheet_approvals_archive (
     timesheet_approval_id SERIAL PRIMARY KEY,
-    timesheet_id INTEGER NOT NULL REFERENCES timesheet_entries_archive(timeshee_id),
+    timesheet_id INTEGER NOT NULL REFERENCES timesheet_entries_archive(timesheet_id),
     approver_id INTEGER NOT NULL REFERENCES employees(employee_id),
     approval_status int2 NULL,
     approval_date timestamp(6) NULL,
@@ -385,7 +385,7 @@ CREATE UNIQUE INDEX idx_unique_timesheet_approver_archive ON timesheet_approvals
 
 CREATE TABLE timesheet_notifications_archive (
     timesheet_notification_id SERIAL PRIMARY KEY,
-    timesheet_id INTEGER NOT NULL REFERENCES timesheet_entries_archive(timeshee_id),
+    timesheet_id INTEGER NOT NULL REFERENCES timesheet_entries_archive(timesheet_id),
     recipient_id INTEGER NOT NULL REFERENCES employees(employee_id),
     notification_type VARCHAR(50) NOT NULL,
     sent_at timestamp(6) NULL,

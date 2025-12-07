@@ -17,7 +17,7 @@ public class PayPeriods {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "pay_period_id")
-    private Integer payPeriodId;
+    private Integer  payPeriodId;
 
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;

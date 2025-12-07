@@ -6,10 +6,10 @@ import lombok.*;
 @Setter
 public class TimesheetEntryInOut{
 
-    private Integer workCodeId;
-    private Integer accountCodeId;
-    private Integer timesheetEntriesInOutId;
-    private Integer timesheetId;
+    private Integer  workCodeId;
+    private Integer  accountCodeId;
+    private Integer  timesheetEntriesInOutId;
+    private Integer  timesheetId;
     private String su1InTime;
     private String su1OutTime;
     private String m1InTime;   

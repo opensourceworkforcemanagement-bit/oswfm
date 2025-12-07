@@ -1,17 +1,17 @@
 package org.oswfm.employeeservice.service;
 
-import org.oswfm.employeeservice.model.entity.Employees;
-import org.oswfm.employeeservice.model.dto.EmployeesRequestDTO;
-import org.oswfm.employeeservice.model.dto.EmployeesResponseDTO;
-import org.oswfm.employeeservice.repository.EmployeesRepository;
-import org.oswfm.employeeservice.model.mapper.EmployeesMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.oswfm.employeeservice.model.dto.EmployeesRequestDTO;
+import org.oswfm.employeeservice.model.dto.EmployeesResponseDTO;
+import org.oswfm.employeeservice.model.entity.EmployeeDetails;
+import org.oswfm.employeeservice.model.mapper.EmployeesMapper;
+import org.oswfm.employeeservice.repository.EmployeesRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
@@ -27,8 +27,8 @@ public class EmployeesService {
      * Create a new Employees
      */
     public EmployeesResponseDTO create(EmployeesRequestDTO requestDTO) {
-        Employees entity = mapper.toEntity(requestDTO);
-        Employees saved = repository.save(entity);
+        EmployeeDetails entity = mapper.toEntity(requestDTO);
+        EmployeeDetails saved = repository.save(entity);
         return mapper.toResponseDTO(saved);
     }
 
@@ -58,7 +58,7 @@ public class EmployeesService {
         return repository.findById(id)
                 .map(entity -> {
                     mapper.updateEntityFromDTO(requestDTO, entity);
-                    Employees updated = repository.save(entity);
+                    EmployeeDetails updated = repository.save(entity);
                     return mapper.toResponseDTO(updated);
                 });
     }

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class PayPeriodsResponseDTO {
 
-    private Integer payPeriodId;
+    private Integer  payPeriodId;
 
     private LocalDate startDate;
 

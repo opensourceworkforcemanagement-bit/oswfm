@@ -13,10 +13,10 @@ import java.time.LocalTime;
 public class TimesheetNotificationsArchiveRequestDTO {
 
     @NotNull
-    private Integer timesheetId;
+    private Integer  timesheetId;
 
     @NotNull
-    private Integer recipientId;
+    private Integer  recipientId;
 
     @NotNull
     @NotBlank
@@ -24,6 +24,6 @@ public class TimesheetNotificationsArchiveRequestDTO {
 
     private LocalTime sentAt;
 
-    private Integer status;
+    private Integer  status;
 
 }

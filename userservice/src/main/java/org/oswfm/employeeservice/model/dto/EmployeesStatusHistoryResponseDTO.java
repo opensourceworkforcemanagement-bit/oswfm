@@ -11,14 +11,14 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class EmployeesStatusHistoryResponseDTO {
 
-    private Integer employeeStatusHistoryId;
+    private Integer  employeeStatusHistoryId;
 
-    private Integer employeeId;
+    private Integer  employeeId;
 
-    private Integer status;
+    private Integer  status;
 
     private LocalTime changedAt;
 
-    private Integer changedByEmployeeId;
+    private Integer  changedByEmployeeId;
 
 }

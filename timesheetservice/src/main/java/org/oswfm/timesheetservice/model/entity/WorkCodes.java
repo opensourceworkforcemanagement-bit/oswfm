@@ -1,10 +1,15 @@
 package org.oswfm.timesheetservice.model.entity;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "work_codes")
@@ -16,13 +21,24 @@ public class WorkCodes {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "work_code_id")
-    private Integer workCodeId;
+    private Integer  workCodeId;
 
-    @Column(name = "work_code", nullable = false)
-    private String workCode;
+    @Column(name = "short_work_code", nullable = false)
+    private String short_work_code;
+ 
+    @Column(name = "long_work_code", nullable = false)   
+    private String long_work_code;    
 
+    @Column(name = "description")
     private String description;
 
-    private Integer status;
+    @Column(name = "prefix")
+    private String prefix;
+
+    @Column(name = "suffix")
+    private String suffix;
+
+    @Column(name = "status")    
+    private Integer  status;
 
 }

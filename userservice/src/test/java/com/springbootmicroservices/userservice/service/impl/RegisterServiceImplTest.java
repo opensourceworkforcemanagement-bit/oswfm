@@ -2,11 +2,11 @@ package org.oswfm.userservice.service.impl;
 
 import org.oswfm.userservice.base.AbstractBaseServiceTest;
 import org.oswfm.userservice.exception.UserAlreadyExistException;
-import org.oswfm.userservice.model.user.User;
-import org.oswfm.userservice.model.user.dto.request.RegisterRequest;
-import org.oswfm.userservice.model.user.entity.UserEntity;
-import org.oswfm.userservice.model.user.mapper.RegisterRequestToUserEntityMapper;
-import org.oswfm.userservice.model.user.mapper.UserEntityToUserMapper;
+import org.oswfm.commons.model.user.User;
+import org.oswfm.commons.model.user.dto.request.RegisterRequest;
+import org.oswfm.commons.model.user.entity.UserEntity;
+import org.oswfm.commons.model.user.mapper.RegisterRequestToUserEntityMapper;
+import org.oswfm.commons.model.user.mapper.UserEntityToUserMapper;
 import org.oswfm.userservice.repository.UserEntityRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

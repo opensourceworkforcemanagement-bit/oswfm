@@ -17,13 +17,13 @@ public class TimesheetNotificationsArchive {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "timesheet_notification_id")
-    private Integer timesheetNotificationId;
+    private Integer  timesheetNotificationId;
 
     @Column(name = "timesheet_id", nullable = false)
-    private Integer timesheetId;
+    private Integer  timesheetId;
 
     @Column(name = "recipient_id", nullable = false)
-    private Integer recipientId;
+    private Integer  recipientId;
 
     @Column(name = "notification_type", nullable = false)
     private String notificationType;
@@ -31,6 +31,6 @@ public class TimesheetNotificationsArchive {
     @Column(name = "sent_at")
     private LocalTime sentAt;
 
-    private Integer status;
+    private Integer  status;
 
 }

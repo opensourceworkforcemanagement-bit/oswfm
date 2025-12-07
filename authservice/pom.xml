@@ -35,6 +35,13 @@
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 	</properties>
 	<dependencies>
+		<!-- COMMONS DEPENDENCY -->
+		<dependency>
+			<groupId>org.oswfm</groupId>
+			<artifactId>commons</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!-- COMMONS DEPENDENCY -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -140,6 +147,11 @@
 			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
 
+		<dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
 	</dependencies>
 	<dependencyManagement>

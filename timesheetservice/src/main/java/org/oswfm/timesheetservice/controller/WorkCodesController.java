@@ -1,18 +1,28 @@
 package org.oswfm.timesheetservice.controller;
 
+import java.util.List;
+
 import org.oswfm.timesheetservice.model.dto.WorkCodesRequestDTO;
 import org.oswfm.timesheetservice.model.dto.WorkCodesResponseDTO;
 import org.oswfm.timesheetservice.service.WorkCodesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 import jakarta.validation.Valid;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/work-codes")
+@RequestMapping("/api/v1/work-codes")
 @CrossOrigin(origins = "*")
 public class WorkCodesController {
 
@@ -23,7 +33,7 @@ public class WorkCodesController {
      * Create a new WorkCodes
      * POST /api/work-codes
      */
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<WorkCodesResponseDTO> create(@Valid @RequestBody WorkCodesRequestDTO requestDTO) {
         WorkCodesResponseDTO created = service.create(requestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
@@ -34,7 +44,7 @@ public class WorkCodesController {
      * GET /api/work-codes/{id}
      */
     @GetMapping("/{id}")
-    public ResponseEntity<WorkCodesResponseDTO> getById(@PathVariable Integer id) {
+    public ResponseEntity<WorkCodesResponseDTO> getById(@PathVariable Integer  id) {
         return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -56,7 +66,7 @@ public class WorkCodesController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<WorkCodesResponseDTO> update(
-            @PathVariable Integer id,
+            @PathVariable Integer  id,
             @Valid @RequestBody WorkCodesRequestDTO requestDTO) {
         return service.update(id, requestDTO)
                 .map(ResponseEntity::ok)
@@ -68,7 +78,7 @@ public class WorkCodesController {
      * DELETE /api/work-codes/{id}
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer  id) {
         if (service.delete(id)) {
             return ResponseEntity.noContent().build();
         }
@@ -80,7 +90,7 @@ public class WorkCodesController {
      * HEAD /api/work-codes/{id}
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
-    public ResponseEntity<Void> exists(@PathVariable Integer id) {
+    public ResponseEntity<Void> exists(@PathVariable Integer  id) {
         if (service.exists(id)) {
             return ResponseEntity.ok().build();
         }

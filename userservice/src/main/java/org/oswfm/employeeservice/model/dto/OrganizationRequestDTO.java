@@ -10,7 +10,7 @@ import jakarta.validation.constraints.*;
 @AllArgsConstructor
 public class OrganizationRequestDTO {
 
-    private Integer parentOrganizationId;
+    private Integer  parentOrganizationId;
 
     @NotNull
     @NotBlank
@@ -19,6 +19,6 @@ public class OrganizationRequestDTO {
     private String description;
 
     @NotNull
-    private Integer status;
+    private Integer  status;
 
 }

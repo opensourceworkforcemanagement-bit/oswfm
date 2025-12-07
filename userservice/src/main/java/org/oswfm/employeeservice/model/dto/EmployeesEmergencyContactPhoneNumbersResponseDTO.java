@@ -9,10 +9,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EmployeesEmergencyContactPhoneNumbersResponseDTO {
 
-    private Integer emergencyContactInfoId;
+    private Integer  emergencyContactInfoId;
 
-    private Integer emergencyContactId;
+    private Integer  emergencyContactId;
 
-    private Integer phoneNumberId;
+    private Integer  phoneNumberId;
 
 }

@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TimesheetApprovalsRepository extends JpaRepository<TimesheetApprovals, Integer> {
+public interface TimesheetApprovalsRepository extends JpaRepository<TimesheetApprovals, Integer > {
     // Add custom query methods here if needed
 }

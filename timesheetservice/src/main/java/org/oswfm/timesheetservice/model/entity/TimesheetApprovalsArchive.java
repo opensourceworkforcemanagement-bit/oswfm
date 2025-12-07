@@ -17,16 +17,16 @@ public class TimesheetApprovalsArchive {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "timesheet_approval_id")
-    private Integer timesheetApprovalId;
+    private Integer  timesheetApprovalId;
 
     @Column(name = "timesheet_id", nullable = false)
-    private Integer timesheetId;
+    private Integer  timesheetId;
 
     @Column(name = "approver_id", nullable = false)
-    private Integer approverId;
+    private Integer  approverId;
 
     @Column(name = "approval_status")
-    private Integer approvalStatus;
+    private Integer  approvalStatus;
 
     @Column(name = "approval_date")
     private LocalTime approvalDate;

@@ -23,11 +23,11 @@ public class TokenConfigurationParameter {
 
     public TokenConfigurationParameter() {
 
-        this.accessTokenExpireMinute = Integer.parseInt(
+        this.accessTokenExpireMinute = Integer .parseInt(
                 ConfigurationParameter.AUTH_ACCESS_TOKEN_EXPIRE_MINUTE.getDefaultValue()
         );
 
-        this.refreshTokenExpireDay = Integer.parseInt(
+        this.refreshTokenExpireDay = Integer .parseInt(
                 ConfigurationParameter.AUTH_REFRESH_TOKEN_EXPIRE_DAY.getDefaultValue()
         );
 

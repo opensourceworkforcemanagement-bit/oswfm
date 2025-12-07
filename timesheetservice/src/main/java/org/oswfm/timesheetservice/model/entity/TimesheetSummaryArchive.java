@@ -17,17 +17,17 @@ public class TimesheetSummaryArchive {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "timesheet_summary_id")
-    private Integer timesheetSummaryId;
+    private Integer  timesheetSummaryId;
 
     @Column(name = "employee_id", nullable = false)
-    private Integer employeeId;
+    private Integer  employeeId;
 
     @Column(name = "pay_period_id", nullable = false)
-    private Integer payPeriodId;
+    private Integer  payPeriodId;
 
     @Column(name = "total_hours")
     private BigDecimal totalHours;
 
-    private Integer status;
+    private Integer  status;
 
 }

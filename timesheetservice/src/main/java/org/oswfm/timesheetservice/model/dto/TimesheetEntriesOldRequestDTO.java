@@ -13,16 +13,16 @@ import java.math.BigDecimal;
 public class TimesheetEntriesOldRequestDTO {
 
     @NotNull
-    private Integer employeeId;
+    private Integer  employeeId;
 
     @NotNull
-    private Integer payPeriodId;
+    private Integer  payPeriodId;
 
     @NotNull
-    private Integer workCodeId;
+    private Integer  workCodeId;
 
     @NotNull
-    private Integer accountCodeId;
+    private Integer  accountCodeId;
 
     private BigDecimal su1Hours;
 

@@ -9,9 +9,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EmployeesPreferencesResponseDTO {
 
-    private Integer employeePreferenceId;
+    private Integer  employeePreferenceId;
 
-    private Integer employeeId;
+    private Integer  employeeId;
 
     private String preferenceKey;
 

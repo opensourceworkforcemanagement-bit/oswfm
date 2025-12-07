@@ -2,16 +2,17 @@ package org.oswfm.userservice.service.impl;
 
 import org.oswfm.userservice.exception.UserNotFoundException;
 import org.oswfm.userservice.exception.UserStatusNotValidException;
-import org.oswfm.userservice.model.user.Token;
-import org.oswfm.userservice.model.user.dto.request.TokenRefreshRequest;
-import org.oswfm.userservice.model.user.entity.UserEntity;
-import org.oswfm.userservice.model.user.enums.TokenClaims;
-import org.oswfm.userservice.model.user.enums.UserStatus;
+import org.oswfm.commons.model.user.Token;
+import org.oswfm.commons.model.user.dto.request.TokenRefreshRequest;
+import org.oswfm.commons.model.user.entity.UserEntity;
+import org.oswfm.commons.model.user.enums.TokenClaims;
+import org.oswfm.commons.model.user.enums.UserStatus;
 import org.oswfm.userservice.repository.UserEntityRepository;
 import org.oswfm.userservice.service.RefreshTokenService;
 import org.oswfm.userservice.service.TokenService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * Implementation of {@link RefreshTokenService} for handling token refresh operations.
@@ -40,13 +41,12 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
         tokenService.verifyAndValidate(tokenRefreshRequest.getRefreshToken());
 
-        final String adminId = tokenService
+        final Integer  userId = (Integer) tokenService
                 .getPayload(tokenRefreshRequest.getRefreshToken())
-                .get(TokenClaims.USER_ID.getValue())
-                .toString();
+                .get(TokenClaims.USER_ID.getValue());
 
         final UserEntity userEntityFromDB = userRepository
-                .findById(adminId)
+                .findById(userId)
                 .orElseThrow(UserNotFoundException::new);
 
         this.validateUserStatus(userEntityFromDB);

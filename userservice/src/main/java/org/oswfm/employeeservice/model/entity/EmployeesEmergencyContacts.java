@@ -16,10 +16,10 @@ public class EmployeesEmergencyContacts {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "emergency_contact_id")
-    private Integer emergencyContactId;
+    private Integer  emergencyContactId;
 
     @Column(name = "employee_id", nullable = false)
-    private Integer employeeId;
+    private Integer  employeeId;
 
     @Column(name = "first_name")
     private String firstName;

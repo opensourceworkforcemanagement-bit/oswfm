@@ -11,14 +11,14 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class TimesheetSummaryArchiveResponseDTO {
 
-    private Integer timesheetSummaryId;
+    private Integer  timesheetSummaryId;
 
-    private Integer employeeId;
+    private Integer  employeeId;
 
-    private Integer payPeriodId;
+    private Integer  payPeriodId;
 
     private BigDecimal totalHours;
 
-    private Integer status;
+    private Integer  status;
 
 }

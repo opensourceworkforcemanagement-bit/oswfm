@@ -11,16 +11,16 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class TimesheetNotificationsResponseDTO {
 
-    private Integer timesheetNotificationId;
+    private Integer  timesheetNotificationId;
 
-    private Integer timesheetId;
+    private Integer  timesheetId;
 
-    private Integer recipientId;
+    private Integer  recipientId;
 
     private String notificationType;
 
     private LocalTime sentAt;
 
-    private Integer status;
+    private Integer  status;
 
 }

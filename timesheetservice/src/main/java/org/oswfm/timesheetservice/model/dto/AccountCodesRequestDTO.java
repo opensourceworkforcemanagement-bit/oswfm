@@ -16,6 +16,6 @@ public class AccountCodesRequestDTO {
 
     private String description;
 
-    private Integer status;
+    private Integer  status;
 
 }

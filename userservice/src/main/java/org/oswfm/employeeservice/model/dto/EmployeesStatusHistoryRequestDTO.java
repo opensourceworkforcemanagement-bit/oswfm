@@ -13,13 +13,13 @@ import java.time.LocalTime;
 public class EmployeesStatusHistoryRequestDTO {
 
     @NotNull
-    private Integer employeeId;
+    private Integer  employeeId;
 
     @NotNull
-    private Integer status;
+    private Integer  status;
 
     private LocalTime changedAt;
 
-    private Integer changedByEmployeeId;
+    private Integer  changedByEmployeeId;
 
 }

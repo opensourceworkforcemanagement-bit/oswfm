@@ -15,6 +15,6 @@ public class RolePermissionsRequestDTO {
     private String employeeRoleId;
 
     @NotNull
-    private Integer permissioinsId;
+    private Integer  permissioinsId;
 
 }

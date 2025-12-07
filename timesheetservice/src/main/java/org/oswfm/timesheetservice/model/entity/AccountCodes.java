@@ -16,13 +16,13 @@ public class AccountCodes {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "account_code_id")
-    private Integer accountCodeId;
+    private Integer  accountCodeId;
 
     @Column(name = "account_code", nullable = false)
     private String accountCode;
 
     private String description;
 
-    private Integer status;
+    private Integer  status;
 
 }

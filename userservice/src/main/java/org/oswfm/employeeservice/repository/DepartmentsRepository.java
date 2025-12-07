@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DepartmentsRepository extends JpaRepository<Departments, Integer> {
+public interface DepartmentsRepository extends JpaRepository<Departments, Integer > {
     // Add custom query methods here if needed
 }

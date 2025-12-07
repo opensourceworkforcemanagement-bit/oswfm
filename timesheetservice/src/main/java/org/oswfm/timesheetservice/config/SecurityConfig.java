@@ -1,10 +1,9 @@
 package org.oswfm.timesheetservice.config;
 
+import java.util.List;
+
 import org.oswfm.timesheetservice.filter.CustomBearerTokenAuthenticationFilter;
 import org.oswfm.timesheetservice.security.CustomAuthenticationEntryPoint;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +23,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Security configuration class named {@link SecurityConfig} for setting up security filters and policies.
@@ -69,7 +69,7 @@ public class SecurityConfig {
 
         httpSecurity
                 .exceptionHandling(customizer -> customizer.authenticationEntryPoint(customAuthenticationEntryPoint))
-                .cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
+                //.cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(customizer -> customizer
                         .anyRequest().authenticated()

@@ -9,10 +9,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RolePermissionsResponseDTO {
 
-    private Integer rolePermissionId;
+    private Integer  rolePermissionId;
 
     private String employeeRoleId;
 
-    private Integer permissioinsId;
+    private Integer  permissioinsId;
 
 }

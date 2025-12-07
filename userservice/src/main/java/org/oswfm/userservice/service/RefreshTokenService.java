@@ -1,7 +1,7 @@
 package org.oswfm.userservice.service;
 
-import org.oswfm.userservice.model.user.Token;
-import org.oswfm.userservice.model.user.dto.request.TokenRefreshRequest;
+import org.oswfm.commons.model.user.Token;
+import org.oswfm.commons.model.user.dto.request.TokenRefreshRequest;
 
 /**
  * Service interface named {@link RefreshTokenService} for managing token refresh operations.

@@ -17,18 +17,18 @@ public class EmployeesStatusHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "employee_status_history_id")
-    private Integer employeeStatusHistoryId;
+    private Integer  employeeStatusHistoryId;
 
     @Column(name = "employee_id", nullable = false)
-    private Integer employeeId;
+    private Integer  employeeId;
 
     @Column(nullable = false)
-    private Integer status;
+    private Integer  status;
 
     @Column(name = "changed_at")
     private LocalTime changedAt;
 
     @Column(name = "changed_by_employee_id")
-    private Integer changedByEmployeeId;
+    private Integer  changedByEmployeeId;
 
 }

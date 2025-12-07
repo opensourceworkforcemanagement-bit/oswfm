@@ -20,7 +20,7 @@ public class EmployeesRequestDTO {
 
     private String lastName;
 
-    private Integer status;
+    private Integer  status;
 
     @NotNull
     @NotBlank

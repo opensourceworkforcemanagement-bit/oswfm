@@ -16,7 +16,7 @@ public class Departments {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "department_id")
-    private Integer departmentId;
+    private Integer  departmentId;
 
     @Column(nullable = false)
     private String department;
@@ -24,6 +24,6 @@ public class Departments {
     private String description;
 
     @Column(nullable = false)
-    private Integer status;
+    private Integer  status;
 
 }

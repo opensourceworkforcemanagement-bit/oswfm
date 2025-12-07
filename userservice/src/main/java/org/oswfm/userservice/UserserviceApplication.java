@@ -14,15 +14,18 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @ComponentScan(basePackages = {
 	"org.oswfm.userservice",
-	"org.oswfm.employeeservice"
+	"org.oswfm.employeeservice",
+	"org.oswfm.accesscontrolservice"
 })
 @EntityScan(basePackages = {
-	"org.oswfm.userservice.model.user.entity",
-	"org.oswfm.employeeservice.model.entity"
+	"org.oswfm.commons.model.user.entity",
+	"org.oswfm.employeeservice.model.entity",
+	"org.oswfm.accesscontrolservice.model.entity"
 })
 @EnableJpaRepositories(basePackages = {
     "org.oswfm.userservice.repository",
-    "org.oswfm.employeeservice.repository"
+    "org.oswfm.employeeservice.repository",
+	"org.oswfm.accesscontrolservice.repository"
 })
 public class UserserviceApplication {
 

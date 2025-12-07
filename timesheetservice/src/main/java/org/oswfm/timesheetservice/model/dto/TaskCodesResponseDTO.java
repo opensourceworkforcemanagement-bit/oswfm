@@ -9,12 +9,12 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class TaskCodesResponseDTO {
 
-    private Integer taskCodeId;
+    private Integer  taskCodeId;
 
     private String taskCode;
 
     private String description;
 
-    private Integer status;
+    private Integer  status;
 
 }

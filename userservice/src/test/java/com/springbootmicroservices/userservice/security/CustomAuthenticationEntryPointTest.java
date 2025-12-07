@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.oswfm.userservice.model.common.CustomError;
+import org.oswfm.commons.model.common.CustomError;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.WriteListener;
 import jakarta.servlet.http.HttpServletRequest;

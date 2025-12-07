@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class TimesheetOperationsTypesResponseDTO {
 
-    private Integer operationTypeId;
+    private Integer  operationTypeId;
 
     private String operationTypeName;
 

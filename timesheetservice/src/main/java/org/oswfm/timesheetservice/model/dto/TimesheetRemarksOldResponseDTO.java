@@ -11,16 +11,16 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class TimesheetRemarksOldResponseDTO {
 
-    private Integer timesheetRemarksId;
+    private Integer  timesheetRemarksId;
 
-    private Integer timesheetId;
+    private Integer  timesheetId;
 
     private String remarks;
 
-    private Integer remarksOrder;
+    private Integer  remarksOrder;
 
     private LocalTime createdAt;
 
-    private Integer createdBy;
+    private Integer  createdBy;
 
 }

@@ -1,13 +1,13 @@
 package org.oswfm.userservice.controller;
 
-import org.oswfm.userservice.model.common.dto.response.CustomResponse;
-import org.oswfm.userservice.model.user.Token;
-import org.oswfm.userservice.model.user.dto.request.LoginRequest;
-import org.oswfm.userservice.model.user.dto.request.RegisterRequest;
-import org.oswfm.userservice.model.user.dto.request.TokenInvalidateRequest;
-import org.oswfm.userservice.model.user.dto.request.TokenRefreshRequest;
-import org.oswfm.userservice.model.user.dto.response.TokenResponse;
-import org.oswfm.userservice.model.user.mapper.TokenToTokenResponseMapper;
+import org.oswfm.commons.model.common.dto.response.CustomResponse;
+import org.oswfm.commons.model.user.Token;
+import org.oswfm.commons.model.user.dto.request.LoginRequest;
+import org.oswfm.commons.model.user.dto.request.RegisterRequest;
+import org.oswfm.commons.model.user.dto.request.TokenInvalidateRequest;
+import org.oswfm.commons.model.user.dto.request.TokenRefreshRequest;
+import org.oswfm.commons.model.user.dto.response.TokenResponse;
+import org.oswfm.commons.model.user.mapper.TokenToTokenResponseMapper;
 import org.oswfm.userservice.service.LogoutService;
 import org.oswfm.userservice.service.RefreshTokenService;
 import org.oswfm.userservice.service.RegisterService;

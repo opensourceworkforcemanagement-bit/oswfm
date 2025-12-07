@@ -16,12 +16,12 @@ public class EmployeesEmergencyContactEmails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "emergency_contact_email_id")
-    private Integer emergencyContactEmailId;
+    private Integer  emergencyContactEmailId;
 
     @Column(name = "emergency_contact_id", nullable = false)
-    private Integer emergencyContactId;
+    private Integer  emergencyContactId;
 
     @Column(name = "email_address_id", nullable = false)
-    private Integer emailAddressId;
+    private Integer  emailAddressId;
 
 }

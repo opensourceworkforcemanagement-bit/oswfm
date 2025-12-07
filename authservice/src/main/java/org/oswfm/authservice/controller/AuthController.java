@@ -1,11 +1,11 @@
 package org.oswfm.authservice.controller;
 
-import org.oswfm.authservice.model.auth.dto.request.LoginRequest;
-import org.oswfm.authservice.model.auth.dto.request.RegisterRequest;
-import org.oswfm.authservice.model.auth.dto.request.TokenInvalidateRequest;
-import org.oswfm.authservice.model.auth.dto.request.TokenRefreshRequest;
-import org.oswfm.authservice.model.auth.dto.response.TokenResponse;
-import org.oswfm.authservice.model.common.dto.response.CustomResponse;
+import org.oswfm.commons.model.user.dto.request.LoginRequest;
+import org.oswfm.commons.model.user.dto.request.RegisterRequest;
+import org.oswfm.commons.model.user.dto.request.TokenInvalidateRequest;
+import org.oswfm.commons.model.user.dto.request.TokenRefreshRequest;
+import org.oswfm.commons.model.user.dto.response.TokenResponse;
+import org.oswfm.commons.model.common.dto.response.CustomResponse;
 import org.oswfm.authservice.service.LogoutService;
 import org.oswfm.authservice.service.RefreshTokenService;
 import org.oswfm.authservice.service.RegisterService;

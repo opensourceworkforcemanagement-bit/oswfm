@@ -16,13 +16,13 @@ public class TaskCodes {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "task_code_id")
-    private Integer taskCodeId;
+    private Integer  taskCodeId;
 
     @Column(name = "task_code", nullable = false)
     private String taskCode;
 
     private String description;
 
-    private Integer status;
+    private Integer  status;
 
 }

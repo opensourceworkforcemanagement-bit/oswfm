@@ -11,14 +11,14 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class EmployeesAuditLogResponseDTO {
 
-    private Integer employeeAuditLogId;
+    private Integer  employeeAuditLogId;
 
-    private Integer employeeId;
+    private Integer  employeeId;
 
     private String action;
 
     private LocalTime actionTimestamp;
 
-    private Integer actionBy;
+    private Integer  actionBy;
 
 }

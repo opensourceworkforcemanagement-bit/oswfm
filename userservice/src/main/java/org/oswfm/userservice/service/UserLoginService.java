@@ -1,7 +1,7 @@
 package org.oswfm.userservice.service;
 
-import org.oswfm.userservice.model.user.Token;
-import org.oswfm.userservice.model.user.dto.request.LoginRequest;
+import org.oswfm.commons.model.user.Token;
+import org.oswfm.commons.model.user.dto.request.LoginRequest;
 
 /**
  * Service interface named {@link UserLoginService} for handling user login operations.

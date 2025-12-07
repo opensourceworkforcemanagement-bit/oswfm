@@ -16,12 +16,12 @@ public class EmployeesEmergencyContactPhoneNumbers {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "emergency_contact_info_id")
-    private Integer emergencyContactInfoId;
+    private Integer  emergencyContactInfoId;
 
     @Column(name = "emergency_contact_id", nullable = false)
-    private Integer emergencyContactId;
+    private Integer  emergencyContactId;
 
     @Column(name = "phone_number_id", nullable = false)
-    private Integer phoneNumberId;
+    private Integer  phoneNumberId;
 
 }

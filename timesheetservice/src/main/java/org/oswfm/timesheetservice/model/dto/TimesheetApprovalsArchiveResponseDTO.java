@@ -11,13 +11,13 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class TimesheetApprovalsArchiveResponseDTO {
 
-    private Integer timesheetApprovalId;
+    private Integer  timesheetApprovalId;
 
-    private Integer timesheetId;
+    private Integer  timesheetId;
 
-    private Integer approverId;
+    private Integer  approverId;
 
-    private Integer approvalStatus;
+    private Integer  approvalStatus;
 
     private LocalTime approvalDate;
 

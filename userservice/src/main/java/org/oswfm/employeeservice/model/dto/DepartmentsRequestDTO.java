@@ -17,6 +17,6 @@ public class DepartmentsRequestDTO {
     private String description;
 
     @NotNull
-    private Integer status;
+    private Integer  status;
 
 }

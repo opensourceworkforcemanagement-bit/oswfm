@@ -13,10 +13,10 @@ import java.time.LocalTime;
 public class TimesheetOldAuditLogRequestDTO {
 
     @NotNull
-    private Integer timesheeId;
+    private Integer  timesheeId;
 
     private LocalTime createdAt;
 
-    private Integer createdBy;
+    private Integer  createdBy;
 
 }

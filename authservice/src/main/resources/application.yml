@@ -19,7 +19,14 @@ environment:
 volumes:
       # Windows-friendly relative path
       - C:\development\TA\app_logs:/app/logs
-      
+
+datasource:
+  name: postgresql
+  url: jdbc:postgresql://${SECURITY_DB_IP:localhost}:${SECURITY_DB_PORT:5432}/opensourceworkforcemanagement?currentSchema=oswfm&charSet=UTF-8
+  username: ${DATABASE_USERNAME:oswfm}
+  password: ${DATABASE_PASSWORD:oswfm}
+  driver-class-name: org.postgresql.Driver
+
 # Logging Configuration
 logging:
   level:

@@ -1,7 +1,7 @@
 package org.oswfm.userservice.exception.handler;
 
 import org.oswfm.userservice.exception.*;
-import org.oswfm.userservice.model.common.CustomError;
+import org.oswfm.commons.model.common.CustomError;
 import jakarta.validation.ConstraintViolationException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;

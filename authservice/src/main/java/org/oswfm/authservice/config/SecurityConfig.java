@@ -1,9 +1,9 @@
 package org.oswfm.authservice.config;
 
+import java.util.List;
+
 import org.oswfm.authservice.filter.CustomBearerTokenAuthenticationFilter;
 import org.oswfm.authservice.security.CustomAuthenticationEntryPoint;
-import jakarta.ws.rs.HttpMethod;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -22,7 +22,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.List;
+import jakarta.ws.rs.HttpMethod;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Configuration class named {@link SecurityConfig} for Spring Security.
@@ -62,7 +63,7 @@ public class SecurityConfig {
 
         httpSecurity
                 .exceptionHandling(customizer -> customizer.authenticationEntryPoint(customAuthenticationEntryPoint))
-                .cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
+                //.cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(customizer -> customizer
                         .requestMatchers(HttpMethod.POST, "/api/v1/authentication/**").permitAll()

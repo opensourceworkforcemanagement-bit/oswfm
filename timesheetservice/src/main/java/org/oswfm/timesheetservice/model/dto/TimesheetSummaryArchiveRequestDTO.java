@@ -13,13 +13,13 @@ import java.math.BigDecimal;
 public class TimesheetSummaryArchiveRequestDTO {
 
     @NotNull
-    private Integer employeeId;
+    private Integer  employeeId;
 
     @NotNull
-    private Integer payPeriodId;
+    private Integer  payPeriodId;
 
     private BigDecimal totalHours;
 
-    private Integer status;
+    private Integer  status;
 
 }

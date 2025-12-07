@@ -1,7 +1,7 @@
 package org.oswfm.authservice.service;
 
-import org.oswfm.authservice.model.auth.dto.request.TokenInvalidateRequest;
-import org.oswfm.authservice.model.common.dto.response.CustomResponse;
+import org.oswfm.commons.model.user.dto.request.TokenInvalidateRequest;
+import org.oswfm.commons.model.common.dto.response.CustomResponse;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 

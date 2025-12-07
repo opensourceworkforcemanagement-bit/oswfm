@@ -9,12 +9,12 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AccountCodesResponseDTO {
 
-    private Integer accountCodeId;
+    private Integer  accountCodeId;
 
     private String accountCode;
 
     private String description;
 
-    private Integer status;
+    private Integer  status;
 
 }

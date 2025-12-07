@@ -11,9 +11,9 @@ import jakarta.validation.constraints.*;
 public class TimesheetRequestDTO {
 
     @NotNull
-    private Integer employeeId;
+    private Integer  employeeId;
 
     @NotNull
-    private Integer payPeriodId;
+    private Integer  payPeriodId;
 
 }

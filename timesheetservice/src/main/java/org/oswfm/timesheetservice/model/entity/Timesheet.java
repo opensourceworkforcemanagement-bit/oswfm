@@ -16,12 +16,12 @@ public class Timesheet {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "timesheet_id")
-    private Integer timesheetId;
+    private Integer  timesheetId;
 
     @Column(name = "employee_id", nullable = false)
-    private Integer employeeId;
+    private Integer  employeeId;
 
     @Column(name = "pay_period_id", nullable = false)
-    private Integer payPeriodId;
+    private Integer  payPeriodId;
 
 }

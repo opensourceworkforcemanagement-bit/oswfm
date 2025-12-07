@@ -40,6 +40,10 @@ public class GatewayConfig {
                         .filters(f -> f.filter(jwtAuthFilter.apply(new JwtAuthenticationFilter.Config()
                                 .setPublicEndpoints(PUBLIC_ENDPOINTS))))
                         .uri("lb://timesheetservice"))
+                .route("timesheetservice", r -> r.path("/api/v1/work-codes/**")
+                        .filters(f -> f.filter(jwtAuthFilter.apply(new JwtAuthenticationFilter.Config()
+                                .setPublicEndpoints(PUBLIC_ENDPOINTS))))
+                        .uri("lb://timesheetservice"))
                 .route("authservice", r -> r.path("/api/v1/authentication/**")
                         .filters(f -> f.filter(jwtAuthFilter.apply(new JwtAuthenticationFilter.Config()
                                 .setPublicEndpoints(PUBLIC_ENDPOINTS))))
@@ -51,50 +55,11 @@ public class GatewayConfig {
                  .route("employees", r -> r.path("/api/v1/employees/**")
                         .filters(f -> f.filter(jwtAuthFilter.apply(new JwtAuthenticationFilter.Config()
                                 .setPublicEndpoints(PUBLIC_ENDPOINTS))))
-                        .uri("lb://userservice"))                       
+                        .uri("lb://userservice"))
+                .route("accesscontrol", r -> r.path("/api/v1/accesscontrol/**")
+                        .filters(f -> f.filter(jwtAuthFilter.apply(new JwtAuthenticationFilter.Config()
+                                .setPublicEndpoints(PUBLIC_ENDPOINTS))))
+                        .uri("lb://userservice"))                          
                 .build();
     }
-
-    /**
-     * Configures CORS settings for the application.
-     * Development settings allow all origins, methods, and headers.
-     * @return A CorsConfigurationSource with the defined CORS settings.
-     */
-//     @Bean
-//     public CorsConfigurationSource corsConfigurationSource() {
-//         CorsConfiguration configuration = new CorsConfiguration();
-//         configuration.setAllowedOriginPatterns(Arrays.asList("*"));
-//         configuration.setAllowedMethods(Arrays.asList("*"));
-//         configuration.setAllowedHeaders(Arrays.asList("*"));
-//         configuration.setAllowCredentials(true);
-
-//         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//         source.registerCorsConfiguration("/**", configuration);
-//         return source;
-//     }
-
-//     @Bean
-//     public CorsWebFilter corsWebFilter() {
-//         CorsConfiguration corsConfig = new CorsConfiguration();
-//         corsConfig.setAllowCredentials(false);
-        
-//         // Add React Native Metro bundler origin
-//         corsConfig.setAllowedOrigins(Arrays.asList(
-//             "http://localhost:8081",  // Metro bundler
-//             "http://localhost:19006", // Expo web
-//             "http://localhost:3000",  // Common React dev server
-//             "*"  // Allow all for development
-//         ));
-        
-//         corsConfig.setAllowedHeaders(Arrays.asList("*"));
-//         corsConfig.setAllowedMethods(Arrays.asList(
-//             "GET", "POST", "PUT", "DELETE", "OPTIONS"
-//         ));
-//         corsConfig.setMaxAge(3600L);
-        
-//         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//         source.registerCorsConfiguration("/**", corsConfig);
-        
-//         return new CorsWebFilter(source);
-//     }
 }

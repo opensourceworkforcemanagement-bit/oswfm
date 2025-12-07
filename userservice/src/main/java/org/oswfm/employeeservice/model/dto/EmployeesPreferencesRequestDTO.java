@@ -11,7 +11,7 @@ import jakarta.validation.constraints.*;
 public class EmployeesPreferencesRequestDTO {
 
     @NotNull
-    private Integer employeeId;
+    private Integer  employeeId;
 
     @NotNull
     @NotBlank

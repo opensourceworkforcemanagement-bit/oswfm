@@ -17,10 +17,10 @@ public class EmployeesAuditLog {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "employee_audit_log_id")
-    private Integer employeeAuditLogId;
+    private Integer  employeeAuditLogId;
 
     @Column(name = "employee_id", nullable = false)
-    private Integer employeeId;
+    private Integer  employeeId;
 
     @Column(nullable = false)
     private String action;
@@ -29,6 +29,6 @@ public class EmployeesAuditLog {
     private LocalTime actionTimestamp;
 
     @Column(name = "action_by")
-    private Integer actionBy;
+    private Integer  actionBy;
 
 }

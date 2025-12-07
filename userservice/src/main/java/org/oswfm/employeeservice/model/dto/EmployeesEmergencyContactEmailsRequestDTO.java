@@ -11,9 +11,9 @@ import jakarta.validation.constraints.*;
 public class EmployeesEmergencyContactEmailsRequestDTO {
 
     @NotNull
-    private Integer emergencyContactId;
+    private Integer  emergencyContactId;
 
     @NotNull
-    private Integer emailAddressId;
+    private Integer  emailAddressId;
 
 }

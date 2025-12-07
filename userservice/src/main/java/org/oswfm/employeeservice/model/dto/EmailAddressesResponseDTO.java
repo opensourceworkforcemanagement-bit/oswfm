@@ -9,13 +9,13 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EmailAddressesResponseDTO {
 
-    private Integer emailAddressId;
+    private Integer  emailAddressId;
 
-    private Integer employeeId;
+    private Integer  employeeId;
 
     private String email;
 
-    private Integer type;
+    private Integer  type;
 
     private Boolean isPrimary;
 

@@ -1,8 +1,8 @@
 package org.oswfm.userservice.builder;
 
-import org.oswfm.userservice.model.user.entity.UserEntity;
-import org.oswfm.userservice.model.user.enums.UserStatus;
-import org.oswfm.userservice.model.user.enums.UserType;
+import org.oswfm.commons.model.user.entity.UserEntity;
+import org.oswfm.commons.model.user.enums.UserStatus;
+import org.oswfm.commons.model.user.enums.UserType;
 
 import java.util.UUID;
 

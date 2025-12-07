@@ -9,9 +9,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EmployeesEmergencyContactsResponseDTO {
 
-    private Integer emergencyContactId;
+    private Integer  emergencyContactId;
 
-    private Integer employeeId;
+    private Integer  employeeId;
 
     private String firstName;
 

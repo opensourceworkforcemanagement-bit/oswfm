@@ -17,15 +17,15 @@ public class TimesheetAuditLog {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "timesheet_audit_log_id")
-    private Integer timesheetAuditLogId;
+    private Integer  timesheetAuditLogId;
 
     @Column(name = "timeshee_id", nullable = false)
-    private Integer timesheeId;
+    private Integer  timesheeId;
 
     @Column(name = "created_at")
     private LocalTime createdAt;
 
     @Column(name = "created_by")
-    private Integer createdBy;
+    private Integer  createdBy;
 
 }

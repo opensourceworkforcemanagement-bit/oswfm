@@ -9,13 +9,13 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PhoneNumbersResponseDTO {
 
-    private Integer phoneNumberId;
+    private Integer  phoneNumberId;
 
-    private Integer employeeId;
+    private Integer  employeeId;
 
     private String phoneNumber;
 
-    private Integer type;
+    private Integer  type;
 
     private Boolean isPrimary;
 

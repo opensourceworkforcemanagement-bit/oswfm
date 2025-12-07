@@ -1,11 +1,12 @@
 package org.oswfm.authservice.service.impl;
 
 import org.oswfm.authservice.client.UserServiceClient;
-import org.oswfm.authservice.model.auth.User;
-import org.oswfm.authservice.model.auth.dto.request.RegisterRequest;
 import org.oswfm.authservice.service.RegisterService;
-import lombok.RequiredArgsConstructor;
+import org.oswfm.commons.model.user.User;
+import org.oswfm.commons.model.user.dto.request.RegisterRequest;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * Implementation of the {@link RegisterService} interface.

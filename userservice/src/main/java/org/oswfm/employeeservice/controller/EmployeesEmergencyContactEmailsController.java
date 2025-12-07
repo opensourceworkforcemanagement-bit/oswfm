@@ -34,7 +34,7 @@ public class EmployeesEmergencyContactEmailsController {
      * GET /api/employees-emergency-contact-emails/{id}
      */
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeesEmergencyContactEmailsResponseDTO> getById(@PathVariable Integer id) {
+    public ResponseEntity<EmployeesEmergencyContactEmailsResponseDTO> getById(@PathVariable Integer  id) {
         return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -56,7 +56,7 @@ public class EmployeesEmergencyContactEmailsController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<EmployeesEmergencyContactEmailsResponseDTO> update(
-            @PathVariable Integer id,
+            @PathVariable Integer  id,
             @Valid @RequestBody EmployeesEmergencyContactEmailsRequestDTO requestDTO) {
         return service.update(id, requestDTO)
                 .map(ResponseEntity::ok)
@@ -68,7 +68,7 @@ public class EmployeesEmergencyContactEmailsController {
      * DELETE /api/employees-emergency-contact-emails/{id}
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer  id) {
         if (service.delete(id)) {
             return ResponseEntity.noContent().build();
         }
@@ -80,7 +80,7 @@ public class EmployeesEmergencyContactEmailsController {
      * HEAD /api/employees-emergency-contact-emails/{id}
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
-    public ResponseEntity<Void> exists(@PathVariable Integer id) {
+    public ResponseEntity<Void> exists(@PathVariable Integer  id) {
         if (service.exists(id)) {
             return ResponseEntity.ok().build();
         }

@@ -16,16 +16,16 @@ public class PhoneNumbers {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "phone_number_id")
-    private Integer phoneNumberId;
+    private Integer  phoneNumberId;
 
     @Column(name = "employee_id", nullable = false)
-    private Integer employeeId;
+    private Integer  employeeId;
 
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
     @Column(nullable = false)
-    private Integer type;
+    private Integer  type;
 
     @Column(name = "is_primary")
     private Boolean isPrimary;

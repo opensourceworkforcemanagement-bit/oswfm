@@ -1,7 +1,7 @@
 package org.oswfm.userservice.service;
 
 
-import org.oswfm.userservice.model.user.Token;
+import org.oswfm.commons.model.user.Token;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -9,12 +9,12 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class DepartmentsResponseDTO {
 
-    private Integer departmentId;
+    private Integer  departmentId;
 
     private String department;
 
     private String description;
 
-    private Integer status;
+    private Integer  status;
 
 }

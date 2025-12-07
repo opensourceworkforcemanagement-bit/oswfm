@@ -1,10 +1,10 @@
 package org.oswfm.userservice.service.impl;
 
 import org.oswfm.userservice.config.TokenConfigurationParameter;
-import org.oswfm.userservice.model.user.Token;
-import org.oswfm.userservice.model.user.enums.TokenClaims;
-import org.oswfm.userservice.model.user.enums.TokenType;
-import org.oswfm.userservice.model.user.enums.UserType;
+import org.oswfm.commons.model.user.Token;
+import org.oswfm.commons.model.user.enums.TokenClaims;
+import org.oswfm.commons.model.user.enums.TokenType;
+import org.oswfm.commons.model.user.enums.UserType;
 import org.oswfm.userservice.service.InvalidTokenService;
 import org.oswfm.userservice.service.TokenService;
 import io.jsonwebtoken.*;

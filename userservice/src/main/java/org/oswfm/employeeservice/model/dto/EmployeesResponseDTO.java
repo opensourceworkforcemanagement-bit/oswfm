@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EmployeesResponseDTO {
 
-    private Integer employeeId;
+    private Integer  employeeId;
 
     private String employeeIdentifier;
 
@@ -19,7 +19,7 @@ public class EmployeesResponseDTO {
 
     private String lastName;
 
-    private Integer status;
+    private Integer  status;
 
     private String userName;
 

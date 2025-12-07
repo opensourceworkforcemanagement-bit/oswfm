@@ -11,10 +11,10 @@ import jakarta.validation.constraints.*;
 public class TimesheetEntriesCommentsRequestDTO {
 
     @NotNull
-    private Integer timesheeId;
+    private Integer  timesheeId;
 
     @NotNull
-    private Integer entryDay;
+    private Integer  entryDay;
 
     private String comments;
 

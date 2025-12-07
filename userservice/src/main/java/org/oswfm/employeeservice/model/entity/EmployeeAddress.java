@@ -16,9 +16,9 @@ public class EmployeeAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "address_id")
-    private Integer addressId;
+    private Integer  addressId;
 
     @Column(name = "employee_id", nullable = false)
-    private Integer employeeId;
+    private Integer  employeeId;
 
 }

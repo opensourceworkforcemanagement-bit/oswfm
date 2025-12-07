@@ -34,7 +34,7 @@ public class EmployeesSsnController {
      * GET /api/employees-ssn/{id}
      */
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeesSsnResponseDTO> getById(@PathVariable Integer id) {
+    public ResponseEntity<EmployeesSsnResponseDTO> getById(@PathVariable Integer  id) {
         return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -56,7 +56,7 @@ public class EmployeesSsnController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<EmployeesSsnResponseDTO> update(
-            @PathVariable Integer id,
+            @PathVariable Integer  id,
             @Valid @RequestBody EmployeesSsnRequestDTO requestDTO) {
         return service.update(id, requestDTO)
                 .map(ResponseEntity::ok)
@@ -68,7 +68,7 @@ public class EmployeesSsnController {
      * DELETE /api/employees-ssn/{id}
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer  id) {
         if (service.delete(id)) {
             return ResponseEntity.noContent().build();
         }
@@ -80,7 +80,7 @@ public class EmployeesSsnController {
      * HEAD /api/employees-ssn/{id}
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
-    public ResponseEntity<Void> exists(@PathVariable Integer id) {
+    public ResponseEntity<Void> exists(@PathVariable Integer  id) {
         if (service.exists(id)) {
             return ResponseEntity.ok().build();
         }

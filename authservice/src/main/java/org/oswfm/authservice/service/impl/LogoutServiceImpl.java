@@ -1,8 +1,8 @@
 package org.oswfm.authservice.service.impl;
 
 import org.oswfm.authservice.client.UserServiceClient;
-import org.oswfm.authservice.model.auth.dto.request.TokenInvalidateRequest;
-import org.oswfm.authservice.model.common.dto.response.CustomResponse;
+import org.oswfm.commons.model.user.dto.request.TokenInvalidateRequest;
+import org.oswfm.commons.model.common.dto.response.CustomResponse;
 import org.oswfm.authservice.service.LogoutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

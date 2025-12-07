@@ -16,10 +16,10 @@ public class Organization {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "organization_id")
-    private Integer organizationId;
+    private Integer  organizationId;
 
     @Column(name = "parent_organization_id")
-    private Integer parentOrganizationId;
+    private Integer  parentOrganizationId;
 
     @Column(nullable = false)
     private String organization;
@@ -27,6 +27,6 @@ public class Organization {
     private String description;
 
     @Column(nullable = false)
-    private Integer status;
+    private Integer  status;
 
 }

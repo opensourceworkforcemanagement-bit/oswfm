@@ -1,19 +1,19 @@
 package org.oswfm.employeeservice.model.mapper;
 
-import org.oswfm.employeeservice.model.entity.Employees;
 import org.oswfm.employeeservice.model.dto.EmployeesRequestDTO;
 import org.oswfm.employeeservice.model.dto.EmployeesResponseDTO;
+import org.oswfm.employeeservice.model.entity.EmployeeDetails;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EmployeesMapper {
 
-    public Employees toEntity(EmployeesRequestDTO dto) {
+    public EmployeeDetails toEntity(EmployeesRequestDTO dto) {
         if (dto == null) {
             return null;
         }
         
-        Employees entity = new Employees();
+        EmployeeDetails entity = new EmployeeDetails();
         entity.setEmployeeIdentifier(dto.getEmployeeIdentifier());
         entity.setFirstName(dto.getFirstName());
         entity.setMiddleName(dto.getMiddleName());
@@ -23,7 +23,7 @@ public class EmployeesMapper {
         return entity;
     }
 
-    public EmployeesResponseDTO toResponseDTO(Employees entity) {
+    public EmployeesResponseDTO toResponseDTO(EmployeeDetails entity) {
         if (entity == null) {
             return null;
         }
@@ -39,7 +39,7 @@ public class EmployeesMapper {
         return dto;
     }
 
-    public void updateEntityFromDTO(EmployeesRequestDTO dto, Employees entity) {
+    public void updateEntityFromDTO(EmployeesRequestDTO dto, EmployeeDetails entity) {
         if (dto == null || entity == null) {
             return;
         }

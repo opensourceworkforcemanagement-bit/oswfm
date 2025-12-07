@@ -16,7 +16,7 @@ public class EmployeesRoles {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "employee_role_id")
-    private Integer employeeRoleId;
+    private Integer  employeeRoleId;
 
     @Column(nullable = false)
     private String role;

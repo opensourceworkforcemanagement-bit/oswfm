@@ -2,9 +2,9 @@ package org.oswfm.userservice.service.impl;
 
 import org.oswfm.userservice.base.AbstractBaseServiceTest;
 import org.oswfm.userservice.config.TokenConfigurationParameter;
-import org.oswfm.userservice.model.user.Token;
-import org.oswfm.userservice.model.user.enums.TokenClaims;
-import org.oswfm.userservice.model.user.enums.UserType;
+import org.oswfm.commons.model.user.Token;
+import org.oswfm.commons.model.user.enums.TokenClaims;
+import org.oswfm.commons.model.user.enums.UserType;
 import org.oswfm.userservice.service.InvalidTokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

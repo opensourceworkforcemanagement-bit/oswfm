@@ -23,6 +23,6 @@ public class ProjectsRequestDTO {
     private LocalDate endDate;
 
     @NotNull
-    private Integer status;
+    private Integer  status;
 
 }
