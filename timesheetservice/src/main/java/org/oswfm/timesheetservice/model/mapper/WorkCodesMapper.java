@@ -20,6 +20,8 @@ public class WorkCodesMapper {
         entity.setSuffix(dto.getSuffix());
         entity.setDescription(dto.getDescription());
         entity.setStatus(dto.getStatus());
+        entity.setEffective_date(dto.getEffective_date());
+        entity.setExpiration_date(dto.getExpiration_date());
         return entity;
     }
 
@@ -29,13 +31,15 @@ public class WorkCodesMapper {
         }
         
         WorkCodesResponseDTO dto = new WorkCodesResponseDTO();
-        dto.setWorkCodeId(entity.getWorkCodeId());
+        dto.setWork_code_id(entity.getWork_code_id());
         dto.setShort_work_code(entity.getShort_work_code());
         dto.setLong_work_code(entity.getLong_work_code());
         dto.setPrefix(entity.getPrefix());
         dto.setSuffix(entity.getSuffix());
         dto.setDescription(entity.getDescription());
         dto.setStatus(entity.getStatus());
+        dto.setEffective_date(entity.getEffective_date());
+        dto.setExpiration_date(entity.getExpiration_date());
         return dto;
     }
 
@@ -50,5 +54,7 @@ public class WorkCodesMapper {
         entity.setSuffix(dto.getSuffix());
         entity.setDescription(dto.getDescription());
         entity.setStatus(dto.getStatus());
+        entity.setEffective_date(dto.getEffective_date());
+        entity.setExpiration_date(dto.getExpiration_date());
     }
 }

@@ -1,0 +1,305 @@
+{
+  "info": {
+    "_postman_id": "timesheets-collection",
+    "name": "OSWFM - Timesheets CRUD",
+    "description": "CRUD operations for Timesheets API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:1110",
+      "type": "string"
+    },
+    {
+      "key": "timesheetId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "employeeId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "payPeriodId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Timesheet",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"employeeId\": {{employeeId}},\n  \"payPeriodId\": {{payPeriodId}}\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/timesheet",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "timesheet"]
+        },
+        "description": "Create a new timesheet for an employee and pay period"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Response has timesheetId\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.timesheetId).to.exist;",
+              "    pm.collectionVariables.set(\"timesheetId\", jsonData.timesheetId);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get All Timesheets",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/timesheet",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "timesheet"]
+        },
+        "description": "Get all timesheets"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response is an array\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.be.an('array');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Timesheet by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/timesheet/{{timesheetId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "timesheet", "{{timesheetId}}"]
+        },
+        "description": "Get a specific timesheet by ID"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has correct timesheetId\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.timesheetId).to.eql(parseInt(pm.collectionVariables.get(\"timesheetId\")));",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Update Timesheet",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"employeeId\": {{employeeId}},\n  \"payPeriodId\": 2\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/timesheet/{{timesheetId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "timesheet", "{{timesheetId}}"]
+        },
+        "description": "Update an existing timesheet"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Pay period is updated\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.payPeriodId).to.eql(2);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Timesheets Count",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/timesheet/count",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "timesheet", "count"]
+        },
+        "description": "Get total count of timesheets"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response is a number\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.be.a('number');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Check Timesheet Exists",
+      "request": {
+        "method": "HEAD",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/timesheet/{{timesheetId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "timesheet", "{{timesheetId}}"]
+        },
+        "description": "Check if a timesheet exists by ID"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 (exists)\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete Timesheet",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/timesheet/{{timesheetId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "timesheet", "{{timesheetId}}"]
+        },
+        "description": "Delete a timesheet by ID"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ]
+}

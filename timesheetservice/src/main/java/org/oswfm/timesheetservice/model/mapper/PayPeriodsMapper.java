@@ -12,8 +12,9 @@ public class PayPeriodsMapper {
         if (dto == null) {
             return null;
         }
-        
+
         PayPeriods entity = new PayPeriods();
+        entity.setPayPeriodTypeId(dto.getPayPeriodTypeId());
         entity.setStartDate(dto.getStartDate());
         entity.setEndDate(dto.getEndDate());
         return entity;
@@ -23,9 +24,10 @@ public class PayPeriodsMapper {
         if (entity == null) {
             return null;
         }
-        
+
         PayPeriodsResponseDTO dto = new PayPeriodsResponseDTO();
         dto.setPayPeriodId(entity.getPayPeriodId());
+        dto.setPayPeriodTypeId(entity.getPayPeriodTypeId());
         dto.setStartDate(entity.getStartDate());
         dto.setEndDate(entity.getEndDate());
         return dto;
@@ -35,7 +37,8 @@ public class PayPeriodsMapper {
         if (dto == null || entity == null) {
             return;
         }
-        
+
+        entity.setPayPeriodTypeId(dto.getPayPeriodTypeId());
         entity.setStartDate(dto.getStartDate());
         entity.setEndDate(dto.getEndDate());
     }

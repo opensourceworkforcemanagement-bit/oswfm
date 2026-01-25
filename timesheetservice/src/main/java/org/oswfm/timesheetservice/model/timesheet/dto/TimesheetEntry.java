@@ -2,13 +2,16 @@ package org.oswfm.timesheetservice.model.timesheet.dto;
 
 import java.math.BigDecimal;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
 public class TimesheetEntry{
         private Integer  workCodeId;
         private Integer  accountCodeId;
+        private Integer  timesheetId;
+        private Integer  timesheetEntryId;
         private BigDecimal su1Hours;
         private BigDecimal m1Hours;
         private BigDecimal t1Hours;

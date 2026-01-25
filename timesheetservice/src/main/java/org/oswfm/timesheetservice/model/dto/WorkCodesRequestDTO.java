@@ -1,5 +1,7 @@
 package org.oswfm.timesheetservice.model.dto;
 
+import java.util.Date;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -25,6 +27,10 @@ public class WorkCodesRequestDTO {
 
     private String description;
 
-    private Integer  status;   
+    private Integer  status;
+    
+    private Date effective_date;
+    
+    private Date expiration_date;
 
 }

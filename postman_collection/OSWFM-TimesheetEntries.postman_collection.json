@@ -1,0 +1,366 @@
+{
+  "info": {
+    "_postman_id": "timesheet-entries-collection",
+    "name": "OSWFM - Timesheet Entries CRUD",
+    "description": "CRUD operations for Timesheet Entries API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:1110",
+      "type": "string"
+    },
+    {
+      "key": "timesheetEntryId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "timesheetId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "workCodeId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "accountCodeId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Timesheet Entry - Full Week 1",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"timesheetId\": {{timesheetId}},\n  \"workCodeId\": {{workCodeId}},\n  \"accountCodeId\": {{accountCodeId}},\n  \"su1Hours\": 0,\n  \"m1Hours\": 8.0,\n  \"t1Hours\": 8.0,\n  \"w1Hours\": 8.0,\n  \"th1Hours\": 8.0,\n  \"f1Hours\": 8.0,\n  \"sa1Hours\": 0,\n  \"su2Hours\": 0,\n  \"m2Hours\": 8.0,\n  \"t2Hours\": 8.0,\n  \"w2Hours\": 8.0,\n  \"th2Hours\": 8.0,\n  \"f2Hours\": 8.0,\n  \"sa2Hours\": 0\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/timesheet-entries",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "timesheet-entries"]
+        },
+        "description": "Create a timesheet entry with standard 40-hour week for both weeks"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Response has timesheetEntryId\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.timesheetEntryId).to.exist;",
+              "    pm.collectionVariables.set(\"timesheetEntryId\", jsonData.timesheetEntryId);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Timesheet Entry - Overtime",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"timesheetId\": {{timesheetId}},\n  \"workCodeId\": 2,\n  \"accountCodeId\": {{accountCodeId}},\n  \"su1Hours\": 0,\n  \"m1Hours\": 2.0,\n  \"t1Hours\": 1.5,\n  \"w1Hours\": 0,\n  \"th1Hours\": 2.0,\n  \"f1Hours\": 1.0,\n  \"sa1Hours\": 4.0,\n  \"su2Hours\": 0,\n  \"m2Hours\": 0,\n  \"t2Hours\": 0,\n  \"w2Hours\": 0,\n  \"th2Hours\": 0,\n  \"f2Hours\": 0,\n  \"sa2Hours\": 0\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/timesheet-entries",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "timesheet-entries"]
+        },
+        "description": "Create a timesheet entry for overtime hours"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Timesheet Entry - Partial Day",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"timesheetId\": {{timesheetId}},\n  \"workCodeId\": {{workCodeId}},\n  \"accountCodeId\": {{accountCodeId}},\n  \"su1Hours\": 0,\n  \"m1Hours\": 4.5,\n  \"t1Hours\": 0,\n  \"w1Hours\": 0,\n  \"th1Hours\": 0,\n  \"f1Hours\": 0,\n  \"sa1Hours\": 0,\n  \"su2Hours\": 0,\n  \"m2Hours\": 0,\n  \"t2Hours\": 0,\n  \"w2Hours\": 0,\n  \"th2Hours\": 0,\n  \"f2Hours\": 0,\n  \"sa2Hours\": 0\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/timesheet-entries",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "timesheet-entries"]
+        },
+        "description": "Create a timesheet entry for a partial day"
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Timesheet Entries",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/timesheet-entries",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "timesheet-entries"]
+        },
+        "description": "Get all timesheet entries"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response is an array\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.be.an('array');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Timesheet Entry by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/timesheet-entries/{{timesheetEntryId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "timesheet-entries", "{{timesheetEntryId}}"]
+        },
+        "description": "Get a specific timesheet entry by ID"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has correct timesheetEntryId\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.timesheetEntryId).to.eql(parseInt(pm.collectionVariables.get(\"timesheetEntryId\")));",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Update Timesheet Entry",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"timesheetId\": {{timesheetId}},\n  \"workCodeId\": {{workCodeId}},\n  \"accountCodeId\": {{accountCodeId}},\n  \"su1Hours\": 0,\n  \"m1Hours\": 8.0,\n  \"t1Hours\": 8.0,\n  \"w1Hours\": 8.0,\n  \"th1Hours\": 8.0,\n  \"f1Hours\": 6.0,\n  \"sa1Hours\": 0,\n  \"su2Hours\": 0,\n  \"m2Hours\": 8.0,\n  \"t2Hours\": 8.0,\n  \"w2Hours\": 8.0,\n  \"th2Hours\": 8.0,\n  \"f2Hours\": 8.0,\n  \"sa2Hours\": 0\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/timesheet-entries/{{timesheetEntryId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "timesheet-entries", "{{timesheetEntryId}}"]
+        },
+        "description": "Update an existing timesheet entry (changed Friday week 1 from 8 to 6 hours)"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Friday week 1 hours is updated\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.f1Hours).to.eql(6.0);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Timesheet Entries Count",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/timesheet-entries/count",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "timesheet-entries", "count"]
+        },
+        "description": "Get total count of timesheet entries"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response is a number\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.be.a('number');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Check Timesheet Entry Exists",
+      "request": {
+        "method": "HEAD",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/timesheet-entries/{{timesheetEntryId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "timesheet-entries", "{{timesheetEntryId}}"]
+        },
+        "description": "Check if a timesheet entry exists by ID"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 (exists)\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete Timesheet Entry",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/timesheet-entries/{{timesheetEntryId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "timesheet-entries", "{{timesheetEntryId}}"]
+        },
+        "description": "Delete a timesheet entry by ID"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ]
+}

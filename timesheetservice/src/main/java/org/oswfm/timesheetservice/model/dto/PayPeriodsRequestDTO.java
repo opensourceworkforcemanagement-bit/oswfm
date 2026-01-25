@@ -13,6 +13,9 @@ import java.time.LocalDate;
 public class PayPeriodsRequestDTO {
 
     @NotNull
+    private Integer payPeriodTypeId;
+
+    @NotNull
     private LocalDate startDate;
 
     @NotNull

@@ -1,6 +1,7 @@
 package org.oswfm.timesheetservice.model.timesheet.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter

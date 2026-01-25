@@ -1,6 +1,8 @@
 package org.oswfm.timesheetservice.model.entity;
 
 
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +23,7 @@ public class WorkCodes {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "work_code_id")
-    private Integer  workCodeId;
+    private Integer  work_code_id;
 
     @Column(name = "short_work_code", nullable = false)
     private String short_work_code;
@@ -40,5 +42,11 @@ public class WorkCodes {
 
     @Column(name = "status")    
     private Integer  status;
+
+    @Column(name="effective_date")
+    private Date effective_date;
+
+    @Column(name="expiration_date")
+    private Date expiration_date;
 
 }

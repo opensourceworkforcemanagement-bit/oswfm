@@ -39,18 +39,19 @@ CREATE INDEX idx_password_creds_expires ON password_credentials(expires_at)
     WHERE expires_at IS NOT NULL;
 
 -- Trigger to update updated_at timestamp
-CREATE OR REPLACE FUNCTION update_password_credential_timestamp()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.updated_at = CURRENT_TIMESTAMP;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+-- TODO: Revisit if needed
+-- CREATE OR REPLACE FUNCTION update_password_credential_timestamp()
+-- RETURNS TRIGGER AS $$
+-- BEGIN
+--     NEW.updated_at = CURRENT_TIMESTAMP;
+--     RETURN NEW;
+-- END;
+-- $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER trg_password_credential_update
-    BEFORE UPDATE ON password_credentials
-    FOR EACH ROW
-    EXECUTE FUNCTION update_password_credential_timestamp();
+-- CREATE TRIGGER trg_password_credential_update
+--     BEFORE UPDATE ON password_credentials
+--     FOR EACH ROW
+--     EXECUTE FUNCTION update_password_credential_timestamp();
 
 
 -- ============================================================================

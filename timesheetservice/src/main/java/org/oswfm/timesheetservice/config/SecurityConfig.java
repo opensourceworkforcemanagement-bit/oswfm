@@ -2,7 +2,6 @@ package org.oswfm.timesheetservice.config;
 
 import java.util.List;
 
-import org.oswfm.timesheetservice.filter.CustomBearerTokenAuthenticationFilter;
 import org.oswfm.timesheetservice.security.CustomAuthenticationEntryPoint;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +14,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
@@ -23,6 +21,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import jakarta.ws.rs.HttpMethod;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -61,7 +60,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(
             final HttpSecurity httpSecurity,
-            final CustomBearerTokenAuthenticationFilter customBearerTokenAuthenticationFilter,
+            //final CustomBearerTokenAuthenticationFilter customBearerTokenAuthenticationFilter,
             final CustomAuthenticationEntryPoint customAuthenticationEntryPoint
     ) throws Exception {
 
@@ -72,10 +71,14 @@ public class SecurityConfig {
                 //.cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(customizer -> customizer
+                    //TODOremove testing purposes //12/14/2025
+                        .requestMatchers(HttpMethod.GET, "/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(customBearerTokenAuthenticationFilter, BearerTokenAuthenticationFilter.class);
+                .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                //12/14/2025
+                //.addFilterBefore(customBearerTokenAuthenticationFilter, BearerTokenAuthenticationFilter.class);
 
         log.debug("CustomBearerTokenAuthenticationFilter added to the filter chain");
 

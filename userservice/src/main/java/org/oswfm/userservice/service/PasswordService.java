@@ -318,10 +318,35 @@ public class PasswordService {
      * Verify password hash matches (internal use)
      */
     private boolean verifyPassword(String plainPassword, String hashedPassword, String salt) {
-        String computedHash = hashPassword(plainPassword, salt);
-        
-        // Use constant-time comparison to prevent timing attacks
-        return constantTimeEquals(computedHash, hashedPassword);
+        String algorithm = securityProperties.getAlgorithm();
+        String combined = plainPassword + salt;
+
+        switch (algorithm.toUpperCase()) {
+            case "BCRYPT":
+                BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder(
+                    securityProperties.getBcryptStrength(),
+                    SECURE_RANDOM
+                );
+                return bcryptEncoder.matches(combined, hashedPassword);
+
+            case "ARGON2":
+                Argon2PasswordEncoder argon2Encoder = new Argon2PasswordEncoder(
+                    16,
+                    32,
+                    securityProperties.getArgon2Parallelism(),
+                    securityProperties.getArgon2Memory(),
+                    securityProperties.getArgon2Iterations()
+                );
+                return argon2Encoder.matches(combined, hashedPassword);
+
+            case "PBKDF2":
+                // PBKDF2 is deterministic with the same salt, so direct comparison works
+                String computedHash = hashWithPbkdf2(plainPassword, salt);
+                return constantTimeEquals(computedHash, hashedPassword);
+
+            default:
+                throw new IllegalArgumentException("Unsupported algorithm: " + algorithm);
+        }
     }
     
     // ========================================================================

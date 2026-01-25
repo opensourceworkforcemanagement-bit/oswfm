@@ -63,10 +63,14 @@ public class SecurityConfig {
 
         httpSecurity
                 .exceptionHandling(customizer -> customizer.authenticationEntryPoint(customAuthenticationEntryPoint))
-                //.cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
+                // CORS disabled here - handled by API Gateway to avoid duplicate headers
+                // .cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
+                .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(customizer -> customizer
-                        .requestMatchers(HttpMethod.POST, "/api/v1/authentication/**").permitAll()
+                        //.requestMatchers(HttpMethod.POST, "/api/v1/authentication/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
