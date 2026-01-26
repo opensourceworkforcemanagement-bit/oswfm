@@ -14,8 +14,10 @@ public class WorkforceCodesMapper {
         }
 
         WorkforceCodes entity = new WorkforceCodes();
-        entity.setCodeType(dto.getCodeType());
+        entity.setCodeTypeId(dto.getCodeTypeId());
         entity.setCodeId(dto.getCodeId());
+        entity.setPrefix(dto.getPrefix());
+        entity.setSuffix(dto.getSuffix());
         entity.setShortCodeValue(dto.getShortCodeValue());
         entity.setLongCodeValue(dto.getLongCodeValue());
         entity.setDescription(dto.getDescription());
@@ -32,8 +34,10 @@ public class WorkforceCodesMapper {
 
         WorkforceCodesResponseDTO dto = new WorkforceCodesResponseDTO();
         dto.setId(entity.getId());
-        dto.setCodeType(entity.getCodeType());
+        dto.setCodeTypeId(entity.getCodeTypeId());
         dto.setCodeId(entity.getCodeId());
+        dto.setPrefix(entity.getPrefix());
+        dto.setSuffix(entity.getSuffix());
         dto.setShortCodeValue(entity.getShortCodeValue());
         dto.setLongCodeValue(entity.getLongCodeValue());
         dto.setDescription(entity.getDescription());
@@ -48,8 +52,10 @@ public class WorkforceCodesMapper {
             return;
         }
 
-        entity.setCodeType(dto.getCodeType());
+        entity.setCodeTypeId(dto.getCodeTypeId());
         entity.setCodeId(dto.getCodeId());
+        entity.setPrefix(dto.getPrefix());
+        entity.setSuffix(dto.getSuffix());
         entity.setShortCodeValue(dto.getShortCodeValue());
         entity.setLongCodeValue(dto.getLongCodeValue());
         entity.setDescription(dto.getDescription());

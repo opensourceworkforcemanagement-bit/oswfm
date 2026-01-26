@@ -17,6 +17,8 @@ public class PayPeriodsMapper {
         entity.setPayPeriodTypeId(dto.getPayPeriodTypeId());
         entity.setStartDate(dto.getStartDate());
         entity.setEndDate(dto.getEndDate());
+        entity.setYear(dto.getYear());
+        entity.setPeriodNumber(dto.getPeriodNumber());
         return entity;
     }
 
@@ -30,6 +32,8 @@ public class PayPeriodsMapper {
         dto.setPayPeriodTypeId(entity.getPayPeriodTypeId());
         dto.setStartDate(entity.getStartDate());
         dto.setEndDate(entity.getEndDate());
+        dto.setYear(entity.getYear());
+        dto.setPeriodNumber(entity.getPeriodNumber());
         return dto;
     }
 
@@ -41,5 +45,7 @@ public class PayPeriodsMapper {
         entity.setPayPeriodTypeId(dto.getPayPeriodTypeId());
         entity.setStartDate(dto.getStartDate());
         entity.setEndDate(dto.getEndDate());
+        entity.setYear(dto.getYear());
+        entity.setPeriodNumber(dto.getPeriodNumber());
     }
 }

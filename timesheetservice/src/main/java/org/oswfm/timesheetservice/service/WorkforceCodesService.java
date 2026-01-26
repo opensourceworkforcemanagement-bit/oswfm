@@ -52,11 +52,11 @@ public class WorkforceCodesService {
     }
 
     /**
-     * Get WorkforceCodes by code type
+     * Get WorkforceCodes by code type ID
      */
     @Transactional(readOnly = true)
-    public List<WorkforceCodesResponseDTO> getByCodeType(String codeType) {
-        return repository.findByCodeType(codeType).stream()
+    public List<WorkforceCodesResponseDTO> getByCodeTypeId(Integer codeTypeId) {
+        return repository.findByCodeTypeId(codeTypeId).stream()
                 .map(mapper::toResponseDTO)
                 .collect(Collectors.toList());
     }
@@ -72,11 +72,11 @@ public class WorkforceCodesService {
     }
 
     /**
-     * Get WorkforceCodes by code type and status
+     * Get WorkforceCodes by code type ID and status
      */
     @Transactional(readOnly = true)
-    public List<WorkforceCodesResponseDTO> getByCodeTypeAndStatus(String codeType, Integer status) {
-        return repository.findByCodeTypeAndStatus(codeType, status).stream()
+    public List<WorkforceCodesResponseDTO> getByCodeTypeIdAndStatus(Integer codeTypeId, Integer status) {
+        return repository.findByCodeTypeIdAndStatus(codeTypeId, status).stream()
                 .map(mapper::toResponseDTO)
                 .collect(Collectors.toList());
     }

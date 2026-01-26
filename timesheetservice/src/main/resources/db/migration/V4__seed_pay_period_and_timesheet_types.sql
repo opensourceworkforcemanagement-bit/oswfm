@@ -69,3 +69,25 @@ INSERT INTO timesheet_operations_types (operation_type_name, operation_descripti
     ('RECALLED', 'Timesheet was recalled by employee'),
     ('ARCHIVED', 'Timesheet was archived'),
     ('DELETED', 'Timesheet was deleted');
+
+INSERT INTO code_types (code_type_name, description) VALUES
+    ('WORK_CODE', 'Code representing different types of work activities'),
+    ('PROJECT_CODE', 'Code representing different projects'),
+    ('DEPARTMENT_CODE', 'Code representing different departments within the organization'),
+    ('LEAVE_CODE', 'Code representing different types of leave or time off'),
+    ('PREMIUM_PAY_CODE', 'Code representing premium pay categories such as overtime or holiday pay');
+
+-- Seed data for workforce_codes table
+
+INSERT INTO workforce_codes (code_type_id, code_id, short_code_value, long_code_value, description, status, effective_date) VALUES
+    ((SELECT code_type_id FROM code_types WHERE code_type_name = 'WORK_CODE'), 101, 'DEV', 'Development Work', 'Work related to software development tasks', 1, CURRENT_DATE),
+    ((SELECT code_type_id FROM code_types WHERE code_type_name = 'WORK_CODE'), 102, 'MTN', 'Maintenance Work', 'Work related to system maintenance tasks', 1, CURRENT_DATE),
+    ((SELECT code_type_id FROM code_types WHERE code_type_name = 'PROJECT_CODE'), 201, 'PRJ001', 'Project Alpha', 'Code for Project Alpha initiatives', 1, CURRENT_DATE),
+    ((SELECT code_type_id FROM code_types WHERE code_type_name = 'PROJECT_CODE'), 202, 'PRJ002', 'Project Beta', 'Code for Project Beta initiatives', 1, CURRENT_DATE),
+    ((SELECT code_type_id FROM code_types WHERE code_type_name = 'DEPARTMENT_CODE'), 301, 'HR', 'Human Resources Department', 'Code for Human Resources department activities', 1, CURRENT_DATE),
+    ((SELECT code_type_id FROM code_types WHERE code_type_name = 'DEPARTMENT_CODE'), 302, 'IT', 'Information Technology Department', 'Code for IT department activities', 1, CURRENT_DATE),
+    ((SELECT code_type_id FROM code_types WHERE code_type_name = 'LEAVE_CODE'), 401, 'VAC', 'Vacation Leave', 'Code for vacation leave taken by employees', 1, CURRENT_DATE),
+    ((SELECT code_type_id FROM code_types WHERE code_type_name = 'LEAVE_CODE'), 402, 'SICK', 'Sick Leave', 'Code for sick leave taken by employees', 1, CURRENT_DATE),
+    ((SELECT code_type_id FROM code_types WHERE code_type_name = 'PREMIUM_PAY_CODE'), 501, 'OT', 'Overtime Pay', 'Code for overtime pay rates', 1, CURRENT_DATE),
+    ((SELECT code_type_id FROM code_types WHERE code_type_name = 'PREMIUM_PAY_CODE'), 502, 'HOL', 'Holiday Pay', 'Code for holiday pay rates', 1, CURRENT_DATE);
+    

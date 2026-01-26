@@ -10,9 +10,9 @@ import java.util.List;
 public interface WorkforceCodesRepository extends JpaRepository<WorkforceCodes, Integer> {
 
     // Custom query methods
-    List<WorkforceCodes> findByCodeType(String codeType);
+    List<WorkforceCodes> findByCodeTypeId(Integer codeTypeId);
 
     List<WorkforceCodes> findByStatus(Integer status);
 
-    List<WorkforceCodes> findByCodeTypeAndStatus(String codeType, Integer status);
+    List<WorkforceCodes> findByCodeTypeIdAndStatus(Integer codeTypeId, Integer status);
 }

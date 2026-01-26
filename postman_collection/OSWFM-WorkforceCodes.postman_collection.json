@@ -35,7 +35,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"codeType\": \"WORK\",\n  \"codeId\": 100,\n  \"shortCodeValue\": \"REG\",\n  \"longCodeValue\": \"Regular Hours\",\n  \"description\": \"Standard regular working hours\",\n  \"status\": 1,\n  \"effectiveDate\": \"2026-01-01\",\n  \"expirationDate\": null\n}"
+          "raw": "{\n  \"codeTypeId\": 1,\n  \"codeId\": 100,\n  \"shortCodeValue\": \"REG\",\n  \"longCodeValue\": \"Regular Hours\",\n  \"description\": \"Standard regular working hours\",\n  \"status\": 1,\n  \"effectiveDate\": \"2026-01-01\",\n  \"expirationDate\": null\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/api/v1/workforce-codes/create",
@@ -54,10 +54,10 @@
               "    pm.response.to.have.status(201);",
               "});",
               "",
-              "pm.test(\"Response has workforceCodesId\", function () {",
+              "pm.test(\"Response has id\", function () {",
               "    var jsonData = pm.response.json();",
-              "    pm.expect(jsonData.workforceCodesId).to.exist;",
-              "    pm.collectionVariables.set(\"workforceCodeId\", jsonData.workforceCodesId);",
+              "    pm.expect(jsonData.id).to.exist;",
+              "    pm.collectionVariables.set(\"workforceCodeId\", jsonData.id);",
               "});"
             ],
             "type": "text/javascript"
@@ -82,7 +82,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"codeType\": \"WORK\",\n  \"codeId\": 101,\n  \"shortCodeValue\": \"OT\",\n  \"longCodeValue\": \"Overtime Hours\",\n  \"description\": \"Overtime working hours at 1.5x rate\",\n  \"status\": 1,\n  \"effectiveDate\": \"2026-01-01\",\n  \"expirationDate\": null\n}"
+          "raw": "{\n  \"codeTypeId\": 1,\n  \"codeId\": 101,\n  \"shortCodeValue\": \"OT\",\n  \"longCodeValue\": \"Overtime Hours\",\n  \"description\": \"Overtime working hours at 1.5x rate\",\n  \"status\": 1,\n  \"effectiveDate\": \"2026-01-01\",\n  \"expirationDate\": null\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/api/v1/workforce-codes/create",
@@ -90,34 +90,6 @@
           "path": ["api", "v1", "workforce-codes", "create"]
         },
         "description": "Create an overtime workforce code"
-      },
-      "response": []
-    },
-    {
-      "name": "Create Workforce Code - Leave",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "key": "Authorization",
-            "value": "Bearer {{accessToken}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"codeType\": \"LEAVE\",\n  \"codeId\": 200,\n  \"shortCodeValue\": \"VAC\",\n  \"longCodeValue\": \"Vacation Leave\",\n  \"description\": \"Paid vacation time off\",\n  \"status\": 1,\n  \"effectiveDate\": \"2026-01-01\",\n  \"expirationDate\": null\n}"
-        },
-        "url": {
-          "raw": "{{baseUrl}}/api/v1/workforce-codes/create",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "v1", "workforce-codes", "create"]
-        },
-        "description": "Create a leave type workforce code"
       },
       "response": []
     },
@@ -139,28 +111,10 @@
         },
         "description": "Get all workforce codes"
       },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Response is an array\", function () {",
-              "    var jsonData = pm.response.json();",
-              "    pm.expect(jsonData).to.be.an('array');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
+      "response": []
     },
     {
-      "name": "Get Workforce Codes by Code Type",
+      "name": "Get Workforce Codes by Code Type ID",
       "request": {
         "method": "GET",
         "header": [
@@ -171,39 +125,19 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/api/v1/workforce-codes?codeType=WORK",
+          "raw": "{{baseUrl}}/api/v1/workforce-codes?codeTypeId=1",
           "host": ["{{baseUrl}}"],
           "path": ["api", "v1", "workforce-codes"],
           "query": [
             {
-              "key": "codeType",
-              "value": "WORK"
+              "key": "codeTypeId",
+              "value": "1"
             }
           ]
         },
-        "description": "Get workforce codes filtered by code type"
+        "description": "Get workforce codes filtered by code type ID"
       },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"All results have codeType WORK\", function () {",
-              "    var jsonData = pm.response.json();",
-              "    jsonData.forEach(function(item) {",
-              "        pm.expect(item.codeType).to.eql(\"WORK\");",
-              "    });",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
+      "response": []
     },
     {
       "name": "Get Workforce Codes by Status",
@@ -232,7 +166,7 @@
       "response": []
     },
     {
-      "name": "Get Workforce Codes by Type and Status",
+      "name": "Get Workforce Codes by Type ID and Status",
       "request": {
         "method": "GET",
         "header": [
@@ -243,13 +177,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/api/v1/workforce-codes?codeType=WORK&status=1",
+          "raw": "{{baseUrl}}/api/v1/workforce-codes?codeTypeId=1&status=1",
           "host": ["{{baseUrl}}"],
           "path": ["api", "v1", "workforce-codes"],
           "query": [
             {
-              "key": "codeType",
-              "value": "WORK"
+              "key": "codeTypeId",
+              "value": "1"
             },
             {
               "key": "status",
@@ -257,7 +191,7 @@
             }
           ]
         },
-        "description": "Get workforce codes filtered by both code type and status"
+        "description": "Get workforce codes filtered by both code type ID and status"
       },
       "response": []
     },
@@ -279,25 +213,7 @@
         },
         "description": "Get a specific workforce code by ID"
       },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Response has correct workforceCodesId\", function () {",
-              "    var jsonData = pm.response.json();",
-              "    pm.expect(jsonData.workforceCodesId).to.eql(parseInt(pm.collectionVariables.get(\"workforceCodeId\")));",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
+      "response": []
     },
     {
       "name": "Update Workforce Code",
@@ -316,7 +232,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"codeType\": \"WORK\",\n  \"codeId\": 100,\n  \"shortCodeValue\": \"REG\",\n  \"longCodeValue\": \"Regular Working Hours\",\n  \"description\": \"Standard regular working hours - Updated\",\n  \"status\": 1,\n  \"effectiveDate\": \"2026-01-01\",\n  \"expirationDate\": null\n}"
+          "raw": "{\n  \"codeTypeId\": 1,\n  \"codeId\": 100,\n  \"shortCodeValue\": \"REG\",\n  \"longCodeValue\": \"Regular Working Hours\",\n  \"description\": \"Standard regular working hours - Updated\",\n  \"status\": 1,\n  \"effectiveDate\": \"2026-01-01\",\n  \"expirationDate\": null\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/api/v1/workforce-codes/{{workforceCodeId}}",
@@ -325,25 +241,7 @@
         },
         "description": "Update an existing workforce code"
       },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Description is updated\", function () {",
-              "    var jsonData = pm.response.json();",
-              "    pm.expect(jsonData.description).to.include(\"Updated\");",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
+      "response": []
     },
     {
       "name": "Get Workforce Codes Count",
@@ -363,58 +261,7 @@
         },
         "description": "Get total count of workforce codes"
       },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Response is a number\", function () {",
-              "    var jsonData = pm.response.json();",
-              "    pm.expect(jsonData).to.be.a('number');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
-    },
-    {
-      "name": "Check Workforce Code Exists",
-      "request": {
-        "method": "HEAD",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{accessToken}}",
-            "type": "text"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/api/v1/workforce-codes/{{workforceCodeId}}",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "v1", "workforce-codes", "{{workforceCodeId}}"]
-        },
-        "description": "Check if a workforce code exists by ID"
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200 (exists)\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
+      "response": []
     },
     {
       "name": "Delete Workforce Code",
@@ -434,20 +281,7 @@
         },
         "description": "Delete a workforce code by ID"
       },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 204\", function () {",
-              "    pm.response.to.have.status(204);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
+      "response": []
     }
   ]
 }

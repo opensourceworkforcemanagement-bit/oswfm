@@ -24,11 +24,17 @@ public class WorkforceCodes {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "code_type", nullable = false, length = 50)
-    private String codeType;
+    @Column(name = "code_type_id", nullable = false)
+    private Integer codeTypeId;
 
     @Column(name = "code_id", nullable = false)
     private Long codeId;
+
+    @Column(name = "prefix", length = 10)
+    private String prefix;
+
+    @Column(name = "suffix", length = 10)
+    private String suffix;
 
     @Column(name = "short_code_value", nullable = false, length = 10)
     private String shortCodeValue;

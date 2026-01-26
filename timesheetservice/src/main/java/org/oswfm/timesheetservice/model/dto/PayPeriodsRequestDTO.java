@@ -21,4 +21,10 @@ public class PayPeriodsRequestDTO {
     @NotNull
     private LocalDate endDate;
 
+    @NotNull
+    private Integer year;
+
+    @NotNull
+    private Integer periodNumber;
+
 }

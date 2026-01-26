@@ -28,4 +28,10 @@ public class PayPeriods {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
+    @Column(name = "year", nullable = false)
+    private Integer year;
+
+    @Column(name = "period_number", nullable = false)
+    private Integer periodNumber;
+
 }

@@ -55,15 +55,15 @@ public class WorkforceCodesController {
      */
     @GetMapping
     public ResponseEntity<List<WorkforceCodesResponseDTO>> getAll(
-            @RequestParam(required = false) String codeType,
+            @RequestParam(required = false) Integer codeTypeId,
             @RequestParam(required = false) Integer status) {
 
         List<WorkforceCodesResponseDTO> list;
 
-        if (codeType != null && status != null) {
-            list = service.getByCodeTypeAndStatus(codeType, status);
-        } else if (codeType != null) {
-            list = service.getByCodeType(codeType);
+        if (codeTypeId != null && status != null) {
+            list = service.getByCodeTypeIdAndStatus(codeTypeId, status);
+        } else if (codeTypeId != null) {
+            list = service.getByCodeTypeId(codeTypeId);
         } else if (status != null) {
             list = service.getByStatus(status);
         } else {

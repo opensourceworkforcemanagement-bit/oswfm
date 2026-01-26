@@ -17,13 +17,16 @@ CREATE TABLE pay_periods (
     pay_period_id  SERIAL PRIMARY KEY,
     pay_period_type_id INTEGER NOT NULL REFERENCES pay_period_types(pay_period_type_id),
     start_date DATE NOT NULL,
-    end_date DATE NOT NULL
+    end_date DATE NOT NULL,
+    year INTEGER NOT NULL,
+    period_number INTEGER NOT NULL
 );
 -- Index for faster queries
 CREATE UNIQUE INDEX idx_unique_pay_period ON pay_periods(start_date, end_date);
 CREATE INDEX idx_pay_periods_start_date ON pay_periods(start_date);
 CREATE INDEX idx_pay_periods_end_date ON pay_periods(end_date);
 CREATE INDEX idx_pay_periods_pay_period_id ON pay_periods(pay_period_id);
+CREATE INDEX idx_pay_periods_pay_period_type_id ON pay_periods(pay_period_type_id);
 
 -- Timesheet related tables
 CREATE TABLE timesheet (

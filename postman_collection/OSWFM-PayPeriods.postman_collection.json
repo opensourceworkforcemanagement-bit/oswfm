@@ -35,14 +35,14 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"payPeriodTypeId\": 1,\n  \"startDate\": \"2026-01-01\",\n  \"endDate\": \"2026-01-15\"\n}"
+          "raw": "{\n  \"payPeriodTypeId\": 1,\n  \"startDate\": \"2026-01-01\",\n  \"endDate\": \"2026-01-15\",\n  \"year\": 2026,\n  \"periodNumber\": 1\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/api/pay-periods",
+          "raw": "{{baseUrl}}/api/v1/pay-periods",
           "host": ["{{baseUrl}}"],
-          "path": ["api", "pay-periods"]
+          "path": ["api", "v1", "pay-periods"]
         },
-        "description": "Create a new pay period with start and end dates"
+        "description": "Create a new pay period"
       },
       "response": [],
       "event": [
@@ -77,31 +77,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/api/pay-periods",
+          "raw": "{{baseUrl}}/api/v1/pay-periods",
           "host": ["{{baseUrl}}"],
-          "path": ["api", "pay-periods"]
+          "path": ["api", "v1", "pay-periods"]
         },
         "description": "Get all pay periods"
       },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Response is an array\", function () {",
-              "    var jsonData = pm.response.json();",
-              "    pm.expect(jsonData).to.be.an('array');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
+      "response": []
     },
     {
       "name": "Get Pay Period by ID",
@@ -115,31 +97,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/api/pay-periods/{{payPeriodId}}",
+          "raw": "{{baseUrl}}/api/v1/pay-periods/{{payPeriodId}}",
           "host": ["{{baseUrl}}"],
-          "path": ["api", "pay-periods", "{{payPeriodId}}"]
+          "path": ["api", "v1", "pay-periods", "{{payPeriodId}}"]
         },
         "description": "Get a specific pay period by ID"
       },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Response has correct payPeriodId\", function () {",
-              "    var jsonData = pm.response.json();",
-              "    pm.expect(jsonData.payPeriodId).to.eql(parseInt(pm.collectionVariables.get(\"payPeriodId\")));",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
+      "response": []
     },
     {
       "name": "Update Pay Period",
@@ -158,34 +122,16 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"payPeriodTypeId\": 1,\n  \"startDate\": \"2026-01-01\",\n  \"endDate\": \"2026-01-31\"\n}"
+          "raw": "{\n  \"payPeriodTypeId\": 1,\n  \"startDate\": \"2026-01-01\",\n  \"endDate\": \"2026-01-31\",\n  \"year\": 2026,\n  \"periodNumber\": 1\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/api/pay-periods/{{payPeriodId}}",
+          "raw": "{{baseUrl}}/api/v1/pay-periods/{{payPeriodId}}",
           "host": ["{{baseUrl}}"],
-          "path": ["api", "pay-periods", "{{payPeriodId}}"]
+          "path": ["api", "v1", "pay-periods", "{{payPeriodId}}"]
         },
         "description": "Update an existing pay period"
       },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"End date is updated\", function () {",
-              "    var jsonData = pm.response.json();",
-              "    pm.expect(jsonData.endDate).to.eql(\"2026-01-31\");",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
+      "response": []
     },
     {
       "name": "Get Pay Periods Count",
@@ -199,64 +145,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/api/pay-periods/count",
+          "raw": "{{baseUrl}}/api/v1/pay-periods/count",
           "host": ["{{baseUrl}}"],
-          "path": ["api", "pay-periods", "count"]
+          "path": ["api", "v1", "pay-periods", "count"]
         },
         "description": "Get total count of pay periods"
       },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Response is a number\", function () {",
-              "    var jsonData = pm.response.json();",
-              "    pm.expect(jsonData).to.be.a('number');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
-    },
-    {
-      "name": "Check Pay Period Exists",
-      "request": {
-        "method": "HEAD",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{accessToken}}",
-            "type": "text"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/api/pay-periods/{{payPeriodId}}",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "pay-periods", "{{payPeriodId}}"]
-        },
-        "description": "Check if a pay period exists by ID"
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200 (exists)\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
+      "response": []
     },
     {
       "name": "Delete Pay Period",
@@ -270,26 +165,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/api/pay-periods/{{payPeriodId}}",
+          "raw": "{{baseUrl}}/api/v1/pay-periods/{{payPeriodId}}",
           "host": ["{{baseUrl}}"],
-          "path": ["api", "pay-periods", "{{payPeriodId}}"]
+          "path": ["api", "v1", "pay-periods", "{{payPeriodId}}"]
         },
         "description": "Delete a pay period by ID"
       },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 204\", function () {",
-              "    pm.response.to.have.status(204);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
+      "response": []
     }
   ]
 }

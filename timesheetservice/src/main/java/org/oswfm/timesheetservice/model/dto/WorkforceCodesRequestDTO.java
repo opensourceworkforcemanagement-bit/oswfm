@@ -14,13 +14,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class WorkforceCodesRequestDTO {
 
-    @NotNull(message = "Code type is required")
-    @NotBlank(message = "Code type cannot be blank")
-    @Size(max = 50, message = "Code type cannot exceed 50 characters")
-    private String codeType;
+    @NotNull(message = "Code type ID is required")
+    private Integer codeTypeId;
 
     @NotNull(message = "Code ID is required")
     private Long codeId;
+
+    @Size(max = 10, message = "Prefix cannot exceed 10 characters")
+    private String prefix;
+
+    @Size(max = 10, message = "Suffix cannot exceed 10 characters")
+    private String suffix;
 
     @NotNull(message = "Short code value is required")
     @NotBlank(message = "Short code value cannot be blank")

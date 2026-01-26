@@ -19,4 +19,8 @@ public class PayPeriodsResponseDTO {
 
     private LocalDate endDate;
 
+    private Integer year;
+
+    private Integer periodNumber;
+
 }

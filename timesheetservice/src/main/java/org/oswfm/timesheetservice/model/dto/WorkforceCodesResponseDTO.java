@@ -13,9 +13,13 @@ public class WorkforceCodesResponseDTO {
 
     private Long id;
 
-    private String codeType;
+    private Integer codeTypeId;
 
     private Long codeId;
+
+    private String prefix;
+
+    private String suffix;
 
     private String shortCodeValue;
 

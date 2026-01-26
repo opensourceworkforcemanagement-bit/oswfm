@@ -16,10 +16,21 @@ CREATE TABLE timesheet_entries_normalized  (
     CONSTRAINT fk_timesheet FOREIGN KEY (timesheet_normalized_id) REFERENCES timesheet_normalized(timesheet_normalized_id)
 );
 
+-- Workforce codes table
+-- code_type can be values like 'WORK_CODE', 'PROJECT_CODE', 'DEPARTMENT_CODE', 'LEAVE_CODE', 'PREMIUM_PAY_CODE', etc.
+--  
+CREATE TABLE code_types (
+    code_type_id SERIAL PRIMARY KEY,
+    code_type_name VARCHAR(50) UNIQUE NOT NULL,
+    description TEXT
+);
+
 CREATE TABLE workforce_codes (
     id SERIAL PRIMARY KEY,
-    code_type VARCHAR(50) NOT NULL,
     code_id INTEGER NOT NULL,
+    code_type_id INTEGER NOT NULL,
+    prefix VARCHAR(10),
+    suffix VARCHAR(10),
     short_code_value VARCHAR(10) NOT NULL,
     long_code_value VARCHAR(255) NOT NULL,
     description TEXT,
@@ -28,7 +39,7 @@ CREATE TABLE workforce_codes (
     expiration_date DATE
 );
 -- Index for faster queries
-CREATE INDEX idx_workforce_codes_code_type ON workforce_codes(code_type);
+CREATE INDEX idx_workforce_codes_code_type ON workforce_codes(code_type_id);
 CREATE INDEX idx_workforce_codes_code_id ON workforce_codes(code_id);
 CREATE INDEX idx_workforce_codes_status ON workforce_codes(status); 
 
