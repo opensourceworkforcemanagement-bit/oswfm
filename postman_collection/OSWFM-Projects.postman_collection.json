@@ -1,0 +1,197 @@
+{
+  "info": {
+    "_postman_id": "projects-collection",
+    "name": "OSWFM - Projects CRUD",
+    "description": "CRUD operations for Projects API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:9090",
+      "type": "string"
+    },
+    {
+      "key": "projectId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Project",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"projectName\": \"Website Redesign\",\n  \"projectCode\": \"WEB-2026\",\n  \"description\": \"Complete website redesign project\",\n  \"startDate\": \"2026-01-01\",\n  \"endDate\": \"2026-06-30\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/projects",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "projects"]
+        },
+        "description": "Create a new project"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Response has id\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.id).to.exist;",
+              "    pm.collectionVariables.set(\"projectId\", jsonData.id);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get All Projects",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/projects",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "projects"]
+        },
+        "description": "Get all projects"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Project by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/projects/{{projectId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "projects", "{{projectId}}"]
+        },
+        "description": "Get a specific project by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Project",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"projectName\": \"Website Redesign - Phase 2\",\n  \"projectCode\": \"WEB-2026\",\n  \"description\": \"Complete website redesign project - Phase 2\",\n  \"startDate\": \"2026-01-01\",\n  \"endDate\": \"2026-12-31\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/projects/{{projectId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "projects", "{{projectId}}"]
+        },
+        "description": "Update an existing project"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Projects Count",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/projects/count",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "projects", "count"]
+        },
+        "description": "Get total count of projects"
+      },
+      "response": []
+    },
+    {
+      "name": "Check Project Exists",
+      "request": {
+        "method": "HEAD",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/projects/{{projectId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "projects", "{{projectId}}"]
+        },
+        "description": "Check if a project exists by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Project",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/projects/{{projectId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "projects", "{{projectId}}"]
+        },
+        "description": "Delete a project by ID"
+      },
+      "response": []
+    }
+  ]
+}

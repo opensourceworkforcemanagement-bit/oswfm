@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class PolicyRule {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rule_id")
     private Integer  ruleId;
     

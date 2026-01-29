@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class Projects {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_id")
     private Integer  projectId;
 

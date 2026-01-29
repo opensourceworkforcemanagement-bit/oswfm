@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 public class RolePermissions {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_permission_id")
     private Integer  rolePermissionId;
 

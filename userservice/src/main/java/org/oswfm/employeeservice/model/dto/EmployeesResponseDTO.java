@@ -1,8 +1,8 @@
 package org.oswfm.employeeservice.model.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -22,5 +22,7 @@ public class EmployeesResponseDTO {
     private Integer  status;
 
     private String userName;
+    
+    private Integer userId;
 
 }

@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 public class EmployeesPreferences {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_preference_id")
     private Integer  employeePreferenceId;
 

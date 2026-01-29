@@ -15,7 +15,7 @@ import java.time.LocalTime;
 public class EmployeesAuditLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_audit_log_id")
     private Integer  employeeAuditLogId;
 

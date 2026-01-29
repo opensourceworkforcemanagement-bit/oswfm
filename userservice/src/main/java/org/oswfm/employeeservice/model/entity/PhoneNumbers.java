@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 public class PhoneNumbers {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "phone_number_id")
     private Integer  phoneNumberId;
 

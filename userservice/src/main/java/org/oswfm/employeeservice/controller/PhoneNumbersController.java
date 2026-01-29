@@ -12,8 +12,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/phone-numbers")
-@CrossOrigin(origins = "*")
+@RequestMapping("/api/v1/phone-numbers")
 public class PhoneNumbersController {
 
     @Autowired

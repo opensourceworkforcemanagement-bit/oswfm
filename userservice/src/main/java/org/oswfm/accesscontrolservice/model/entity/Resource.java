@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 public class Resource {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "resource_id")
     private Integer  resourceId;
     

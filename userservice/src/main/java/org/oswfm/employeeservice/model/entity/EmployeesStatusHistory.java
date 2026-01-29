@@ -15,7 +15,7 @@ import java.time.LocalTime;
 public class EmployeesStatusHistory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_status_history_id")
     private Integer  employeeStatusHistoryId;
 

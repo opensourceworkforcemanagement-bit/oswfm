@@ -1,0 +1,329 @@
+{
+  "info": {
+    "_postman_id": "code-types-collection",
+    "name": "OSWFM - Code Types CRUD",
+    "description": "CRUD operations for Code Types API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:1110",
+      "type": "string"
+    },
+    {
+      "key": "codeTypeId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Code Type - Work Code",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"codeTypeName\": \"WORK_CODE\",\n  \"description\": \"Work codes for timesheet entries\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/code-types/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "code-types", "create"]
+        },
+        "description": "Create a new code type for work codes"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Response has codeTypeId\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.codeTypeId).to.exist;",
+              "    pm.collectionVariables.set(\"codeTypeId\", jsonData.codeTypeId);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Code Type - Project Code",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"codeTypeName\": \"PROJECT_CODE\",\n  \"description\": \"Project codes for tracking project hours\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/code-types/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "code-types", "create"]
+        },
+        "description": "Create a new code type for project codes"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Code Type - Department Code",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"codeTypeName\": \"DEPARTMENT_CODE\",\n  \"description\": \"Department codes for organizational tracking\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/code-types/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "code-types", "create"]
+        },
+        "description": "Create a new code type for department codes"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Code Type - Leave Code",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"codeTypeName\": \"LEAVE_CODE\",\n  \"description\": \"Leave codes for vacation, sick, PTO tracking\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/code-types/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "code-types", "create"]
+        },
+        "description": "Create a new code type for leave codes"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Code Type - Premium Pay Code",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"codeTypeName\": \"PREMIUM_PAY_CODE\",\n  \"description\": \"Premium pay codes for overtime, night differential, etc.\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/code-types/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "code-types", "create"]
+        },
+        "description": "Create a new code type for premium pay codes"
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Code Types",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/code-types",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "code-types"]
+        },
+        "description": "Get all code types"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Code Type by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/code-types/{{codeTypeId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "code-types", "{{codeTypeId}}"]
+        },
+        "description": "Get a specific code type by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Code Type by Name",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/code-types/name/WORK_CODE",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "code-types", "name", "WORK_CODE"]
+        },
+        "description": "Get a specific code type by name"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Code Type",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"codeTypeName\": \"WORK_CODE\",\n  \"description\": \"Work codes for timesheet entries - Updated description\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/code-types/{{codeTypeId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "code-types", "{{codeTypeId}}"]
+        },
+        "description": "Update an existing code type"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Code Types Count",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/code-types/count",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "code-types", "count"]
+        },
+        "description": "Get total count of code types"
+      },
+      "response": []
+    },
+    {
+      "name": "Check Code Type Exists",
+      "request": {
+        "method": "HEAD",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/code-types/{{codeTypeId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "code-types", "{{codeTypeId}}"]
+        },
+        "description": "Check if a code type exists by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Code Type",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/code-types/{{codeTypeId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "code-types", "{{codeTypeId}}"]
+        },
+        "description": "Delete a code type by ID"
+      },
+      "response": []
+    }
+  ]
+}

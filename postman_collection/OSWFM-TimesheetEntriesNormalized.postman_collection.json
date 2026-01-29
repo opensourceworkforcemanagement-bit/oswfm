@@ -1,0 +1,301 @@
+{
+  "info": {
+    "_postman_id": "timesheet-entries-normalized-collection",
+    "name": "OSWFM - Timesheet Entries Normalized CRUD",
+    "description": "CRUD operations for Timesheet Entries Normalized API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:1110",
+      "type": "string"
+    },
+    {
+      "key": "timesheetEntriesId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "timesheetNormalizedId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "workforceCodeId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Timesheet Entry Normalized",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"timesheetNormalizedId\": 1,\n  \"workforceCodeIds\": [1, 2]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entries-normalized/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entries-normalized", "create"]
+        },
+        "description": "Create a new normalized timesheet entry with associated workforce codes"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Response has timesheetEntriesId\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.timesheetEntriesId).to.exist;",
+              "    pm.collectionVariables.set(\"timesheetEntriesId\", jsonData.timesheetEntriesId);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Timesheet Entry - No Codes",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"timesheetNormalizedId\": 1\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entries-normalized/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entries-normalized", "create"]
+        },
+        "description": "Create a normalized timesheet entry without workforce codes"
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Timesheet Entries Normalized",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entries-normalized",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entries-normalized"]
+        },
+        "description": "Get all normalized timesheet entries"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Entries by Timesheet Normalized ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entries-normalized?timesheetNormalizedId={{timesheetNormalizedId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entries-normalized"],
+          "query": [
+            {
+              "key": "timesheetNormalizedId",
+              "value": "{{timesheetNormalizedId}}"
+            }
+          ]
+        },
+        "description": "Get normalized entries filtered by timesheet normalized ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Timesheet Entry Normalized by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entries-normalized/{{timesheetEntriesId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entries-normalized", "{{timesheetEntriesId}}"]
+        },
+        "description": "Get a specific normalized timesheet entry by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Timesheet Entry Normalized",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"timesheetNormalizedId\": 1,\n  \"workforceCodeIds\": [1, 2, 3]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entries-normalized/{{timesheetEntriesId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entries-normalized", "{{timesheetEntriesId}}"]
+        },
+        "description": "Update an existing normalized timesheet entry"
+      },
+      "response": []
+    },
+    {
+      "name": "Add Workforce Code to Entry",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entries-normalized/{{timesheetEntriesId}}/workforce-codes/{{workforceCodeId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entries-normalized", "{{timesheetEntriesId}}", "workforce-codes", "{{workforceCodeId}}"]
+        },
+        "description": "Add a workforce code to an existing timesheet entry"
+      },
+      "response": []
+    },
+    {
+      "name": "Remove Workforce Code from Entry",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entries-normalized/{{timesheetEntriesId}}/workforce-codes/{{workforceCodeId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entries-normalized", "{{timesheetEntriesId}}", "workforce-codes", "{{workforceCodeId}}"]
+        },
+        "description": "Remove a workforce code from an existing timesheet entry"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Timesheet Entries Normalized Count",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entries-normalized/count",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entries-normalized", "count"]
+        },
+        "description": "Get total count of normalized timesheet entries"
+      },
+      "response": []
+    },
+    {
+      "name": "Check Timesheet Entry Normalized Exists",
+      "request": {
+        "method": "HEAD",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entries-normalized/{{timesheetEntriesId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entries-normalized", "{{timesheetEntriesId}}"]
+        },
+        "description": "Check if a normalized timesheet entry exists by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Timesheet Entry Normalized",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entries-normalized/{{timesheetEntriesId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entries-normalized", "{{timesheetEntriesId}}"]
+        },
+        "description": "Delete a normalized timesheet entry by ID"
+      },
+      "response": []
+    }
+  ]
+}

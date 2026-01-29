@@ -20,6 +20,7 @@ public class EmployeesMapper {
         entity.setLastName(dto.getLastName());
         entity.setStatus(dto.getStatus());
         entity.setUserName(dto.getUserName());
+        entity.setUserId(dto.getUserId());
         return entity;
     }
 
@@ -36,6 +37,7 @@ public class EmployeesMapper {
         dto.setLastName(entity.getLastName());
         dto.setStatus(entity.getStatus());
         dto.setUserName(entity.getUserName());
+        dto.setUserId(entity.getUserId());
         return dto;
     }
 
@@ -50,5 +52,6 @@ public class EmployeesMapper {
         entity.setLastName(dto.getLastName());
         entity.setStatus(dto.getStatus());
         entity.setUserName(dto.getUserName());
+        entity.setUserId(dto.getUserId());
     }
 }

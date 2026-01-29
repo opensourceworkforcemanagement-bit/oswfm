@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 public class EmployeesSsn {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_ssn_id")
     private Integer  employeeSsnId;
 

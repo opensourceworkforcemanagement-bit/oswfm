@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class PolicyResourceTarget {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "target_id")
     private Integer  targetId;
     

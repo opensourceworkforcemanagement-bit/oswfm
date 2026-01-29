@@ -1,0 +1,392 @@
+{
+  "info": {
+    "_postman_id": "timesheet-entry-minutes-collection",
+    "name": "OSWFM - Timesheet Entry Minutes CRUD",
+    "description": "CRUD operations for Timesheet Entry Minutes API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:1110",
+      "type": "string"
+    },
+    {
+      "key": "entryMinutesId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "timesheetEntriesId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Entry Minutes - Monday",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"timesheetEntriesId\": 1,\n  \"minutes\": 480.00,\n  \"dayOfWeek\": \"1\",\n  \"date\": \"2026-01-27\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-minutes/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-minutes", "create"]
+        },
+        "description": "Create entry minutes for Monday (480 min = 8 hours)"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Response has id\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.id).to.exist;",
+              "    pm.collectionVariables.set(\"entryMinutesId\", jsonData.id);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Entry Minutes - Tuesday",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"timesheetEntriesId\": 1,\n  \"minutes\": 480.00,\n  \"dayOfWeek\": \"2\",\n  \"date\": \"2026-01-28\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-minutes/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-minutes", "create"]
+        },
+        "description": "Create entry minutes for Tuesday (480 min = 8 hours)"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Entry Minutes - Half Day",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"timesheetEntriesId\": 1,\n  \"minutes\": 240.00,\n  \"dayOfWeek\": \"5\",\n  \"date\": \"2026-01-31\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-minutes/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-minutes", "create"]
+        },
+        "description": "Create entry minutes for Friday half day (240 min = 4 hours)"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Entry Minutes - Batch",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "[\n  {\n    \"timesheetEntriesId\": 1,\n    \"minutes\": 480.00,\n    \"dayOfWeek\": \"0\",\n    \"date\": \"2026-01-25\"\n  },\n  {\n    \"timesheetEntriesId\": 1,\n    \"minutes\": 480.00,\n    \"dayOfWeek\": \"1\",\n    \"date\": \"2026-01-26\"\n  },\n  {\n    \"timesheetEntriesId\": 1,\n    \"minutes\": 480.00,\n    \"dayOfWeek\": \"2\",\n    \"date\": \"2026-01-27\"\n  },\n  {\n    \"timesheetEntriesId\": 1,\n    \"minutes\": 480.00,\n    \"dayOfWeek\": \"3\",\n    \"date\": \"2026-01-28\"\n  },\n  {\n    \"timesheetEntriesId\": 1,\n    \"minutes\": 480.00,\n    \"dayOfWeek\": \"4\",\n    \"date\": \"2026-01-29\"\n  }\n]"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-minutes/batch",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-minutes", "batch"]
+        },
+        "description": "Create multiple entry minutes in a single batch request"
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Entry Minutes",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-minutes",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-minutes"]
+        },
+        "description": "Get all timesheet entry minutes"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Entry Minutes by Timesheet Entries ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-minutes?timesheetEntriesId={{timesheetEntriesId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-minutes"],
+          "query": [
+            {
+              "key": "timesheetEntriesId",
+              "value": "{{timesheetEntriesId}}"
+            }
+          ]
+        },
+        "description": "Get entry minutes filtered by timesheet entries ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Entry Minutes by Day of Week",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-minutes?timesheetEntriesId={{timesheetEntriesId}}&dayOfWeek=1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-minutes"],
+          "query": [
+            {
+              "key": "timesheetEntriesId",
+              "value": "{{timesheetEntriesId}}"
+            },
+            {
+              "key": "dayOfWeek",
+              "value": "1"
+            }
+          ]
+        },
+        "description": "Get entry minutes filtered by timesheet entries ID and day of week"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Entry Minutes by Date",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-minutes?timesheetEntriesId={{timesheetEntriesId}}&date=2026-01-27",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-minutes"],
+          "query": [
+            {
+              "key": "timesheetEntriesId",
+              "value": "{{timesheetEntriesId}}"
+            },
+            {
+              "key": "date",
+              "value": "2026-01-27"
+            }
+          ]
+        },
+        "description": "Get entry minutes filtered by timesheet entries ID and date"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Entry Minutes by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-minutes/{{entryMinutesId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-minutes", "{{entryMinutesId}}"]
+        },
+        "description": "Get a specific entry minutes by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Entry Minutes",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"timesheetEntriesId\": 1,\n  \"minutes\": 540.00,\n  \"dayOfWeek\": \"1\",\n  \"date\": \"2026-01-27\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-minutes/{{entryMinutesId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-minutes", "{{entryMinutesId}}"]
+        },
+        "description": "Update an existing entry minutes (540 min = 9 hours)"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Entry Minutes Count",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-minutes/count",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-minutes", "count"]
+        },
+        "description": "Get total count of entry minutes"
+      },
+      "response": []
+    },
+    {
+      "name": "Check Entry Minutes Exists",
+      "request": {
+        "method": "HEAD",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-minutes/{{entryMinutesId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-minutes", "{{entryMinutesId}}"]
+        },
+        "description": "Check if entry minutes exists by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Entry Minutes",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-minutes/{{entryMinutesId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-minutes", "{{entryMinutesId}}"]
+        },
+        "description": "Delete an entry minutes by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete All Minutes for Entry",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-minutes/entry/{{timesheetEntriesId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-minutes", "entry", "{{timesheetEntriesId}}"]
+        },
+        "description": "Delete all minutes associated with a timesheet entry"
+      },
+      "response": []
+    }
+  ]
+}

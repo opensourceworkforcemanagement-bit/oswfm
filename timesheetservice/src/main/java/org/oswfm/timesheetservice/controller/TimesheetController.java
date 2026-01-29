@@ -32,7 +32,7 @@ public class TimesheetController {
      * Create a new Timesheet
      * POST /api/timesheet
      */
-    @PostMapping
+    @PostMapping("/create")
     //@PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<TimesheetResponseDTO> create(@Valid @RequestBody TimesheetRequestDTO requestDTO) {
         TimesheetResponseDTO created = service.create(requestDTO);

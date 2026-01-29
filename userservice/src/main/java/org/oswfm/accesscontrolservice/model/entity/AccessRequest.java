@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 public class AccessRequest {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "request_id")
     private Integer  requestId;
     

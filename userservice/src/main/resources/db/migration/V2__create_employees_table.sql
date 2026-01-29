@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS employees (
 	employee_id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES oswfm_users(user_id),
 	employee_identifier varchar(255) NOT NULL,
 	first_name varchar(255) NULL,
     middle_name varchar(255) NULL,

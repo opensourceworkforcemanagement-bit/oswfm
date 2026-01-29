@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 public class ResourceAttribute {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "resource_attr_id")
     private Integer  resourceAttrId;
     

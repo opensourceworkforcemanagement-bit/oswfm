@@ -68,7 +68,8 @@ public class CustomBearerTokenAuthenticationFilter extends OncePerRequestFilter 
             
             // Extract claims
             Jws<Claims> claims = tokenService.getClaims(token);
-            String userId = claims.getPayload().get("userId", String.class);
+            Integer userIdInt = claims.getPayload().get("userId", Integer.class);
+            String userId = userIdInt != null ? userIdInt.toString() : null;
 
             final String tokenId = tokenService.getId(jwt);
             invalidTokenService.checkForInvalidityOfToken(tokenId);

@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class Action {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "action_id")
     private Integer  actionId;
     

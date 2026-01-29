@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 public class EmployeesEmergencyContactEmails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "emergency_contact_email_id")
     private Integer  emergencyContactEmailId;
 

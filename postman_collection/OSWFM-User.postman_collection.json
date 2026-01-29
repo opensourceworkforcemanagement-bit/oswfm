@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "d8c387f5-fc46-4eea-be65-37c12f997f71",
-		"name": "Spring Boot Microservices with JWT Example",
+		"_postman_id": "User-collection",
+		"name": "OSWFM - User CRUD",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "5570426"
+		"description": "CRUD operations for User API"
 	},
 	"item": [
 		{

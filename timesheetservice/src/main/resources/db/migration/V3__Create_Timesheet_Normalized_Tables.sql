@@ -46,7 +46,7 @@ CREATE INDEX idx_workforce_codes_status ON workforce_codes(status);
 -- Codes associated with timesheet entries
 CREATE TABLE timesheet_entry_codes (
     timesheet_entries_id INTEGER NOT NULL,
-    workforce_codes_id INTEGER NOT NULL,
+    workforce_codes_id INTEGER NOT NULL, 
     PRIMARY KEY (timesheet_entries_id, workforce_codes_id),
     CONSTRAINT fk_timesheet_entry_codes_workforce FOREIGN KEY (workforce_codes_id)
         REFERENCES workforce_codes(id) ON DELETE CASCADE,
@@ -69,11 +69,3 @@ CREATE TABLE timesheet_entry_minutes (
 CREATE INDEX idx_timesheet_entries_normalized_timesheet_normalized_id ON timesheet_entries_normalized(timesheet_normalized_id);
 CREATE INDEX idx_timesheet_entry_codes_workforce_id ON timesheet_entry_codes(workforce_codes_id);
 CREATE INDEX idx_timesheet_entry_minutes_entry_id ON timesheet_entry_minutes(timesheet_entries_id);
-
-
--- Sample data (optional)
--- INSERT INTO timesheet_entries (timesheet_id) VALUES (1);
--- INSERT INTO timesheet_entry_codes (timesheet_entries_id, code_type, code_id, code_value) 
---     VALUES (1, 'WORK_CODE', 101, 'Development');
--- INSERT INTO timesheet_entry_minutes (timesheet_entries_id, date, minutes) 
---     VALUES (1, '2025-01-06', 8.0);

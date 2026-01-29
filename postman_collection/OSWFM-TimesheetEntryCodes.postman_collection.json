@@ -1,0 +1,302 @@
+{
+  "info": {
+    "_postman_id": "timesheet-entry-codes-collection",
+    "name": "OSWFM - Timesheet Entry Codes CRUD",
+    "description": "CRUD operations for Timesheet Entry Codes (Junction Table) API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:1110",
+      "type": "string"
+    },
+    {
+      "key": "timesheetEntriesId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "workforceCodesId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Entry Code Association",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"timesheetEntriesId\": 1,\n  \"workforceCodesId\": 1\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-codes/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-codes", "create"]
+        },
+        "description": "Create an association between a timesheet entry and a workforce code"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Response has IDs\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.timesheetEntriesId).to.exist;",
+              "    pm.expect(jsonData.workforceCodesId).to.exist;",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Entry Code - Second Association",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"timesheetEntriesId\": 1,\n  \"workforceCodesId\": 2\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-codes/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-codes", "create"]
+        },
+        "description": "Create another association with a different workforce code"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Entry Code - Different Entry",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"timesheetEntriesId\": 2,\n  \"workforceCodesId\": 1\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-codes/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-codes", "create"]
+        },
+        "description": "Create an association for a different timesheet entry"
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Entry Codes",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-codes",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-codes"]
+        },
+        "description": "Get all timesheet entry code associations"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Entry Codes by Timesheet Entries ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-codes?timesheetEntriesId={{timesheetEntriesId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-codes"],
+          "query": [
+            {
+              "key": "timesheetEntriesId",
+              "value": "{{timesheetEntriesId}}"
+            }
+          ]
+        },
+        "description": "Get all codes associated with a specific timesheet entry"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Entry Codes by Workforce Codes ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-codes?workforceCodesId={{workforceCodesId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-codes"],
+          "query": [
+            {
+              "key": "workforceCodesId",
+              "value": "{{workforceCodesId}}"
+            }
+          ]
+        },
+        "description": "Get all timesheet entries associated with a specific workforce code"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Entry Code by Composite ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-codes/{{timesheetEntriesId}}/{{workforceCodesId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-codes", "{{timesheetEntriesId}}", "{{workforceCodesId}}"]
+        },
+        "description": "Get a specific entry code association by composite ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Entry Codes Count",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-codes/count",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-codes", "count"]
+        },
+        "description": "Get total count of entry code associations"
+      },
+      "response": []
+    },
+    {
+      "name": "Check Entry Code Association Exists",
+      "request": {
+        "method": "HEAD",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-codes/{{timesheetEntriesId}}/{{workforceCodesId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-codes", "{{timesheetEntriesId}}", "{{workforceCodesId}}"]
+        },
+        "description": "Check if an association exists between entry and code"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Entry Code Association",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-codes/{{timesheetEntriesId}}/{{workforceCodesId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-codes", "{{timesheetEntriesId}}", "{{workforceCodesId}}"]
+        },
+        "description": "Delete an association between entry and code"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete All Codes for Entry",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entry-codes/entry/{{timesheetEntriesId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entry-codes", "entry", "{{timesheetEntriesId}}"]
+        },
+        "description": "Delete all code associations for a specific timesheet entry"
+      },
+      "response": []
+    }
+  ]
+}

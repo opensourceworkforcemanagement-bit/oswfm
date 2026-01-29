@@ -1,0 +1,757 @@
+{
+  "info": {
+    "_postman_id": "employee-service-collection",
+    "name": "OSWFM - Employee Service CRUD",
+    "description": "CRUD operations for all Employee Service APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:9090",
+      "type": "string"
+    },
+    {
+      "key": "entityId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Employees",
+      "item": [
+        {
+          "name": "Create Employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeIdentifier\": \"EMP001\",\n  \"firstName\": \"John\",\n  \"middleName\": \"Michael\",\n  \"lastName\": \"Doe\",\n  \"status\": 1,\n  \"userName\": \"jdoe\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/employees/create",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "employees", "create"]
+            },
+            "description": "Create a new employee"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has id\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.id).to.exist;",
+                  "    pm.collectionVariables.set(\"entityId\", jsonData.id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get All Employees",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/employees",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "employees"]
+            },
+            "description": "Get all employees"
+          }
+        },
+        {
+          "name": "Get Employee by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/employees/{{entityId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "employees", "{{entityId}}"]
+            },
+            "description": "Get a specific employee by ID"
+          }
+        },
+        {
+          "name": "Update Employee",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeIdentifier\": \"EMP001\",\n  \"firstName\": \"John\",\n  \"middleName\": \"Michael\",\n  \"lastName\": \"Doe-Updated\",\n  \"status\": 1,\n  \"userName\": \"jdoe\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/employees/{{entityId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "employees", "{{entityId}}"]
+            },
+            "description": "Update an existing employee"
+          }
+        },
+        {
+          "name": "Get Employees Count",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/employees/count",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "employees", "count"]
+            },
+            "description": "Get total count of employees"
+          }
+        },
+        {
+          "name": "Check Employee Exists",
+          "request": {
+            "method": "HEAD",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/employees/{{entityId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "employees", "{{entityId}}"]
+            },
+            "description": "Check if an employee exists by ID"
+          }
+        },
+        {
+          "name": "Delete Employee",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/employees/{{entityId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "employees", "{{entityId}}"]
+            },
+            "description": "Delete an employee by ID"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Email Addresses",
+      "item": [
+        {
+          "name": "Create Email Address",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"john.doe@example.com\",\n  \"emailType\": \"WORK\",\n  \"isPrimary\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/email-addresses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "email-addresses"]
+            }
+          }
+        },
+        {
+          "name": "Get All Email Addresses",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/email-addresses", "host": ["{{baseUrl}}"], "path": ["api", "v1", "email-addresses"]}
+          }
+        },
+        {
+          "name": "Get Email Address by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/email-addresses/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "email-addresses", "{{entityId}}"]}
+          }
+        },
+        {
+          "name": "Update Email Address",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"emailAddress\": \"john.doe.updated@example.com\",\n  \"emailType\": \"WORK\",\n  \"isPrimary\": true\n}"},
+            "url": {"raw": "{{baseUrl}}/api/v1/email-addresses/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "email-addresses", "{{entityId}}"]}
+          }
+        },
+        {
+          "name": "Delete Email Address",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/email-addresses/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "email-addresses", "{{entityId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phone Numbers",
+      "item": [
+        {
+          "name": "Create Phone Number",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"phoneNumber\": \"555-123-4567\",\n  \"phoneType\": \"MOBILE\",\n  \"isPrimary\": true\n}"},
+            "url": {"raw": "{{baseUrl}}/api/v1/phone-numbers", "host": ["{{baseUrl}}"], "path": ["api", "v1", "phone-numbers"]}
+          }
+        },
+        {
+          "name": "Get All Phone Numbers",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/phone-numbers", "host": ["{{baseUrl}}"], "path": ["api", "v1", "phone-numbers"]}
+          }
+        },
+        {
+          "name": "Get Phone Number by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/phone-numbers/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "phone-numbers", "{{entityId}}"]}
+          }
+        },
+        {
+          "name": "Update Phone Number",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"phoneNumber\": \"555-987-6543\",\n  \"phoneType\": \"WORK\",\n  \"isPrimary\": false\n}"},
+            "url": {"raw": "{{baseUrl}}/api/v1/phone-numbers/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "phone-numbers", "{{entityId}}"]}
+          }
+        },
+        {
+          "name": "Delete Phone Number",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/phone-numbers/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "phone-numbers", "{{entityId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Employee Address",
+      "item": [
+        {
+          "name": "Create Employee Address",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"employeeId\": 1,\n  \"addressId\": 1,\n  \"addressType\": \"HOME\",\n  \"isPrimary\": true\n}"},
+            "url": {"raw": "{{baseUrl}}/api/v1/employee-address", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employee-address"]}
+          }
+        },
+        {
+          "name": "Get All Employee Addresses",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employee-address", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employee-address"]}
+          }
+        },
+        {
+          "name": "Get Employee Address by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employee-address/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employee-address", "{{entityId}}"]}
+          }
+        },
+        {
+          "name": "Delete Employee Address",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employee-address/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employee-address", "{{entityId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Employees Audit Log",
+      "item": [
+        {
+          "name": "Create Audit Log Entry",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"employeeId\": 1,\n  \"action\": \"UPDATE\",\n  \"description\": \"Employee profile updated\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-audit-log", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-audit-log"]}
+          }
+        },
+        {
+          "name": "Get All Audit Logs",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-audit-log", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-audit-log"]}
+          }
+        },
+        {
+          "name": "Get Audit Log by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-audit-log/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-audit-log", "{{entityId}}"]}
+          }
+        },
+        {
+          "name": "Delete Audit Log Entry",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-audit-log/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-audit-log", "{{entityId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Emergency Contacts",
+      "item": [
+        {
+          "name": "Create Emergency Contact",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"employeeId\": 1,\n  \"contactName\": \"Jane Doe\",\n  \"relationship\": \"Spouse\",\n  \"isPrimary\": true\n}"},
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-emergency-contacts", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-emergency-contacts"]}
+          }
+        },
+        {
+          "name": "Get All Emergency Contacts",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-emergency-contacts", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-emergency-contacts"]}
+          }
+        },
+        {
+          "name": "Get Emergency Contact by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-emergency-contacts/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-emergency-contacts", "{{entityId}}"]}
+          }
+        },
+        {
+          "name": "Delete Emergency Contact",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-emergency-contacts/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-emergency-contacts", "{{entityId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Emergency Contact Emails",
+      "item": [
+        {
+          "name": "Create Emergency Contact Email",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"emergencyContactId\": 1,\n  \"emailAddress\": \"emergency@example.com\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-emergency-contact-emails", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-emergency-contact-emails"]}
+          }
+        },
+        {
+          "name": "Get All Emergency Contact Emails",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-emergency-contact-emails", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-emergency-contact-emails"]}
+          }
+        },
+        {
+          "name": "Get Emergency Contact Email by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-emergency-contact-emails/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-emergency-contact-emails", "{{entityId}}"]}
+          }
+        },
+        {
+          "name": "Delete Emergency Contact Email",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-emergency-contact-emails/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-emergency-contact-emails", "{{entityId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Emergency Contact Phone Numbers",
+      "item": [
+        {
+          "name": "Create Emergency Contact Phone",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"emergencyContactId\": 1,\n  \"phoneNumber\": \"555-999-8888\",\n  \"phoneType\": \"MOBILE\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-emergency-contact-phone-numbers", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-emergency-contact-phone-numbers"]}
+          }
+        },
+        {
+          "name": "Get All Emergency Contact Phones",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-emergency-contact-phone-numbers", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-emergency-contact-phone-numbers"]}
+          }
+        },
+        {
+          "name": "Get Emergency Contact Phone by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-emergency-contact-phone-numbers/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-emergency-contact-phone-numbers", "{{entityId}}"]}
+          }
+        },
+        {
+          "name": "Delete Emergency Contact Phone",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-emergency-contact-phone-numbers/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-emergency-contact-phone-numbers", "{{entityId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Employees Preferences",
+      "item": [
+        {
+          "name": "Create Employee Preference",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"employeeId\": 1,\n  \"preferenceKey\": \"theme\",\n  \"preferenceValue\": \"dark\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-preferences", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-preferences"]}
+          }
+        },
+        {
+          "name": "Get All Employee Preferences",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-preferences", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-preferences"]}
+          }
+        },
+        {
+          "name": "Get Employee Preference by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-preferences/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-preferences", "{{entityId}}"]}
+          }
+        },
+        {
+          "name": "Delete Employee Preference",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-preferences/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-preferences", "{{entityId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Employees Roles",
+      "item": [
+        {
+          "name": "Create Employee Role",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"employeeId\": 1,\n  \"roleId\": 1\n}"},
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-roles", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-roles"]}
+          }
+        },
+        {
+          "name": "Get All Employee Roles",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-roles", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-roles"]}
+          }
+        },
+        {
+          "name": "Get Employee Role by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-roles/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-roles", "{{entityId}}"]}
+          }
+        },
+        {
+          "name": "Delete Employee Role",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-roles/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-roles", "{{entityId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Employees Settings",
+      "item": [
+        {
+          "name": "Create Employee Setting",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"employeeId\": 1,\n  \"settingKey\": \"notifications\",\n  \"settingValue\": \"enabled\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-settings", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-settings"]}
+          }
+        },
+        {
+          "name": "Get All Employee Settings",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-settings", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-settings"]}
+          }
+        },
+        {
+          "name": "Get Employee Setting by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-settings/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-settings", "{{entityId}}"]}
+          }
+        },
+        {
+          "name": "Delete Employee Setting",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-settings/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-settings", "{{entityId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Employees SSN",
+      "item": [
+        {
+          "name": "Create Employee SSN",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"employeeId\": 1,\n  \"ssn\": \"***-**-1234\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-ssn", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-ssn"]}
+          }
+        },
+        {
+          "name": "Get All Employee SSNs",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-ssn", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-ssn"]}
+          }
+        },
+        {
+          "name": "Get Employee SSN by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-ssn/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-ssn", "{{entityId}}"]}
+          }
+        },
+        {
+          "name": "Delete Employee SSN",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-ssn/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-ssn", "{{entityId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Employees Status History",
+      "item": [
+        {
+          "name": "Create Status History Entry",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"employeeId\": 1,\n  \"status\": \"ACTIVE\",\n  \"effectiveDate\": \"2026-01-01\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-status-history", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-status-history"]}
+          }
+        },
+        {
+          "name": "Get All Status History",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-status-history", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-status-history"]}
+          }
+        },
+        {
+          "name": "Get Status History by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-status-history/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-status-history", "{{entityId}}"]}
+          }
+        },
+        {
+          "name": "Delete Status History Entry",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/employees-status-history/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "employees-status-history", "{{entityId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Permissions",
+      "item": [
+        {
+          "name": "Create Permission",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"permissionName\": \"READ_EMPLOYEES\",\n  \"description\": \"Permission to read employee data\"\n}"},
+            "url": {"raw": "{{baseUrl}}/api/v1/permissions", "host": ["{{baseUrl}}"], "path": ["api", "v1", "permissions"]}
+          }
+        },
+        {
+          "name": "Get All Permissions",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/permissions", "host": ["{{baseUrl}}"], "path": ["api", "v1", "permissions"]}
+          }
+        },
+        {
+          "name": "Get Permission by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/permissions/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "permissions", "{{entityId}}"]}
+          }
+        },
+        {
+          "name": "Delete Permission",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/permissions/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "permissions", "{{entityId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Role Permissions",
+      "item": [
+        {
+          "name": "Create Role Permission",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"roleId\": 1,\n  \"permissionId\": 1\n}"},
+            "url": {"raw": "{{baseUrl}}/api/v1/role-permissions", "host": ["{{baseUrl}}"], "path": ["api", "v1", "role-permissions"]}
+          }
+        },
+        {
+          "name": "Get All Role Permissions",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/role-permissions", "host": ["{{baseUrl}}"], "path": ["api", "v1", "role-permissions"]}
+          }
+        },
+        {
+          "name": "Get Role Permission by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/role-permissions/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "role-permissions", "{{entityId}}"]}
+          }
+        },
+        {
+          "name": "Delete Role Permission",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}", "type": "text"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/role-permissions/{{entityId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "role-permissions", "{{entityId}}"]}
+          }
+        }
+      ]
+    }
+  ]
+}

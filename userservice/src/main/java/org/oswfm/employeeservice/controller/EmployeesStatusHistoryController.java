@@ -12,8 +12,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/employees-status-history")
-@CrossOrigin(origins = "*")
+@RequestMapping("/api/v1/employees-status-history")
 public class EmployeesStatusHistoryController {
 
     @Autowired

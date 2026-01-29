@@ -12,8 +12,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/permissioins")
-@CrossOrigin(origins = "*")
+@RequestMapping("/api/v1/permissions")
 public class PermissioinsController {
 
     @Autowired

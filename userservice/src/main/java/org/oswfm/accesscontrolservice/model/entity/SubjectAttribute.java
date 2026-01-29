@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 public class SubjectAttribute {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "subject_attr_id")
     private Integer  subjectAttrId;
     

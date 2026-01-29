@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class AttributeDefinition {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "attribute_id")
     private Integer  attributeId;
     
