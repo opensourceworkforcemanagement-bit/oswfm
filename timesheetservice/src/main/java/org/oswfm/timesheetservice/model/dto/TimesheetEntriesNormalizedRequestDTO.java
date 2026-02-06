@@ -1,8 +1,8 @@
 package org.oswfm.timesheetservice.model.dto;
 
+import java.util.List;
 import java.util.Set;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,8 +12,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TimesheetEntriesNormalizedRequestDTO {
 
-    @NotNull(message = "Timesheet normalized ID is required")
+    //@NotNull(message = "Timesheet normalized ID is required")
     private Long timesheetNormalizedId;
 
-    private Set<Long> workforceCodeIds;
+    private Set<Long> workforceCodeIds; //Primary key Ids of associated workforce codes
+
+    private List<TimesheetEntryMinutesRequestDTO> entryMinutes;
 }

@@ -75,7 +75,8 @@ INSERT INTO code_types (code_type_name, description) VALUES
     ('PROJECT_CODE', 'Code representing different projects'),
     ('DEPARTMENT_CODE', 'Code representing different departments within the organization'),
     ('LEAVE_CODE', 'Code representing different types of leave or time off'),
-    ('PREMIUM_PAY_CODE', 'Code representing premium pay categories such as overtime or holiday pay');
+    ('PREMIUM_PAY_CODE', 'Code representing premium pay categories such as overtime or holiday pay'),
+    ('ACCOUNT_CODE', 'Code representing accounting codes');
 
 -- Seed data for workforce_codes table
 
@@ -89,5 +90,8 @@ INSERT INTO workforce_codes (code_type_id, code_id, short_code_value, long_code_
     ((SELECT code_type_id FROM code_types WHERE code_type_name = 'LEAVE_CODE'), 401, 'VAC', 'Vacation Leave', 'Code for vacation leave taken by employees', 1, CURRENT_DATE),
     ((SELECT code_type_id FROM code_types WHERE code_type_name = 'LEAVE_CODE'), 402, 'SICK', 'Sick Leave', 'Code for sick leave taken by employees', 1, CURRENT_DATE),
     ((SELECT code_type_id FROM code_types WHERE code_type_name = 'PREMIUM_PAY_CODE'), 501, 'OT', 'Overtime Pay', 'Code for overtime pay rates', 1, CURRENT_DATE),
-    ((SELECT code_type_id FROM code_types WHERE code_type_name = 'PREMIUM_PAY_CODE'), 502, 'HOL', 'Holiday Pay', 'Code for holiday pay rates', 1, CURRENT_DATE);
+    ((SELECT code_type_id FROM code_types WHERE code_type_name = 'PREMIUM_PAY_CODE'), 502, 'HOL', 'Holiday Pay', 'Code for holiday pay rates', 1, CURRENT_DATE),
+    ((SELECT code_type_id FROM code_types WHERE code_type_name = 'ACCOUNT_CODE'), 601, 'ACC', 'Universal Kitchen Group Account', 'Code Universal Kitchen Group Account', 1, CURRENT_DATE),
+    ((SELECT code_type_id FROM code_types WHERE code_type_name = 'ACCOUNT_CODE'), 602, 'ACC', 'Universal Kamera Group Account', 'Code Universal Kamera Group Account', 1, CURRENT_DATE);
+
     

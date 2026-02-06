@@ -26,11 +26,6 @@ public class EmployeeDetails {
     @Column(name = "employee_identifier", nullable = false)
     private String employeeIdentifier;
 
-    //@TODO: Add
-    @Column(name = "user_id")
-    private  Integer userId;
-
-    //@TODO: remove
     @Column(name = "first_name")
     private String firstName;
     //@TODO: remove

@@ -1,28 +1,39 @@
 package org.oswfm.timesheetservice.service;
 
 import org.oswfm.timesheetservice.model.entity.TimesheetEntriesNormalized;
+import org.oswfm.timesheetservice.model.entity.TimesheetEntryMinutes;
 import org.oswfm.timesheetservice.model.entity.WorkforceCodes;
 import org.oswfm.timesheetservice.model.dto.TimesheetEntriesNormalizedRequestDTO;
 import org.oswfm.timesheetservice.model.dto.TimesheetEntriesNormalizedResponseDTO;
+import org.oswfm.timesheetservice.model.dto.TimesheetEntryMinutesRequestDTO;
 import org.oswfm.timesheetservice.repository.TimesheetEntriesNormalizedRepository;
+import org.oswfm.timesheetservice.repository.TimesheetEntryMinutesNormalizedRepository;
 import org.oswfm.timesheetservice.repository.WorkforceCodesRepository;
 import org.oswfm.timesheetservice.model.mapper.TimesheetEntriesNormalizedMapper;
+import org.oswfm.timesheetservice.model.mapper.TimesheetEntryMinutesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
 @Transactional
+@Slf4j
 public class TimesheetEntriesNormalizedService {
 
     @Autowired
     private TimesheetEntriesNormalizedRepository repository;
+
+    @Autowired
+    private TimesheetEntryMinutesNormalizedRepository entryMinutesRepository;
 
     @Autowired
     private WorkforceCodesRepository workforceCodesRepository;
@@ -30,12 +41,16 @@ public class TimesheetEntriesNormalizedService {
     @Autowired
     private TimesheetEntriesNormalizedMapper mapper;
 
+    @Autowired
+    private TimesheetEntryMinutesMapper entryMinutesMapper;
+
     /**
-     * Create a new TimesheetEntriesNormalized
+     * Create a new TimesheetEntriesNormalized with workforce codes and entry minutes.
      */
     public TimesheetEntriesNormalizedResponseDTO create(TimesheetEntriesNormalizedRequestDTO requestDTO) {
         TimesheetEntriesNormalized entity = mapper.toEntity(requestDTO);
 
+        // Link workforce codes
         if (requestDTO.getWorkforceCodeIds() != null && !requestDTO.getWorkforceCodeIds().isEmpty()) {
             Set<WorkforceCodes> workforceCodes = new HashSet<>();
             for (Long codeId : requestDTO.getWorkforceCodeIds()) {
@@ -45,7 +60,23 @@ public class TimesheetEntriesNormalizedService {
             entity.setWorkforceCodes(workforceCodes);
         }
 
+        // Save the entry first to get the generated ID
         TimesheetEntriesNormalized saved = repository.save(entity);
+
+        // Persist entry minutes
+        if (requestDTO.getEntryMinutes() != null && !requestDTO.getEntryMinutes().isEmpty()) {
+            List<TimesheetEntryMinutes> minutesList = new ArrayList<>();
+            for (TimesheetEntryMinutesRequestDTO minutesDTO : requestDTO.getEntryMinutes()) {
+                TimesheetEntryMinutes minutes = entryMinutesMapper.toEntity(minutesDTO);
+                minutes.setTimesheetEntriesId(saved.getTimesheetEntriesId());
+                minutes.setTimesheetEntry(saved);
+                minutesList.add(minutes);
+            }
+            List<TimesheetEntryMinutes> savedMinutes = entryMinutesRepository.saveAll(minutesList);
+            saved.setEntryMinutes(savedMinutes);
+            log.debug("Created entry {} with {} minute records", saved.getTimesheetEntriesId(), savedMinutes.size());
+        }
+
         return mapper.toResponseDTO(saved);
     }
 
@@ -79,13 +110,14 @@ public class TimesheetEntriesNormalizedService {
     }
 
     /**
-     * Update an existing TimesheetEntriesNormalized
+     * Update an existing TimesheetEntriesNormalized including workforce codes and entry minutes.
      */
     public Optional<TimesheetEntriesNormalizedResponseDTO> update(Long id, TimesheetEntriesNormalizedRequestDTO requestDTO) {
         return repository.findById(id)
                 .map(entity -> {
                     mapper.updateEntityFromDTO(requestDTO, entity);
 
+                    // Update workforce codes if provided
                     if (requestDTO.getWorkforceCodeIds() != null) {
                         Set<WorkforceCodes> workforceCodes = new HashSet<>();
                         for (Long codeId : requestDTO.getWorkforceCodeIds()) {
@@ -93,6 +125,29 @@ public class TimesheetEntriesNormalizedService {
                                     .ifPresent(workforceCodes::add);
                         }
                         entity.setWorkforceCodes(workforceCodes);
+                    }
+
+                    // Replace entry minutes if provided
+                    if (requestDTO.getEntryMinutes() != null) {
+                        // Remove existing minutes (orphanRemoval on entity handles DB deletion)
+                        if (entity.getEntryMinutes() != null) {
+                            entity.getEntryMinutes().clear();
+                        }
+
+                        List<TimesheetEntryMinutes> newMinutes = new ArrayList<>();
+                        for (TimesheetEntryMinutesRequestDTO minutesDTO : requestDTO.getEntryMinutes()) {
+                            TimesheetEntryMinutes minutes = entryMinutesMapper.toEntity(minutesDTO);
+                            minutes.setTimesheetEntriesId(entity.getTimesheetEntriesId());
+                            minutes.setTimesheetEntry(entity);
+                            newMinutes.add(minutes);
+                        }
+
+                        if (entity.getEntryMinutes() == null) {
+                            entity.setEntryMinutes(newMinutes);
+                        } else {
+                            entity.getEntryMinutes().addAll(newMinutes);
+                        }
+                        log.debug("Updated entry {} with {} minute records", id, newMinutes.size());
                     }
 
                     TimesheetEntriesNormalized updated = repository.save(entity);

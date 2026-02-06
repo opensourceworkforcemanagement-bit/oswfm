@@ -113,6 +113,16 @@ public class WorkforceCodesService {
     }
 
     /**
+     * Get WorkforceCodes by code type name (e.g. WORK_CODE, ACCOUNT_CODE)
+     */
+    @Transactional(readOnly = true)
+    public List<WorkforceCodesResponseDTO> getByCodeTypeName(String codeTypeName) {
+        return repository.findByCodeTypeName(codeTypeName).stream()
+                .map(mapper::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Get count of all WorkforceCodes
      */
     @Transactional(readOnly = true)

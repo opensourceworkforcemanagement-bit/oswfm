@@ -29,7 +29,7 @@
   ],
   "item": [
     {
-      "name": "Create Timesheet Entry Normalized",
+      "name": "Create Entry (Codes Only)",
       "request": {
         "method": "POST",
         "header": [
@@ -52,7 +52,7 @@
           "host": ["{{baseUrl}}"],
           "path": ["api", "v1", "timesheet-entries-normalized", "create"]
         },
-        "description": "Create a new normalized timesheet entry with associated workforce codes"
+        "description": "Create a normalized timesheet entry with workforce codes but no minutes. Minutes can be added separately via the entry-minutes API."
       },
       "response": [],
       "event": [
@@ -76,7 +76,56 @@
       ]
     },
     {
-      "name": "Create Timesheet Entry - No Codes",
+      "name": "Create Entry (With Codes and Minutes)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"timesheetNormalizedId\": 1,\n  \"workforceCodeIds\": [1, 2],\n  \"entryMinutes\": [\n    {\n      \"minutes\": 480.00,\n      \"dayOfWeek\": \"M\",\n      \"date\": \"2026-01-26\"\n    },\n    {\n      \"minutes\": 480.00,\n      \"dayOfWeek\": \"T\",\n      \"date\": \"2026-01-27\"\n    },\n    {\n      \"minutes\": 480.00,\n      \"dayOfWeek\": \"W\",\n      \"date\": \"2026-01-28\"\n    },\n    {\n      \"minutes\": 480.00,\n      \"dayOfWeek\": \"R\",\n      \"date\": \"2026-01-29\"\n    },\n    {\n      \"minutes\": 480.00,\n      \"dayOfWeek\": \"F\",\n      \"date\": \"2026-01-30\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entries-normalized/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entries-normalized", "create"]
+        },
+        "description": "Create a normalized timesheet entry with workforce codes and entry minutes in a single request. Each minute record represents hours worked on a specific day (480 min = 8 hours)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Response has entries and minutes\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.timesheetEntriesId).to.exist;",
+              "    pm.expect(jsonData.entryMinutes).to.be.an('array');",
+              "    pm.expect(jsonData.entryMinutes.length).to.be.greaterThan(0);",
+              "    pm.collectionVariables.set(\"timesheetEntriesId\", jsonData.timesheetEntriesId);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Entry (No Codes)",
       "request": {
         "method": "POST",
         "header": [
@@ -99,7 +148,7 @@
           "host": ["{{baseUrl}}"],
           "path": ["api", "v1", "timesheet-entries-normalized", "create"]
         },
-        "description": "Create a normalized timesheet entry without workforce codes"
+        "description": "Create a normalized timesheet entry without workforce codes or minutes"
       },
       "response": []
     },
@@ -170,7 +219,7 @@
       "response": []
     },
     {
-      "name": "Update Timesheet Entry Normalized",
+      "name": "Update Entry (Codes Only)",
       "request": {
         "method": "PUT",
         "header": [
@@ -193,7 +242,35 @@
           "host": ["{{baseUrl}}"],
           "path": ["api", "v1", "timesheet-entries-normalized", "{{timesheetEntriesId}}"]
         },
-        "description": "Update an existing normalized timesheet entry"
+        "description": "Update workforce codes only. Omitting entryMinutes leaves existing minutes unchanged."
+      },
+      "response": []
+    },
+    {
+      "name": "Update Entry (With Minutes Replacement)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"timesheetNormalizedId\": 1,\n  \"workforceCodeIds\": [1, 2],\n  \"entryMinutes\": [\n    {\n      \"minutes\": 480.00,\n      \"dayOfWeek\": \"M\",\n      \"date\": \"2026-01-26\"\n    },\n    {\n      \"minutes\": 480.00,\n      \"dayOfWeek\": \"T\",\n      \"date\": \"2026-01-27\"\n    },\n    {\n      \"minutes\": 480.00,\n      \"dayOfWeek\": \"W\",\n      \"date\": \"2026-01-28\"\n    },\n    {\n      \"minutes\": 480.00,\n      \"dayOfWeek\": \"R\",\n      \"date\": \"2026-01-29\"\n    },\n    {\n      \"minutes\": 240.00,\n      \"dayOfWeek\": \"F\",\n      \"date\": \"2026-01-30\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheet-entries-normalized/{{timesheetEntriesId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheet-entries-normalized", "{{timesheetEntriesId}}"]
+        },
+        "description": "Update workforce codes and replace all existing entry minutes with a new set. Existing minutes are deleted via orphanRemoval and replaced with the provided list."
       },
       "response": []
     },

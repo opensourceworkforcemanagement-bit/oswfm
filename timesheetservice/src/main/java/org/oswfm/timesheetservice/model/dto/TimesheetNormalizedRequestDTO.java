@@ -1,5 +1,8 @@
 package org.oswfm.timesheetservice.model.dto;
 
+import java.util.List;
+
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,8 +19,12 @@ public class TimesheetNormalizedRequestDTO {
     @NotNull(message = "Pay period ID is required")
     private Integer payPeriodId;
 
-    @NotNull(message = "Timesheet type ID is required")
     private Integer timesheetTypeId;
 
     private Integer status;
+
+    @Valid
+    private List<TimesheetEntryCreateDTO> timesheetEntries;
+
+    private List<TimesheetEntriesNormalizedRequestDTO> timesheetEntriesNormalized;
 }

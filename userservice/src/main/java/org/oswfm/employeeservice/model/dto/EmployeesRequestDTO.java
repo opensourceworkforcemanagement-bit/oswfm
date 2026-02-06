@@ -27,6 +27,4 @@ public class EmployeesRequestDTO {
     @NotBlank
     private String userName;
 
-    private Integer userId;
-
 }

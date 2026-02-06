@@ -111,6 +111,16 @@ public class WorkforceCodesController {
     }
 
     /**
+     * Get WorkforceCodes by code type name
+     * GET /api/v1/workforce-codes/by-type-name/{codeTypeName}
+     */
+    @GetMapping("/by-type-name/{codeTypeName}")
+    public ResponseEntity<List<WorkforceCodesResponseDTO>> getByCodeTypeName(@PathVariable String codeTypeName) {
+        List<WorkforceCodesResponseDTO> list = service.getByCodeTypeName(codeTypeName);
+        return ResponseEntity.ok(list);
+    }
+
+    /**
      * Get count of all WorkforceCodes
      * GET /api/v1/workforce-codes/count
      */

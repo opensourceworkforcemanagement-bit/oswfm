@@ -29,7 +29,7 @@
   ],
   "item": [
     {
-      "name": "Create Timesheet Normalized",
+      "name": "Create Timesheet Normalized (Header Only)",
       "request": {
         "method": "POST",
         "header": [
@@ -52,7 +52,7 @@
           "host": ["{{baseUrl}}"],
           "path": ["api", "v1", "timesheets-normalized", "create"]
         },
-        "description": "Create a new normalized timesheet"
+        "description": "Create a new normalized timesheet without entries. Entries can be added separately via the entries API."
       },
       "response": [],
       "event": [
@@ -67,6 +67,54 @@
               "pm.test(\"Response has timesheetNormalizedId\", function () {",
               "    var jsonData = pm.response.json();",
               "    pm.expect(jsonData.timesheetNormalizedId).to.exist;",
+              "    pm.collectionVariables.set(\"timesheetNormalizedId\", jsonData.timesheetNormalizedId);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Timesheet Normalized (With Entries)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"employeeId\": 1,\n  \"payPeriodId\": 1,\n  \"timesheetEntries\": [\n    {\n      \"workforceCode\": {\n        \"id\": 102,\n        \"codeTypeId\": 1\n      },\n      \"accountCode\": {\n        \"id\": 201,\n        \"codeTypeId\": 2\n      },\n      \"weeks\": [\n        {\n          \"week\": 1,\n          \"sunHours\": 0,\n          \"monHours\": 8,\n          \"tueHours\": 8,\n          \"wedHours\": 8,\n          \"thuHours\": 8,\n          \"friHours\": 8,\n          \"satHours\": 0\n        },\n        {\n          \"week\": 2,\n          \"sunHours\": 0,\n          \"monHours\": 8,\n          \"tueHours\": 8,\n          \"wedHours\": 8,\n          \"thuHours\": 8,\n          \"friHours\": 8,\n          \"satHours\": 0\n        }\n      ]\n    },\n    {\n      \"workforceCode\": {\n        \"id\": 103,\n        \"codeTypeId\": 1\n      },\n      \"accountCode\": {\n        \"id\": 202,\n        \"codeTypeId\": 2\n      },\n      \"weeks\": [\n        {\n          \"week\": 1,\n          \"sunHours\": 0,\n          \"monHours\": 0,\n          \"tueHours\": 0,\n          \"wedHours\": 4,\n          \"thuHours\": 4,\n          \"friHours\": 0,\n          \"satHours\": 0\n        },\n        {\n          \"week\": 2,\n          \"sunHours\": 0,\n          \"monHours\": 0,\n          \"tueHours\": 0,\n          \"wedHours\": 0,\n          \"thuHours\": 0,\n          \"friHours\": 0,\n          \"satHours\": 0\n        }\n      ]\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timesheets-normalized/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "timesheets-normalized", "create"]
+        },
+        "description": "Create a normalized timesheet with nested entries, workforce codes, account codes, and weekly hours. This matches the payload sent by the frontend TimesheetManagement page. Hours are converted to minutes (x60) and stored in timesheet_entry_minutes."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Response has timesheetNormalizedId and entries\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.timesheetNormalizedId).to.exist;",
+              "    pm.expect(jsonData.timesheetEntries).to.be.an('array');",
               "    pm.collectionVariables.set(\"timesheetNormalizedId\", jsonData.timesheetNormalizedId);",
               "});"
             ],
@@ -99,7 +147,7 @@
           "host": ["{{baseUrl}}"],
           "path": ["api", "v1", "timesheets-normalized", "create"]
         },
-        "description": "Create a normalized timesheet with draft status"
+        "description": "Create a normalized timesheet with draft status (no entries)"
       },
       "response": []
     },

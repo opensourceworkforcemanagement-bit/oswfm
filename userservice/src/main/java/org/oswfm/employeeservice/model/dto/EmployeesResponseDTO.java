@@ -22,7 +22,5 @@ public class EmployeesResponseDTO {
     private Integer  status;
 
     private String userName;
-    
-    private Integer userId;
 
 }

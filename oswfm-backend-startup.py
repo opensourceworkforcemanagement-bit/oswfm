@@ -26,6 +26,7 @@ PROJECT_DIRS = [
     {'authservice': 5},
     {'userservice': 16},
     {'timesheetservice': 0},
+    {'administrationservice': 0}
 ]
 
 def get_base_dir():
