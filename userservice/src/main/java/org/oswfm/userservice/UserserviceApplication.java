@@ -19,6 +19,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 })
 @EntityScan(basePackages = {
 	"org.oswfm.commons.model.user.entity",
+	"org.oswfm.userservice.model.entity",
 	"org.oswfm.employeeservice.model.entity",
 	"org.oswfm.accesscontrolservice.model.entity"
 })

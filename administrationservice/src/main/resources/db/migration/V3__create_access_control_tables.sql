@@ -98,17 +98,16 @@ CREATE TABLE attribute_definitions (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Subject attributes (user attributes)
+-- Subject attributes (reusable attribute definitions, not tied to a specific user)
 CREATE TABLE subject_attributes (
     subject_attr_id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL REFERENCES oswfm_users(user_id) ON DELETE CASCADE,
     attribute_id INTEGER NOT NULL REFERENCES attribute_definitions(attribute_id) ON DELETE CASCADE,
     attribute_value TEXT NOT NULL,
     valid_from TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     valid_until TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(user_id, attribute_id, valid_from)
+    UNIQUE(attribute_id, attribute_value, valid_from)
 );
 
 -- Resource attributes
@@ -245,6 +244,29 @@ CREATE TABLE policy_obligations (
 
 
 
+-- ============================================================================
+-- SUBJECT ATTRIBUTE ASSIGNMENTS
+-- ============================================================================
+
+-- Join table: user → subject_attributes (direct assignment)
+CREATE TABLE user_subject_attributes (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES oswfm_users(user_id) ON DELETE CASCADE,
+    subject_attr_id INTEGER NOT NULL REFERENCES subject_attributes(subject_attr_id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, subject_attr_id)
+);
+
+-- Join table: user_groups → subject_attributes
+CREATE TABLE group_subject_attributes (
+    id SERIAL PRIMARY KEY,
+    group_id INTEGER NOT NULL REFERENCES user_groups(group_id) ON DELETE CASCADE,
+    subject_attr_id INTEGER NOT NULL REFERENCES subject_attributes(subject_attr_id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(group_id, subject_attr_id)
+);
+
+
 -- Resources
 CREATE INDEX idx_resources_type ON resources(resource_type_id);
 CREATE INDEX idx_resources_owner ON resources(owner_id);
@@ -254,13 +276,18 @@ CREATE INDEX idx_resource_hierarchies_child ON resource_hierarchies(child_resour
 
 -- Attributes
 CREATE INDEX idx_attribute_definitions_category ON attribute_definitions(attribute_category_id);
-CREATE INDEX idx_subject_attributes_user ON subject_attributes(user_id);
 CREATE INDEX idx_subject_attributes_attribute ON subject_attributes(attribute_id);
 CREATE INDEX idx_subject_attributes_valid ON subject_attributes(valid_from, valid_until);
 CREATE INDEX idx_resource_attributes_resource ON resource_attributes(resource_id);
 CREATE INDEX idx_resource_attributes_attribute ON resource_attributes(attribute_id);
 CREATE INDEX idx_resource_attributes_valid ON resource_attributes(valid_from, valid_until);
 CREATE INDEX idx_environment_attributes_context ON environment_attributes(context_identifier);
+
+-- Subject attribute assignments
+CREATE INDEX idx_user_subject_attributes_user ON user_subject_attributes(user_id);
+CREATE INDEX idx_user_subject_attributes_attr ON user_subject_attributes(subject_attr_id);
+CREATE INDEX idx_group_subject_attributes_group ON group_subject_attributes(group_id);
+CREATE INDEX idx_group_subject_attributes_attr ON group_subject_attributes(subject_attr_id);
 
 -- Policies
 CREATE INDEX idx_policies_is_active ON policies(is_active);

@@ -1,6 +1,11 @@
 package org.oswfm.accesscontrolservice.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.oswfm.ResourceNotFoundException;
+import org.oswfm.accesscontrolservice.dto.OperationDTO;
+import org.oswfm.accesscontrolservice.dto.ResourceDTO;
 import org.oswfm.accesscontrolservice.model.entity.Operation;
 import org.oswfm.accesscontrolservice.model.entity.Policy;
 import org.oswfm.accesscontrolservice.model.entity.PolicyOperationTarget;
@@ -81,5 +86,40 @@ public class PolicyTargetService {
                 .filter(target -> target.getResource() != null &&
                         target.getResource().getResourceId().equals(resourceId))
                 .forEach(policyResourceTargetRepository::delete);
+    }
+
+    @Transactional(readOnly = true)
+    public List<OperationDTO> getOperationsForPolicy(Integer policyId) {
+        return policyOperationTargetRepository.findByPolicy_PolicyId(policyId).stream()
+                .map(target -> {
+                    Operation op = target.getOperation();
+                    OperationDTO dto = new OperationDTO();
+                    dto.setOperationId(op.getOperationId());
+                    dto.setOperationName(op.getOperationName());
+                    dto.setDescription(op.getDescription());
+                    dto.setCreatedAt(op.getCreatedAt());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ResourceDTO> getResourcesForPolicy(Integer policyId) {
+        return policyResourceTargetRepository.findByPolicy_PolicyId(policyId).stream()
+                .filter(target -> target.getResource() != null)
+                .map(target -> {
+                    Resource res = target.getResource();
+                    ResourceDTO dto = new ResourceDTO();
+                    dto.setResourceId(res.getResourceId());
+                    dto.setResourceName(res.getResourceName());
+                    dto.setResourceTypeId(res.getResourceType() != null ? res.getResourceType().getResourceTypeId() : null);
+                    dto.setResourceTypeName(res.getResourceType() != null ? res.getResourceType().getTypeName() : null);
+                    dto.setResourceUri(res.getResourceUri());
+                    dto.setIsActive(res.getIsActive());
+                    dto.setCreatedAt(res.getCreatedAt());
+                    dto.setUpdatedAt(res.getUpdatedAt());
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 }

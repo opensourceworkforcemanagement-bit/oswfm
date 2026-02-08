@@ -1,5 +1,6 @@
 package org.oswfm.userservice.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.oswfm.commons.model.user.entity.UserEntity;
@@ -28,6 +29,13 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, Integer 
      */
      Optional<UserEntity> findUserEntityByUserName(final String userName);
 
+    /**
+     * Finds all {@link UserEntity} instances with the given user status.
+     *
+     * @param userStatus the status to filter by (1 = Active).
+     * @return a list of {@link UserEntity} matching the given status.
+     */
+    List<UserEntity> findByUserStatus(Integer userStatus);
 
     // /**
     //  * Checks if a {@link UserEntity} with the given email exists.

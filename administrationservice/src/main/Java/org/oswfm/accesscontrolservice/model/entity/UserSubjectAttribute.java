@@ -3,7 +3,8 @@ package org.oswfm.accesscontrolservice.model.entity;
 import java.time.OffsetDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.oswfm.commons.model.user.entity.UserEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,35 +19,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "subject_attributes")
+@Table(name = "user_subject_attributes")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubjectAttribute {
-    
+public class UserSubjectAttribute {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "subject_attr_id")
-    private Integer  subjectAttrId;
-    
+    @Column(name = "id")
+    private Integer id;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "attribute_id", nullable = false)
-    private AttributeDefinition attribute;
-    
-    @Column(name = "attribute_value", nullable = false)
-    private String attributeValue;
-    
-    @Column(name = "valid_from")
-    private OffsetDateTime validFrom;
-    
-    @Column(name = "valid_until")
-    private OffsetDateTime validUntil;
-    
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subject_attr_id", nullable = false)
+    private SubjectAttribute subjectAttribute;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private OffsetDateTime createdAt;
-    
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private OffsetDateTime updatedAt;
 }

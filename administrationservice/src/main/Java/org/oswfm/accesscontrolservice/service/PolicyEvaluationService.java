@@ -1,7 +1,10 @@
 package org.oswfm.accesscontrolservice.service;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -10,6 +13,7 @@ import org.oswfm.accesscontrolservice.dto.AccessDecisionRequest;
 import org.oswfm.accesscontrolservice.dto.AccessDecisionResponse;
 import org.oswfm.accesscontrolservice.dto.AccessDecisionResponse.Decision;
 import org.oswfm.accesscontrolservice.model.entity.AccessRequest;
+import org.oswfm.accesscontrolservice.model.entity.GroupSubjectAttribute;
 import org.oswfm.accesscontrolservice.model.entity.Operation;
 import org.oswfm.accesscontrolservice.model.entity.Policy;
 import org.oswfm.accesscontrolservice.model.entity.PolicyOperationTarget;
@@ -18,9 +22,12 @@ import org.oswfm.accesscontrolservice.model.entity.PolicyRule;
 import org.oswfm.accesscontrolservice.model.entity.Resource;
 import org.oswfm.accesscontrolservice.model.entity.ResourceAttribute;
 import org.oswfm.accesscontrolservice.model.entity.SubjectAttribute;
+import org.oswfm.accesscontrolservice.model.entity.UserGroupMembership;
+import org.oswfm.accesscontrolservice.model.entity.UserSubjectAttribute;
 
 import org.oswfm.accesscontrolservice.repository.ACUserRepository;
 import org.oswfm.accesscontrolservice.repository.AccessRequestRepository;
+import org.oswfm.accesscontrolservice.repository.GroupSubjectAttributeRepository;
 import org.oswfm.accesscontrolservice.repository.OperationRepository;
 import org.oswfm.accesscontrolservice.repository.PolicyOperationTargetRepository;
 import org.oswfm.accesscontrolservice.repository.PolicyRepository;
@@ -29,6 +36,8 @@ import org.oswfm.accesscontrolservice.repository.PolicyRuleRepository;
 import org.oswfm.accesscontrolservice.repository.ResourceAttributeRepository;
 import org.oswfm.accesscontrolservice.repository.ResourceRepository;
 import org.oswfm.accesscontrolservice.repository.SubjectAttributeRepository;
+import org.oswfm.accesscontrolservice.repository.UserGroupMembershipRepository;
+import org.oswfm.accesscontrolservice.repository.UserSubjectAttributeRepository;
 import org.oswfm.commons.model.user.entity.UserEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +60,9 @@ public class PolicyEvaluationService {
     private final ResourceRepository resourceRepository;
     private final OperationRepository operationRepository;
     private final AccessRequestRepository accessRequestRepository;
+    private final UserSubjectAttributeRepository userSubjectAttributeRepository;
+    private final GroupSubjectAttributeRepository groupSubjectAttributeRepository;
+    private final UserGroupMembershipRepository userGroupMembershipRepository;
 
     /**
      * Main method to evaluate access decision
@@ -176,11 +188,11 @@ public class PolicyEvaluationService {
             return PolicyEvaluationResult.match("Policy has no conditions - applies to all");
         }
 
-        // Get current subject attributes
-        Map<String, String> subjectAttributes = getCurrentSubjectAttributes(user.getUserId());
+        // Get current subject attributes (multi-valued: direct + group)
+        Map<String, List<String>> subjectAttributes = getCurrentSubjectAttributes(user.getUserId());
 
-        // Get current resource attributes
-        Map<String, String> resourceAttributes = getCurrentResourceAttributes(resource.getResourceId());
+        // Get current resource attributes (multi-valued)
+        Map<String, List<String>> resourceAttributes = getCurrentResourceAttributes(resource.getResourceId());
 
         // Evaluate all rules
         return evaluateRules(rules, subjectAttributes, resourceAttributes, request.getEnvironmentAttributes());
@@ -190,8 +202,8 @@ public class PolicyEvaluationService {
      * Evaluate policy rules with AND/OR logic
      */
     private PolicyEvaluationResult evaluateRules(List<PolicyRule> rules,
-                                                  Map<String, String> subjectAttributes,
-                                                  Map<String, String> resourceAttributes,
+                                                  Map<String, List<String>> subjectAttributes,
+                                                  Map<String, List<String>> resourceAttributes,
                                                   Map<String, String> environmentAttributes) {
 
         if (rules.isEmpty()) {
@@ -206,8 +218,8 @@ public class PolicyEvaluationService {
             String attributeName = rule.getAttribute().getAttributeName();
             String attributeCategory = rule.getAttribute().getAttributeCategory().getCategoryName();
 
-            // Get the actual attribute value based on category
-            String actualValue = getAttributeValue(
+            // Get the actual attribute values based on category (multi-valued)
+            List<String> actualValues = getAttributeValues(
                     attributeName,
                     attributeCategory,
                     subjectAttributes,
@@ -215,7 +227,7 @@ public class PolicyEvaluationService {
                     environmentAttributes
             );
 
-            if (actualValue == null) {
+            if (actualValues == null || actualValues.isEmpty()) {
                 log.debug("Attribute '{}' not found for user/resource", attributeName);
 
                 // If AND logic and attribute missing, rule fails
@@ -228,15 +240,15 @@ public class PolicyEvaluationService {
                 continue;
             }
 
-            // Evaluate this rule
-            boolean ruleResult = evaluateSingleRule(
+            // Evaluate this rule against all values
+            boolean ruleResult = evaluateMultiValueRule(
                     rule.getOperator(),
-                    actualValue,
+                    actualValues,
                     rule.getComparisonValue()
             );
 
             log.debug("Rule evaluation: {} {} {} = {}",
-                    actualValue, rule.getOperator(), rule.getComparisonValue(), ruleResult);
+                    actualValues, rule.getOperator(), rule.getComparisonValue(), ruleResult);
 
             // Apply logical operator
             if ("OR".equalsIgnoreCase(currentLogicalOp)) {
@@ -252,7 +264,7 @@ public class PolicyEvaluationService {
             if (!ruleResult) {
                 reasonBuilder.append(String.format(
                     "Condition failed: %s %s %s (actual: %s); ",
-                    attributeName, rule.getOperator(), rule.getComparisonValue(), actualValue
+                    attributeName, rule.getOperator(), rule.getComparisonValue(), actualValues
                 ));
             }
         }
@@ -269,74 +281,92 @@ public class PolicyEvaluationService {
     }
 
     /**
-     * Evaluate a single rule based on operator
+     * Evaluate a single rule against multiple attribute values.
+     * For most operators, returns true if ANY value satisfies the condition.
+     * For negation operators (not_equals, not_in, not_contains), returns true
+     * only if ALL values satisfy the condition.
      */
-    private boolean evaluateSingleRule(String operator, String actualValue, String comparisonValue) {
-        if (actualValue == null) {
+    private boolean evaluateMultiValueRule(String operator, List<String> actualValues, String comparisonValue) {
+        if (actualValues == null || actualValues.isEmpty()) {
             return false;
         }
 
         switch (operator.toLowerCase()) {
             case "equals":
-                return actualValue.equalsIgnoreCase(comparisonValue);
+                return actualValues.stream()
+                        .anyMatch(v -> v.equalsIgnoreCase(comparisonValue));
 
             case "not_equals":
-                return !actualValue.equalsIgnoreCase(comparisonValue);
+                return actualValues.stream()
+                        .noneMatch(v -> v.equalsIgnoreCase(comparisonValue));
 
             case "contains":
-                return actualValue.toLowerCase().contains(comparisonValue.toLowerCase());
+                return actualValues.stream()
+                        .anyMatch(v -> v.toLowerCase().contains(comparisonValue.toLowerCase()));
 
             case "not_contains":
-                return !actualValue.toLowerCase().contains(comparisonValue.toLowerCase());
+                return actualValues.stream()
+                        .noneMatch(v -> v.toLowerCase().contains(comparisonValue.toLowerCase()));
 
-            case "in":
-                // comparisonValue should be comma-separated list
-                String[] values = comparisonValue.split(",");
-                return Arrays.stream(values)
-                        .map(String::trim)
-                        .anyMatch(v -> v.equalsIgnoreCase(actualValue));
+            case "in": {
+                String[] compareValues = comparisonValue.split(",");
+                return actualValues.stream()
+                        .anyMatch(actual -> Arrays.stream(compareValues)
+                                .map(String::trim)
+                                .anyMatch(cv -> cv.equalsIgnoreCase(actual)));
+            }
 
-            case "not_in":
+            case "not_in": {
                 String[] notInValues = comparisonValue.split(",");
-                return Arrays.stream(notInValues)
-                        .map(String::trim)
-                        .noneMatch(v -> v.equalsIgnoreCase(actualValue));
+                return actualValues.stream()
+                        .allMatch(actual -> Arrays.stream(notInValues)
+                                .map(String::trim)
+                                .noneMatch(cv -> cv.equalsIgnoreCase(actual)));
+            }
 
             case "greater_than":
-                try {
-                    return Double.parseDouble(actualValue) > Double.parseDouble(comparisonValue);
-                } catch (NumberFormatException e) {
-                    log.warn("Cannot compare non-numeric values with greater_than");
-                    return false;
-                }
+                return actualValues.stream().anyMatch(v -> {
+                    try {
+                        return Double.parseDouble(v) > Double.parseDouble(comparisonValue);
+                    } catch (NumberFormatException e) {
+                        return false;
+                    }
+                });
 
             case "less_than":
-                try {
-                    return Double.parseDouble(actualValue) < Double.parseDouble(comparisonValue);
-                } catch (NumberFormatException e) {
-                    log.warn("Cannot compare non-numeric values with less_than");
-                    return false;
-                }
+                return actualValues.stream().anyMatch(v -> {
+                    try {
+                        return Double.parseDouble(v) < Double.parseDouble(comparisonValue);
+                    } catch (NumberFormatException e) {
+                        return false;
+                    }
+                });
 
             case "greater_than_or_equal":
-                try {
-                    return Double.parseDouble(actualValue) >= Double.parseDouble(comparisonValue);
-                } catch (NumberFormatException e) {
-                    return false;
-                }
+                return actualValues.stream().anyMatch(v -> {
+                    try {
+                        return Double.parseDouble(v) >= Double.parseDouble(comparisonValue);
+                    } catch (NumberFormatException e) {
+                        return false;
+                    }
+                });
 
             case "less_than_or_equal":
-                try {
-                    return Double.parseDouble(actualValue) <= Double.parseDouble(comparisonValue);
-                } catch (NumberFormatException e) {
-                    return false;
-                }
+                return actualValues.stream().anyMatch(v -> {
+                    try {
+                        return Double.parseDouble(v) <= Double.parseDouble(comparisonValue);
+                    } catch (NumberFormatException e) {
+                        return false;
+                    }
+                });
 
             case "starts_with":
-                return actualValue.toLowerCase().startsWith(comparisonValue.toLowerCase());
+                return actualValues.stream()
+                        .anyMatch(v -> v.toLowerCase().startsWith(comparisonValue.toLowerCase()));
 
             case "ends_with":
-                return actualValue.toLowerCase().endsWith(comparisonValue.toLowerCase());
+                return actualValues.stream()
+                        .anyMatch(v -> v.toLowerCase().endsWith(comparisonValue.toLowerCase()));
 
             default:
                 log.warn("Unknown operator: {}", operator);
@@ -345,53 +375,93 @@ public class PolicyEvaluationService {
     }
 
     /**
-     * Get attribute value based on category
+     * Get attribute values based on category (multi-valued).
+     * Environment attributes come from the request as single-valued, so they are wrapped in a list.
      */
-    private String getAttributeValue(String attributeName, String category,
-                                     Map<String, String> subjectAttrs,
-                                     Map<String, String> resourceAttrs,
-                                     Map<String, String> envAttrs) {
+    private List<String> getAttributeValues(String attributeName, String category,
+                                            Map<String, List<String>> subjectAttrs,
+                                            Map<String, List<String>> resourceAttrs,
+                                            Map<String, String> envAttrs) {
         switch (category.toLowerCase()) {
             case "subject":
-                return subjectAttrs.get(attributeName);
+                return subjectAttrs.getOrDefault(attributeName, Collections.emptyList());
             case "resource":
-                return resourceAttrs.get(attributeName);
+                return resourceAttrs.getOrDefault(attributeName, Collections.emptyList());
             case "environment":
             case "operation":
-                return envAttrs.get(attributeName);
+                String envValue = envAttrs != null ? envAttrs.get(attributeName) : null;
+                return envValue != null ? List.of(envValue) : Collections.emptyList();
             default:
-                return null;
+                return Collections.emptyList();
         }
     }
 
     /**
-     * Get current active subject attributes for a user
+     * Get current active subject attributes for a user.
+     * Merges attributes from direct assignments and group memberships.
+     * Returns multi-valued map: one attribute name can have multiple values.
      */
-    private Map<String, String> getCurrentSubjectAttributes(Integer userId) {
-        List<SubjectAttribute> attributes =
-                subjectAttributeRepository.findActiveAttributesByUserId(userId, OffsetDateTime.now());
+    private Map<String, List<String>> getCurrentSubjectAttributes(Integer userId) {
+        OffsetDateTime now = OffsetDateTime.now();
+        Map<String, List<String>> result = new HashMap<>();
 
-        return attributes.stream()
-                .collect(Collectors.toMap(
-                    attr -> attr.getAttribute().getAttributeName(),
-                    SubjectAttribute::getAttributeValue,
-                    (v1, v2) -> v1  // If duplicate keys, keep first
-                ));
+        // 1. Collect subject_attr_ids from direct user assignments
+        List<UserSubjectAttribute> directAssignments =
+                userSubjectAttributeRepository.findByUser_UserId(userId);
+        List<Integer> directAttrIds = directAssignments.stream()
+                .map(usa -> usa.getSubjectAttribute().getSubjectAttrId())
+                .collect(Collectors.toList());
+
+        // 2. Collect subject_attr_ids from group memberships
+        List<UserGroupMembership> memberships =
+                userGroupMembershipRepository.findByUser_UserId(userId);
+        List<Integer> groupIds = memberships.stream()
+                .map(m -> m.getGroup().getGroupId())
+                .collect(Collectors.toList());
+
+        List<Integer> groupAttrIds = Collections.emptyList();
+        if (!groupIds.isEmpty()) {
+            List<GroupSubjectAttribute> groupAssignments =
+                    groupSubjectAttributeRepository.findByGroup_GroupIdIn(groupIds);
+            groupAttrIds = groupAssignments.stream()
+                    .map(gsa -> gsa.getSubjectAttribute().getSubjectAttrId())
+                    .collect(Collectors.toList());
+        }
+
+        // 3. Combine all ids and fetch active attributes
+        List<Integer> allAttrIds = new ArrayList<>();
+        allAttrIds.addAll(directAttrIds);
+        allAttrIds.addAll(groupAttrIds);
+
+        if (allAttrIds.isEmpty()) {
+            return result;
+        }
+
+        List<SubjectAttribute> activeAttributes =
+                subjectAttributeRepository.findActiveByIds(allAttrIds, now);
+
+        // 4. Build multi-valued map
+        for (SubjectAttribute attr : activeAttributes) {
+            result.computeIfAbsent(attr.getAttribute().getAttributeName(), k -> new ArrayList<>())
+                    .add(attr.getAttributeValue());
+        }
+
+        return result;
     }
 
     /**
-     * Get current active resource attributes
+     * Get current active resource attributes (multi-valued)
      */
-    private Map<String, String> getCurrentResourceAttributes( Integer resourceId) {
+    private Map<String, List<String>> getCurrentResourceAttributes(Integer resourceId) {
         List<ResourceAttribute> attributes =
                 resourceAttributeRepository.findActiveAttributesByResourceId(resourceId, OffsetDateTime.now());
 
-        return attributes.stream()
-                .collect(Collectors.toMap(
-                    attr -> attr.getAttribute().getAttributeName(),
-                    ResourceAttribute::getAttributeValue,
-                    (v1, v2) -> v1
-                ));
+        Map<String, List<String>> result = new HashMap<>();
+        for (ResourceAttribute attr : attributes) {
+            result.computeIfAbsent(attr.getAttribute().getAttributeName(), k -> new ArrayList<>())
+                    .add(attr.getAttributeValue());
+        }
+        return result;
     }
 
     /**

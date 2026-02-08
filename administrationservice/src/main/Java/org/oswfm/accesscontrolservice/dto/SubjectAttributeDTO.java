@@ -7,28 +7,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class SubjectAttributeDTO {
-    
-    private  Integer subjectAttrId;
-    
-    @NotNull(message = "User ID is required")
-    private  Integer userId;
-    
-    private String username;
-    
+
+    private Integer subjectAttrId;
+
     @NotNull(message = "Attribute ID is required")
-    private  Integer attributeId;
-    
+    private Integer attributeId;
+
     private String attributeName;
-    
+
     @NotBlank(message = "Attribute value is required")
     private String attributeValue;
-    
+
     private OffsetDateTime validFrom;
     private OffsetDateTime validUntil;
     private OffsetDateTime createdAt;

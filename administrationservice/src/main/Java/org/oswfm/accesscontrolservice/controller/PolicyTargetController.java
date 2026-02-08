@@ -1,5 +1,9 @@
 package org.oswfm.accesscontrolservice.controller;
 
+import java.util.List;
+
+import org.oswfm.accesscontrolservice.dto.OperationDTO;
+import org.oswfm.accesscontrolservice.dto.ResourceDTO;
 import org.oswfm.accesscontrolservice.service.PolicyTargetService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,6 +22,18 @@ public class PolicyTargetController {
 
     @Autowired
     private final PolicyTargetService policyTargetService;
+
+    @GetMapping("/{policyId}/operations")
+    @Operation(summary = "Get operations linked to a policy")
+    public ResponseEntity<List<OperationDTO>> getOperationsForPolicy(@PathVariable Integer policyId) {
+        return ResponseEntity.ok(policyTargetService.getOperationsForPolicy(policyId));
+    }
+
+    @GetMapping("/{policyId}/resources")
+    @Operation(summary = "Get resources linked to a policy")
+    public ResponseEntity<List<ResourceDTO>> getResourcesForPolicy(@PathVariable Integer policyId) {
+        return ResponseEntity.ok(policyTargetService.getResourcesForPolicy(policyId));
+    }
 
     @PostMapping("/{policyId}/operations/{operationId}")
     @Operation(summary = "Add operation target to policy")
