@@ -1,8 +1,8 @@
 package org.oswfm.userservice.service;
 
-import org.oswfm.userservice.model.dto.UserProfileSettingDTO;
-
 import java.util.List;
+
+import org.oswfm.userservice.model.dto.UserProfileSettingDTO;
 
 public interface UserProfileSettingService {
 
@@ -13,4 +13,6 @@ public interface UserProfileSettingService {
     void deleteSetting(Integer profileSettingId);
 
     void deleteSettingByUserIdAndKey(Integer userId, String settingKey);
+
+    public void deleteSettingsByUserId(Integer id);
 }

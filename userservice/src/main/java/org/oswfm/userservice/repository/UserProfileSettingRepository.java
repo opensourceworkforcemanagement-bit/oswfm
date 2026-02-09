@@ -1,11 +1,11 @@
 package org.oswfm.userservice.repository;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.oswfm.userservice.model.entity.UserProfileSetting;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface UserProfileSettingRepository extends JpaRepository<UserProfileSetting, Integer> {
@@ -15,4 +15,6 @@ public interface UserProfileSettingRepository extends JpaRepository<UserProfileS
     Optional<UserProfileSetting> findByUserIdAndSettingKey(Integer userId, String settingKey);
 
     void deleteByUserIdAndSettingKey(Integer userId, String settingKey);
+
+    public void deleteByUserId(Integer userId);
 }

@@ -13,8 +13,8 @@ import org.oswfm.commons.model.user.dto.response.TokenResponse;
 import org.oswfm.commons.model.user.entity.UserEntity;
 import org.oswfm.commons.model.user.mapper.TokenToTokenResponseMapper;
 import org.oswfm.commons.model.user.mapper.UserEntityToUserMapper;
-import org.oswfm.userservice.repository.UserEntityRepository;
 import org.oswfm.userservice.model.dto.UserProfileSettingDTO;
+import org.oswfm.userservice.repository.UserEntityRepository;
 import org.oswfm.userservice.service.LogoutService;
 import org.oswfm.userservice.service.RefreshTokenService;
 import org.oswfm.userservice.service.RegisterService;
@@ -210,6 +210,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public CustomResponse<Void> deleteUser(@PathVariable Integer id) {
         log.info("UserController | deleteUser | id: {}", id);
+        userProfileSettingService.deleteSettingsByUserId(id); // Clean up profile settings before deleting user
         userManagementService.deleteUser(id);
         return CustomResponse.SUCCESS;
     }

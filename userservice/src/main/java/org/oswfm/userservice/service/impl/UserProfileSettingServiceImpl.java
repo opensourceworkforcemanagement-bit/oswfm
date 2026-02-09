@@ -1,5 +1,9 @@
 package org.oswfm.userservice.service.impl;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.oswfm.userservice.model.dto.UserProfileSettingDTO;
 import org.oswfm.userservice.model.entity.UserProfileSetting;
 import org.oswfm.userservice.repository.UserProfileSettingRepository;
@@ -8,10 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -67,5 +67,11 @@ public class UserProfileSettingServiceImpl implements UserProfileSettingService 
         dto.setSettingKey(entity.getSettingKey());
         dto.setSettingValue(entity.getSettingValue());
         return dto;
+    }
+
+    @Override
+    @Transactional
+    public void deleteSettingsByUserId(Integer id) {
+        repository.deleteByUserId(id);
     }
 }
