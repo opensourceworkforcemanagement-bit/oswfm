@@ -2,6 +2,7 @@ package org.oswfm.employeeservice.controller;
 
 import java.util.List;
 
+import org.oswfm.employeeservice.model.dto.CreateEmployeeWithUserRequestDTO;
 import org.oswfm.employeeservice.model.dto.EmployeesRequestDTO;
 import org.oswfm.employeeservice.model.dto.EmployeesResponseDTO;
 import org.oswfm.employeeservice.service.EmployeesService;
@@ -107,5 +108,21 @@ public class EmployeesController {
     @GetMapping("/count")
     public ResponseEntity<Long> count() {
         return ResponseEntity.ok(service.count());
+    }
+
+    /**
+     * Create a new Employee, optionally creating a User account at the same time.
+     * If createUser is true and the username is already taken, returns 409 Conflict.
+     * POST /api/v1/employees/create-with-user
+     */
+    @PostMapping("/create-with-user")
+    public ResponseEntity<?> createWithUser(
+            @Valid @RequestBody CreateEmployeeWithUserRequestDTO requestDTO) {
+        try {
+            EmployeesResponseDTO created = service.createWithUser(requestDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(created);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
 }

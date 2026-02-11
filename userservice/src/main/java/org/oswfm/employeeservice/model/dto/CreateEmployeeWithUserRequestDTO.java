@@ -1,0 +1,29 @@
+package org.oswfm.employeeservice.model.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CreateEmployeeWithUserRequestDTO {
+
+    @NotNull
+    @NotBlank
+    private String employeeIdentifier;
+
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private Integer status;
+
+    @NotNull
+    @NotBlank
+    private String userName;
+
+    private boolean createUser;
+    private String password;
+}

@@ -96,6 +96,11 @@ public class GatewayConfig {
                         .filters(f -> f.filter(jwtAuthFilter.apply(new JwtAuthenticationFilter.Config()
                                 .setPublicEndpoints(PUBLIC_ENDPOINTS))))
                         .uri("lb://timesheetservice"))
+                .route("timesheet-summary", r -> r.path("/api/v1/timesheet-summary/**")
+                        .filters(f -> f.filter(jwtAuthFilter.apply(new JwtAuthenticationFilter.Config()
+                                .setPublicEndpoints(PUBLIC_ENDPOINTS))))
+                        .uri("lb://timesheetservice"))
+                       
                 // Employee Service Routes
                 .route("addresses", r -> r.path("/api/v1/addresses/**")
                         .filters(f -> f.filter(jwtAuthFilter.apply(new JwtAuthenticationFilter.Config()
