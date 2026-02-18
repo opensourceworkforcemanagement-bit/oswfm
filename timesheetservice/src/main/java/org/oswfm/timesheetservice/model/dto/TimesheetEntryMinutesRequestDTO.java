@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class TimesheetEntryMinutesRequestDTO {
 
     //@NotNull(message = "Timesheet entries ID is required")
-    private Long timesheetEntriesId;
+    private Integer timesheetEntriesId;
 
     @NotNull(message = "Minutes is required")
     private BigDecimal minutes;

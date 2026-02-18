@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TimesheetEntriesNormalizedRepository extends JpaRepository<TimesheetEntriesNormalized, Long> {
+public interface TimesheetEntriesNormalizedRepository extends JpaRepository<TimesheetEntriesNormalized, Integer> {
 
-    List<TimesheetEntriesNormalized> findByTimesheetNormalizedId(Long timesheetNormalizedId);
+    List<TimesheetEntriesNormalized> findByTimesheetNormalizedId(Integer timesheetNormalizedId);
 
-    void deleteByTimesheetNormalizedId(Long timesheetNormalizedId);
+    void deleteByTimesheetNormalizedId(Integer timesheetNormalizedId);
 }

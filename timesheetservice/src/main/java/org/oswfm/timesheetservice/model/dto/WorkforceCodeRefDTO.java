@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WorkforceCodeRefDTO {
 
-    private Long id;
+    private Integer id;
 
     private Integer codeTypeId;
 }

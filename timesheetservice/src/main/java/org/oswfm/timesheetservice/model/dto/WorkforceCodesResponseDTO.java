@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class WorkforceCodesResponseDTO {
 
-    private Long id;
+    private Integer id;
 
     private Integer codeTypeId;
 
-    private Long codeId;
+    private Integer codeId;
 
     private String prefix;
 

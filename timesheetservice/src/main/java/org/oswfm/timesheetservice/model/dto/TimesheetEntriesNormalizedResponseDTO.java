@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TimesheetEntriesNormalizedResponseDTO {
 
-    private Long timesheetEntriesId;
+    private Integer timesheetEntriesId;
 
-    private Long timesheetNormalizedId;
+    private Integer timesheetNormalizedId;
 
     private Set<WorkforceCodesResponseDTO> workforceCodes;
 

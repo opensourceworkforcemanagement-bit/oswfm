@@ -55,7 +55,7 @@ public class TimesheetEntryMinutesNormalizedController {
      * GET /api/v1/timesheet-entry-minutes/{id}
      */
     @GetMapping("/{id}")
-    public ResponseEntity<TimesheetEntryMinutesResponseDTO> getById(@PathVariable Long id) {
+    public ResponseEntity<TimesheetEntryMinutesResponseDTO> getById(@PathVariable Integer id) {
         return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -67,7 +67,7 @@ public class TimesheetEntryMinutesNormalizedController {
      */
     @GetMapping
     public ResponseEntity<List<TimesheetEntryMinutesResponseDTO>> getAll(
-            @RequestParam(required = false) Long timesheetEntriesId,
+            @RequestParam(required = false) Integer timesheetEntriesId,
             @RequestParam(required = false) String dayOfWeek,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 
@@ -92,7 +92,7 @@ public class TimesheetEntryMinutesNormalizedController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<TimesheetEntryMinutesResponseDTO> update(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @Valid @RequestBody TimesheetEntryMinutesRequestDTO requestDTO) {
         return service.update(id, requestDTO)
                 .map(ResponseEntity::ok)
@@ -104,7 +104,7 @@ public class TimesheetEntryMinutesNormalizedController {
      * DELETE /api/v1/timesheet-entry-minutes/{id}
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (service.delete(id)) {
             return ResponseEntity.noContent().build();
         }
@@ -116,7 +116,7 @@ public class TimesheetEntryMinutesNormalizedController {
      * DELETE /api/v1/timesheet-entry-minutes/entry/{timesheetEntriesId}
      */
     @DeleteMapping("/entry/{timesheetEntriesId}")
-    public ResponseEntity<Void> deleteByTimesheetEntriesId(@PathVariable Long timesheetEntriesId) {
+    public ResponseEntity<Void> deleteByTimesheetEntriesId(@PathVariable Integer timesheetEntriesId) {
         service.deleteByTimesheetEntriesId(timesheetEntriesId);
         return ResponseEntity.noContent().build();
     }
@@ -126,7 +126,7 @@ public class TimesheetEntryMinutesNormalizedController {
      * HEAD /api/v1/timesheet-entry-minutes/{id}
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
-    public ResponseEntity<Void> exists(@PathVariable Long id) {
+    public ResponseEntity<Void> exists(@PathVariable Integer id) {
         if (service.exists(id)) {
             return ResponseEntity.ok().build();
         }

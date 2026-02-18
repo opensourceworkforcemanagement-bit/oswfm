@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TimesheetNormalizedResponseDTO {
 
-    private Long timesheetNormalizedId;
+    private Integer timesheetNormalizedId;
 
     private Integer employeeId;
 

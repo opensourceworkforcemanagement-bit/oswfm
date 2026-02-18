@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 public class TimesheetEntryCodesRequestDTO {
 
     @NotNull(message = "Timesheet entries ID is required")
-    private Long timesheetEntriesId;
+    private Integer timesheetEntriesId;
 
     @NotNull(message = "Workforce codes ID is required")
-    private Long workforceCodesId;
+    private Integer workforceCodesId;
 }

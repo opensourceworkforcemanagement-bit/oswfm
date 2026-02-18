@@ -50,7 +50,7 @@ public class TimesheetEntryMinutesNormalizedService {
      * Get TimesheetEntryMinutes by ID
      */
     @Transactional(readOnly = true)
-    public Optional<TimesheetEntryMinutesResponseDTO> getById(Long id) {
+    public Optional<TimesheetEntryMinutesResponseDTO> getById(Integer id) {
         return repository.findById(id)
                 .map(mapper::toResponseDTO);
     }
@@ -69,7 +69,7 @@ public class TimesheetEntryMinutesNormalizedService {
      * Get TimesheetEntryMinutes by timesheet entries ID
      */
     @Transactional(readOnly = true)
-    public List<TimesheetEntryMinutesResponseDTO> getByTimesheetEntriesId(Long timesheetEntriesId) {
+    public List<TimesheetEntryMinutesResponseDTO> getByTimesheetEntriesId(Integer timesheetEntriesId) {
         return repository.findByTimesheetEntriesId(timesheetEntriesId).stream()
                 .map(mapper::toResponseDTO)
                 .collect(Collectors.toList());
@@ -79,7 +79,7 @@ public class TimesheetEntryMinutesNormalizedService {
      * Get TimesheetEntryMinutes by timesheet entries ID and day of week
      */
     @Transactional(readOnly = true)
-    public List<TimesheetEntryMinutesResponseDTO> getByTimesheetEntriesIdAndDayOfWeek(Long timesheetEntriesId, String dayOfWeek) {
+    public List<TimesheetEntryMinutesResponseDTO> getByTimesheetEntriesIdAndDayOfWeek(Integer timesheetEntriesId, String dayOfWeek) {
         return repository.findByTimesheetEntriesIdAndDayOfWeek(timesheetEntriesId, dayOfWeek).stream()
                 .map(mapper::toResponseDTO)
                 .collect(Collectors.toList());
@@ -89,7 +89,7 @@ public class TimesheetEntryMinutesNormalizedService {
      * Get TimesheetEntryMinutes by timesheet entries ID and date
      */
     @Transactional(readOnly = true)
-    public List<TimesheetEntryMinutesResponseDTO> getByTimesheetEntriesIdAndDate(Long timesheetEntriesId, Date date) {
+    public List<TimesheetEntryMinutesResponseDTO> getByTimesheetEntriesIdAndDate(Integer timesheetEntriesId, Date date) {
         return repository.findByTimesheetEntriesIdAndDate(timesheetEntriesId, date).stream()
                 .map(mapper::toResponseDTO)
                 .collect(Collectors.toList());
@@ -98,7 +98,7 @@ public class TimesheetEntryMinutesNormalizedService {
     /**
      * Update an existing TimesheetEntryMinutes
      */
-    public Optional<TimesheetEntryMinutesResponseDTO> update(Long id, TimesheetEntryMinutesRequestDTO requestDTO) {
+    public Optional<TimesheetEntryMinutesResponseDTO> update(Integer id, TimesheetEntryMinutesRequestDTO requestDTO) {
         return repository.findById(id)
                 .map(entity -> {
                     mapper.updateEntityFromDTO(requestDTO, entity);
@@ -110,7 +110,7 @@ public class TimesheetEntryMinutesNormalizedService {
     /**
      * Delete TimesheetEntryMinutes by ID
      */
-    public boolean delete(Long id) {
+    public boolean delete(Integer id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
             return true;
@@ -121,7 +121,7 @@ public class TimesheetEntryMinutesNormalizedService {
     /**
      * Delete all minutes for a timesheet entry
      */
-    public void deleteByTimesheetEntriesId(Long timesheetEntriesId) {
+    public void deleteByTimesheetEntriesId(Integer timesheetEntriesId) {
         repository.deleteByTimesheetEntriesId(timesheetEntriesId);
     }
 
@@ -129,7 +129,7 @@ public class TimesheetEntryMinutesNormalizedService {
      * Check if TimesheetEntryMinutes exists by ID
      */
     @Transactional(readOnly = true)
-    public boolean exists(Long id) {
+    public boolean exists(Integer id) {
         return repository.existsById(id);
     }
 

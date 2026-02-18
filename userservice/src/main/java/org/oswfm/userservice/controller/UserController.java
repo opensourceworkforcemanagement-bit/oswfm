@@ -76,10 +76,10 @@ public class UserController {
      * @return a {@link CustomResponse} indicating the success of the registration
      */
     @PostMapping("/register")
-    public CustomResponse<Void> registerUser(@RequestBody @Validated final RegisterRequest registerRequest) {
+    public CustomResponse<User> registerUser(@RequestBody @Validated final RegisterRequest registerRequest) {
         log.info("UserController | registerUser");
-        registerService.registerUser(registerRequest);
-        return CustomResponse.SUCCESS;
+        final User registeredUser = registerService.registerUser(registerRequest);
+        return CustomResponse.successOf(registeredUser);
     }
 
     /**

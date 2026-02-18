@@ -70,7 +70,7 @@ public class TimesheetNormalizedService {
         List<TimesheetEntryCreateDTO> entryDTOs = requestDTO.getTimesheetEntries();
         if (entryDTOs != null && !entryDTOs.isEmpty()) {
             // Collect all referenced workforce code IDs for batch lookup
-            Set<Long> allCodeIds = new HashSet<>();
+            Set<Integer> allCodeIds = new HashSet<>();
             for (TimesheetEntryCreateDTO entryDTO : entryDTOs) {
                 if (entryDTO.getWorkforceCode() != null && entryDTO.getWorkforceCode().getId() != null) {
                     allCodeIds.add(entryDTO.getWorkforceCode().getId());
@@ -80,11 +80,8 @@ public class TimesheetNormalizedService {
                 }
             }
 
-            // Batch-load workforce codes (repository uses Integer IDs)
-            Set<Integer> intCodeIds = allCodeIds.stream()
-                    .map(Long::intValue)
-                    .collect(Collectors.toSet());
-            Map<Long, WorkforceCodes> codesById = workforceCodesRepository.findAllById(intCodeIds)
+            // Batch-load workforce codes
+            Map<Integer, WorkforceCodes> codesById = workforceCodesRepository.findAllById(allCodeIds)
                     .stream()
                     .collect(Collectors.toMap(WorkforceCodes::getId, Function.identity()));
 
@@ -118,7 +115,7 @@ public class TimesheetNormalizedService {
         return mapper.toResponseDTO(repository.findById(saved.getTimesheetNormalizedId()).orElse(saved));
     }
 
-    private void addCodeIfPresent(Set<WorkforceCodes> codes, Map<Long, WorkforceCodes> codesById, WorkforceCodeRefDTO ref) {
+    private void addCodeIfPresent(Set<WorkforceCodes> codes, Map<Integer, WorkforceCodes> codesById, WorkforceCodeRefDTO ref) {
         if (ref != null && ref.getId() != null) {
             WorkforceCodes code = codesById.get(ref.getId());
             if (code != null) {
@@ -153,7 +150,7 @@ public class TimesheetNormalizedService {
      * Get TimesheetNormalized by ID
      */
     @Transactional(readOnly = true)
-    public Optional<TimesheetNormalizedResponseDTO> getById(Long id) {
+    public Optional<TimesheetNormalizedResponseDTO> getById(Integer id) {
         return repository.findById(id)
                 .map(mapper::toResponseDTO);
     }
@@ -162,7 +159,7 @@ public class TimesheetNormalizedService {
      * Get TimesheetNormalized by ID without entries
      */
     @Transactional(readOnly = true)
-    public Optional<TimesheetNormalizedResponseDTO> getByIdWithoutEntries(Long id) {
+    public Optional<TimesheetNormalizedResponseDTO> getByIdWithoutEntries(Integer id) {
         return repository.findById(id)
                 .map(mapper::toResponseDTOWithoutEntries);
     }
@@ -230,7 +227,7 @@ public class TimesheetNormalizedService {
     /**
      * Update an existing TimesheetNormalized
      */
-    public Optional<TimesheetNormalizedResponseDTO> update(Long id, TimesheetNormalizedRequestDTO requestDTO) {
+    public Optional<TimesheetNormalizedResponseDTO> update(Integer id, TimesheetNormalizedRequestDTO requestDTO) {
         return repository.findById(id)
                 .map(entity -> {
                     mapper.updateEntityFromDTO(requestDTO, entity);
@@ -242,7 +239,7 @@ public class TimesheetNormalizedService {
     /**
      * Update status only
      */
-    public Optional<TimesheetNormalizedResponseDTO> updateStatus(Long id, Integer status) {
+    public Optional<TimesheetNormalizedResponseDTO> updateStatus(Integer id, Integer status) {
         return repository.findById(id)
                 .map(entity -> {
                     entity.setStatus(status);
@@ -254,7 +251,7 @@ public class TimesheetNormalizedService {
     /**
      * Delete TimesheetNormalized by ID
      */
-    public boolean delete(Long id) {
+    public boolean delete(Integer id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
             return true;
@@ -266,7 +263,7 @@ public class TimesheetNormalizedService {
      * Check if TimesheetNormalized exists by ID
      */
     @Transactional(readOnly = true)
-    public boolean exists(Long id) {
+    public boolean exists(Integer id) {
         return repository.existsById(id);
     }
 

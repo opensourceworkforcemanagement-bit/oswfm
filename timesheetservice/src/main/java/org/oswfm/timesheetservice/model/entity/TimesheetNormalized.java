@@ -27,7 +27,7 @@ public class TimesheetNormalized {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "timesheet_normalized_id")
-    private Long timesheetNormalizedId;
+    private Integer timesheetNormalizedId;
 
     @Column(name = "employee_id", nullable = false)
     private Integer employeeId;
@@ -38,7 +38,7 @@ public class TimesheetNormalized {
     @Column(name = "timesheet_type_id", nullable = false)
     private Integer timesheetTypeId;
 
-    @Column(name = "status")
+    @Column(name = "status", columnDefinition = "int2")
     private Integer status;
 
     @ManyToOne(fetch = FetchType.LAZY)

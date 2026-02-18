@@ -43,7 +43,7 @@ public class TimesheetEntriesNormalizedController {
      * GET /api/v1/timesheet-entries-normalized/{id}
      */
     @GetMapping("/{id}")
-    public ResponseEntity<TimesheetEntriesNormalizedResponseDTO> getById(@PathVariable Long id) {
+    public ResponseEntity<TimesheetEntriesNormalizedResponseDTO> getById(@PathVariable Integer id) {
         return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -55,7 +55,7 @@ public class TimesheetEntriesNormalizedController {
      */
     @GetMapping
     public ResponseEntity<List<TimesheetEntriesNormalizedResponseDTO>> getAll(
-            @RequestParam(required = false) Long timesheetNormalizedId) {
+            @RequestParam(required = false) Integer timesheetNormalizedId) {
 
         List<TimesheetEntriesNormalizedResponseDTO> list;
 
@@ -74,7 +74,7 @@ public class TimesheetEntriesNormalizedController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<TimesheetEntriesNormalizedResponseDTO> update(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @Valid @RequestBody TimesheetEntriesNormalizedRequestDTO requestDTO) {
         return service.update(id, requestDTO)
                 .map(ResponseEntity::ok)
@@ -87,8 +87,8 @@ public class TimesheetEntriesNormalizedController {
      */
     @PostMapping("/{id}/workforce-codes/{workforceCodeId}")
     public ResponseEntity<TimesheetEntriesNormalizedResponseDTO> addWorkforceCode(
-            @PathVariable Long id,
-            @PathVariable Long workforceCodeId) {
+            @PathVariable Integer id,
+            @PathVariable Integer workforceCodeId) {
         return service.addWorkforceCode(id, workforceCodeId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -100,8 +100,8 @@ public class TimesheetEntriesNormalizedController {
      */
     @DeleteMapping("/{id}/workforce-codes/{workforceCodeId}")
     public ResponseEntity<TimesheetEntriesNormalizedResponseDTO> removeWorkforceCode(
-            @PathVariable Long id,
-            @PathVariable Long workforceCodeId) {
+            @PathVariable Integer id,
+            @PathVariable Integer workforceCodeId) {
         return service.removeWorkforceCode(id, workforceCodeId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -112,7 +112,7 @@ public class TimesheetEntriesNormalizedController {
      * DELETE /api/v1/timesheet-entries-normalized/{id}
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (service.delete(id)) {
             return ResponseEntity.noContent().build();
         }
@@ -124,7 +124,7 @@ public class TimesheetEntriesNormalizedController {
      * HEAD /api/v1/timesheet-entries-normalized/{id}
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
-    public ResponseEntity<Void> exists(@PathVariable Long id) {
+    public ResponseEntity<Void> exists(@PathVariable Integer id) {
         if (service.exists(id)) {
             return ResponseEntity.ok().build();
         }

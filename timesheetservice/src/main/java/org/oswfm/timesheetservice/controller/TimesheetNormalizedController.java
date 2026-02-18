@@ -44,7 +44,7 @@ public class TimesheetNormalizedController {
      * GET /api/v1/timesheets-normalized/{id}
      */
     @GetMapping("/{id}")
-    public ResponseEntity<TimesheetNormalizedResponseDTO> getById(@PathVariable Long id) {
+    public ResponseEntity<TimesheetNormalizedResponseDTO> getById(@PathVariable Integer id) {
         return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -85,7 +85,7 @@ public class TimesheetNormalizedController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<TimesheetNormalizedResponseDTO> update(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @Valid @RequestBody TimesheetNormalizedRequestDTO requestDTO) {
         return service.update(id, requestDTO)
                 .map(ResponseEntity::ok)
@@ -98,7 +98,7 @@ public class TimesheetNormalizedController {
      */
     @PatchMapping("/{id}/status")
     public ResponseEntity<TimesheetNormalizedResponseDTO> updateStatus(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @RequestParam Integer status) {
         return service.updateStatus(id, status)
                 .map(ResponseEntity::ok)
@@ -110,7 +110,7 @@ public class TimesheetNormalizedController {
      * DELETE /api/v1/timesheets-normalized/{id}
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (service.delete(id)) {
             return ResponseEntity.noContent().build();
         }
@@ -122,7 +122,7 @@ public class TimesheetNormalizedController {
      * HEAD /api/v1/timesheets-normalized/{id}
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
-    public ResponseEntity<Void> exists(@PathVariable Long id) {
+    public ResponseEntity<Void> exists(@PathVariable Integer id) {
         if (service.exists(id)) {
             return ResponseEntity.ok().build();
         }

@@ -53,8 +53,8 @@ public class TimesheetEntriesNormalizedService {
         // Link workforce codes
         if (requestDTO.getWorkforceCodeIds() != null && !requestDTO.getWorkforceCodeIds().isEmpty()) {
             Set<WorkforceCodes> workforceCodes = new HashSet<>();
-            for (Long codeId : requestDTO.getWorkforceCodeIds()) {
-                workforceCodesRepository.findById(codeId.intValue())
+            for (Integer codeId : requestDTO.getWorkforceCodeIds()) {
+                workforceCodesRepository.findById(codeId)
                         .ifPresent(workforceCodes::add);
             }
             entity.setWorkforceCodes(workforceCodes);
@@ -84,7 +84,7 @@ public class TimesheetEntriesNormalizedService {
      * Get TimesheetEntriesNormalized by ID
      */
     @Transactional(readOnly = true)
-    public Optional<TimesheetEntriesNormalizedResponseDTO> getById(Long id) {
+    public Optional<TimesheetEntriesNormalizedResponseDTO> getById(Integer id) {
         return repository.findById(id)
                 .map(mapper::toResponseDTO);
     }
@@ -103,7 +103,7 @@ public class TimesheetEntriesNormalizedService {
      * Get TimesheetEntriesNormalized by timesheet normalized ID
      */
     @Transactional(readOnly = true)
-    public List<TimesheetEntriesNormalizedResponseDTO> getByTimesheetNormalizedId(Long timesheetNormalizedId) {
+    public List<TimesheetEntriesNormalizedResponseDTO> getByTimesheetNormalizedId(Integer timesheetNormalizedId) {
         return repository.findByTimesheetNormalizedId(timesheetNormalizedId).stream()
                 .map(mapper::toResponseDTO)
                 .collect(Collectors.toList());
@@ -112,7 +112,7 @@ public class TimesheetEntriesNormalizedService {
     /**
      * Update an existing TimesheetEntriesNormalized including workforce codes and entry minutes.
      */
-    public Optional<TimesheetEntriesNormalizedResponseDTO> update(Long id, TimesheetEntriesNormalizedRequestDTO requestDTO) {
+    public Optional<TimesheetEntriesNormalizedResponseDTO> update(Integer id, TimesheetEntriesNormalizedRequestDTO requestDTO) {
         return repository.findById(id)
                 .map(entity -> {
                     mapper.updateEntityFromDTO(requestDTO, entity);
@@ -120,8 +120,8 @@ public class TimesheetEntriesNormalizedService {
                     // Update workforce codes if provided
                     if (requestDTO.getWorkforceCodeIds() != null) {
                         Set<WorkforceCodes> workforceCodes = new HashSet<>();
-                        for (Long codeId : requestDTO.getWorkforceCodeIds()) {
-                            workforceCodesRepository.findById(codeId.intValue())
+                        for (Integer codeId : requestDTO.getWorkforceCodeIds()) {
+                            workforceCodesRepository.findById(codeId)
                                     .ifPresent(workforceCodes::add);
                         }
                         entity.setWorkforceCodes(workforceCodes);
@@ -158,10 +158,10 @@ public class TimesheetEntriesNormalizedService {
     /**
      * Add workforce code to entry
      */
-    public Optional<TimesheetEntriesNormalizedResponseDTO> addWorkforceCode(Long entryId, Long workforceCodeId) {
+    public Optional<TimesheetEntriesNormalizedResponseDTO> addWorkforceCode(Integer entryId, Integer workforceCodeId) {
         return repository.findById(entryId)
                 .map(entity -> {
-                    workforceCodesRepository.findById(workforceCodeId.intValue())
+                    workforceCodesRepository.findById(workforceCodeId)
                             .ifPresent(code -> {
                                 if (entity.getWorkforceCodes() == null) {
                                     entity.setWorkforceCodes(new HashSet<>());
@@ -176,7 +176,7 @@ public class TimesheetEntriesNormalizedService {
     /**
      * Remove workforce code from entry
      */
-    public Optional<TimesheetEntriesNormalizedResponseDTO> removeWorkforceCode(Long entryId, Long workforceCodeId) {
+    public Optional<TimesheetEntriesNormalizedResponseDTO> removeWorkforceCode(Integer entryId, Integer workforceCodeId) {
         return repository.findById(entryId)
                 .map(entity -> {
                     if (entity.getWorkforceCodes() != null) {
@@ -190,7 +190,7 @@ public class TimesheetEntriesNormalizedService {
     /**
      * Delete TimesheetEntriesNormalized by ID
      */
-    public boolean delete(Long id) {
+    public boolean delete(Integer id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
             return true;
@@ -201,7 +201,7 @@ public class TimesheetEntriesNormalizedService {
     /**
      * Delete all entries for a timesheet
      */
-    public void deleteByTimesheetNormalizedId(Long timesheetNormalizedId) {
+    public void deleteByTimesheetNormalizedId(Integer timesheetNormalizedId) {
         repository.deleteByTimesheetNormalizedId(timesheetNormalizedId);
     }
 
@@ -209,7 +209,7 @@ public class TimesheetEntriesNormalizedService {
      * Check if TimesheetEntriesNormalized exists by ID
      */
     @Transactional(readOnly = true)
-    public boolean exists(Long id) {
+    public boolean exists(Integer id) {
         return repository.existsById(id);
     }
 

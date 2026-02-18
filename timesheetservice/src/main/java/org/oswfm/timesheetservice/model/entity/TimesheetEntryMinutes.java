@@ -28,15 +28,15 @@ public class TimesheetEntryMinutes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "timesheet_entries_id", nullable = false)
-    private Long timesheetEntriesId;
+    private Integer timesheetEntriesId;
 
     @Column(name = "minutes", nullable = false, precision = 5, scale = 2)
     private BigDecimal minutes;
 
-    @Column(name = "day_of_week", length = 1)
+    @Column(name = "day_of_week", columnDefinition = "char(1)")
     private String dayOfWeek;
 
     @Column(name = "date")

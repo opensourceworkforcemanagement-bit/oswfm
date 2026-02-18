@@ -39,7 +39,7 @@ public class TimesheetEntryCodesNormalizedService {
      */
     public Optional<TimesheetEntryCodesResponseDTO> create(TimesheetEntryCodesRequestDTO requestDTO) {
         Optional<TimesheetEntriesNormalized> entry = entriesRepository.findById(requestDTO.getTimesheetEntriesId());
-        Optional<WorkforceCodes> workforceCode = workforceCodesRepository.findById(requestDTO.getWorkforceCodesId().intValue());
+        Optional<WorkforceCodes> workforceCode = workforceCodesRepository.findById(requestDTO.getWorkforceCodesId());
 
         if (entry.isPresent() && workforceCode.isPresent()) {
             TimesheetEntryCodes entity = new TimesheetEntryCodes(entry.get(), workforceCode.get());
@@ -54,7 +54,7 @@ public class TimesheetEntryCodesNormalizedService {
      * Get TimesheetEntryCodes by composite ID
      */
     @Transactional(readOnly = true)
-    public Optional<TimesheetEntryCodesResponseDTO> getById(Long timesheetEntriesId, Long workforceCodesId) {
+    public Optional<TimesheetEntryCodesResponseDTO> getById(Integer timesheetEntriesId, Integer workforceCodesId) {
         TimesheetEntryCodesId id = new TimesheetEntryCodesId(timesheetEntriesId, workforceCodesId);
         return repository.findById(id)
                 .map(mapper::toResponseDTO);
@@ -74,7 +74,7 @@ public class TimesheetEntryCodesNormalizedService {
      * Get TimesheetEntryCodes by timesheet entries ID
      */
     @Transactional(readOnly = true)
-    public List<TimesheetEntryCodesResponseDTO> getByTimesheetEntriesId(Long timesheetEntriesId) {
+    public List<TimesheetEntryCodesResponseDTO> getByTimesheetEntriesId(Integer timesheetEntriesId) {
         return repository.findByIdTimesheetEntriesId(timesheetEntriesId).stream()
                 .map(mapper::toResponseDTO)
                 .collect(Collectors.toList());
@@ -84,7 +84,7 @@ public class TimesheetEntryCodesNormalizedService {
      * Get TimesheetEntryCodes by workforce codes ID
      */
     @Transactional(readOnly = true)
-    public List<TimesheetEntryCodesResponseDTO> getByWorkforceCodesId(Long workforceCodesId) {
+    public List<TimesheetEntryCodesResponseDTO> getByWorkforceCodesId(Integer workforceCodesId) {
         return repository.findByIdWorkforceCodesId(workforceCodesId).stream()
                 .map(mapper::toResponseDTO)
                 .collect(Collectors.toList());
@@ -93,7 +93,7 @@ public class TimesheetEntryCodesNormalizedService {
     /**
      * Delete TimesheetEntryCodes by composite ID
      */
-    public boolean delete(Long timesheetEntriesId, Long workforceCodesId) {
+    public boolean delete(Integer timesheetEntriesId, Integer workforceCodesId) {
         TimesheetEntryCodesId id = new TimesheetEntryCodesId(timesheetEntriesId, workforceCodesId);
         if (repository.existsById(id)) {
             repository.deleteById(id);
@@ -105,14 +105,14 @@ public class TimesheetEntryCodesNormalizedService {
     /**
      * Delete all codes for a timesheet entry
      */
-    public void deleteByTimesheetEntriesId(Long timesheetEntriesId) {
+    public void deleteByTimesheetEntriesId(Integer timesheetEntriesId) {
         repository.deleteByIdTimesheetEntriesId(timesheetEntriesId);
     }
 
     /**
      * Delete all entries for a workforce code
      */
-    public void deleteByWorkforceCodesId(Long workforceCodesId) {
+    public void deleteByWorkforceCodesId(Integer workforceCodesId) {
         repository.deleteByIdWorkforceCodesId(workforceCodesId);
     }
 
@@ -120,7 +120,7 @@ public class TimesheetEntryCodesNormalizedService {
      * Check if association exists
      */
     @Transactional(readOnly = true)
-    public boolean exists(Long timesheetEntriesId, Long workforceCodesId) {
+    public boolean exists(Integer timesheetEntriesId, Integer workforceCodesId) {
         return repository.existsByIdTimesheetEntriesIdAndIdWorkforceCodesId(timesheetEntriesId, workforceCodesId);
     }
 

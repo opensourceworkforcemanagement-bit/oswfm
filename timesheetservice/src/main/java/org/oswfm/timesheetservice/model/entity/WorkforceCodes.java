@@ -22,13 +22,13 @@ public class WorkforceCodes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "code_type_id", nullable = false)
     private Integer codeTypeId;
 
     @Column(name = "code_id", nullable = false)
-    private Long codeId;
+    private Integer codeId;
 
     @Column(name = "prefix", length = 10)
     private String prefix;
@@ -45,7 +45,7 @@ public class WorkforceCodes {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "status")
+    @Column(name = "status", columnDefinition = "int2")
     private Integer status;
 
     @Column(name = "effective_date")

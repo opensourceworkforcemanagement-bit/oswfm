@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TimesheetEntryCodesResponseDTO {
 
-    private Long timesheetEntriesId;
+    private Integer timesheetEntriesId;
 
-    private Long workforceCodesId;
+    private Integer workforceCodesId;
 
     private WorkforceCodesResponseDTO workforceCode;
 }

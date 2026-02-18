@@ -8,13 +8,13 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface TimesheetEntryMinutesNormalizedRepository extends JpaRepository<TimesheetEntryMinutes, Long> {
+public interface TimesheetEntryMinutesNormalizedRepository extends JpaRepository<TimesheetEntryMinutes, Integer> {
 
-    List<TimesheetEntryMinutes> findByTimesheetEntriesId(Long timesheetEntriesId);
+    List<TimesheetEntryMinutes> findByTimesheetEntriesId(Integer timesheetEntriesId);
 
-    List<TimesheetEntryMinutes> findByTimesheetEntriesIdAndDayOfWeek(Long timesheetEntriesId, String dayOfWeek);
+    List<TimesheetEntryMinutes> findByTimesheetEntriesIdAndDayOfWeek(Integer timesheetEntriesId, String dayOfWeek);
 
-    List<TimesheetEntryMinutes> findByTimesheetEntriesIdAndDate(Long timesheetEntriesId, Date date);
+    List<TimesheetEntryMinutes> findByTimesheetEntriesIdAndDate(Integer timesheetEntriesId, Date date);
 
-    void deleteByTimesheetEntriesId(Long timesheetEntriesId);
+    void deleteByTimesheetEntriesId(Integer timesheetEntriesId);
 }

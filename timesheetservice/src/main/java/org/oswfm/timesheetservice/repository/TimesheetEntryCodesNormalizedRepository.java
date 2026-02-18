@@ -10,13 +10,13 @@ import java.util.List;
 @Repository
 public interface TimesheetEntryCodesNormalizedRepository extends JpaRepository<TimesheetEntryCodes, TimesheetEntryCodesId> {
 
-    List<TimesheetEntryCodes> findByIdTimesheetEntriesId(Long timesheetEntriesId);
+    List<TimesheetEntryCodes> findByIdTimesheetEntriesId(Integer timesheetEntriesId);
 
-    List<TimesheetEntryCodes> findByIdWorkforceCodesId(Long workforceCodesId);
+    List<TimesheetEntryCodes> findByIdWorkforceCodesId(Integer workforceCodesId);
 
-    void deleteByIdTimesheetEntriesId(Long timesheetEntriesId);
+    void deleteByIdTimesheetEntriesId(Integer timesheetEntriesId);
 
-    void deleteByIdWorkforceCodesId(Long workforceCodesId);
+    void deleteByIdWorkforceCodesId(Integer workforceCodesId);
 
-    boolean existsByIdTimesheetEntriesIdAndIdWorkforceCodesId(Long timesheetEntriesId, Long workforceCodesId);
+    boolean existsByIdTimesheetEntriesIdAndIdWorkforceCodesId(Integer timesheetEntriesId, Integer workforceCodesId);
 }

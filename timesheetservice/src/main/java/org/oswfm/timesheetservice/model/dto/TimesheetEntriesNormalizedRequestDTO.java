@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 public class TimesheetEntriesNormalizedRequestDTO {
 
     //@NotNull(message = "Timesheet normalized ID is required")
-    private Long timesheetNormalizedId;
+    private Integer timesheetNormalizedId;
 
-    private Set<Long> workforceCodeIds; //Primary key Ids of associated workforce codes
+    private Set<Integer> workforceCodeIds; //Primary key Ids of associated workforce codes
 
     private List<TimesheetEntryMinutesRequestDTO> entryMinutes;
 }

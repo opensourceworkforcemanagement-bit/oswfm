@@ -18,10 +18,10 @@ public class TimesheetEntryCodesId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "timesheet_entries_id")
-    private Long timesheetEntriesId;
+    private Integer timesheetEntriesId;
 
     @Column(name = "workforce_codes_id")
-    private Long workforceCodesId;
+    private Integer workforceCodesId;
 
     @Override
     public boolean equals(Object o) {

@@ -30,10 +30,10 @@ public class TimesheetEntriesNormalized {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "timesheet_entries_id")
-    private Long timesheetEntriesId;
+    private Integer timesheetEntriesId;
 
     @Column(name = "timesheet_normalized_id", nullable = false)
-    private Long timesheetNormalizedId;
+    private Integer timesheetNormalizedId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "timesheet_normalized_id", referencedColumnName = "timesheet_normalized_id", insertable = false, updatable = false)

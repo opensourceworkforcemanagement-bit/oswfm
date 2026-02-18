@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TimesheetEntryMinutesResponseDTO {
 
-    private Long id;
+    private Integer id;
 
-    private Long timesheetEntriesId;
+    private Integer timesheetEntriesId;
 
     private BigDecimal minutes;
 

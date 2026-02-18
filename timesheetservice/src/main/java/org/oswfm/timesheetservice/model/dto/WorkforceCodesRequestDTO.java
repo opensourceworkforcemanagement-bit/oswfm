@@ -18,7 +18,7 @@ public class WorkforceCodesRequestDTO {
     private Integer codeTypeId;
 
     @NotNull(message = "Code ID is required")
-    private Long codeId;
+    private Integer codeId;
 
     @Size(max = 10, message = "Prefix cannot exceed 10 characters")
     private String prefix;
