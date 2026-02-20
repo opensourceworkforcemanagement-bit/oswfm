@@ -4,6 +4,7 @@ Spring Boot Maven Runner - Multiple Projects
 Configure your project directory names below
 """
 
+import argparse
 import os
 import subprocess
 import sys
@@ -97,7 +98,7 @@ def run_init_sql(init_sql_path):
         print(f"[ERROR] Failed to run init.sql: {e}")
         return False
 
-def launch_spring_boot_project(project_name, project_path):
+def launch_spring_boot_project(project_name, project_path, clean=False):
     """Launch Spring Boot project in a new terminal window"""
     
     if not check_pom_exists(project_path):
@@ -113,6 +114,7 @@ def launch_spring_boot_project(project_name, project_path):
             maven_home = os.environ.get('MAVEN_HOME', '')
             java_home = os.environ.get('JAVA_HOME', '')
             
+            clean_cmd = 'mvn clean -Dmaven.test.skip=true && ' if clean else ''
             cmd = (
                 f'start "Spring Boot - {project_name}" cmd /k '
                 f'"set PATH={maven_home}\\bin;%PATH% && '
@@ -121,6 +123,7 @@ def launch_spring_boot_project(project_name, project_path):
                 f'cd /d "{project_path}" && '
                 f'echo [INFO] Changed to directory: %cd% && '
                 f'echo [INFO] Starting Maven Spring Boot... && '
+                f'{clean_cmd}'
                 f'mvn spring-boot:run -Dmaven.test.skip=true"'
             )
             subprocess.Popen(cmd, shell=True)
@@ -185,13 +188,24 @@ def main():
     print("[STEP 2] Launching Spring Boot Projects")
     print("-" * 50)
 
+
+    parser = argparse.ArgumentParser(
+        description='Check for cli arguments and launch Spring Boot projects in new terminal windows'
+    )
+    parser.add_argument(
+        '--clean', 
+        nargs='+',
+        required=False,
+        help='Determine if project directories need to be cleaned before launching (e.g. --clean userservice timesheetservice)'
+    )
+
     for project_dir_sleep in PROJECT_DIRS:
 
         for project_dir, sleeping_for in project_dir_sleep.items():
 
             full_path = base_dir / project_dir
             
-            if launch_spring_boot_project(project_dir, full_path):
+            if launch_spring_boot_project(project_dir, full_path, parser.parse_args().clean if parser.parse_args().clean else None):
                 print(f"[INFO] Waiting {sleeping_for} seconds before starting next service..." )
                 time.sleep(sleeping_for)
             

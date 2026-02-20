@@ -1,12 +1,5 @@
 server:
   port: 1110
-#  ssl:
-#    key-store: classpath:keystore.p12
-#    key-store-password: abc123
-#    key-store-type: PKCS12
-#  trust-store: classpath:keystore.p12
-#  trust-store-password: abc123
-#  trust-store-type: PKCS12
 
 spring:
   application:
@@ -20,17 +13,14 @@ spring:
         connect-timeout: 60000
         response-timeout: 60s
 
+# Internal service base URL used by UserServiceWebClient (BFF auth controller)
+services:
+  userservice-url: lb://userservice
+
 eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_SERVICE_URL:http://localhost:8761/eureka/}
-
-environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - LOG_FILE_PATH=/app/logs/apigateway.log
-volumes:
-      # Windows-friendly relative path
-      - C:\development\TA\app_logs:/app/logs
       
 # Logging Configuration
 logging:
