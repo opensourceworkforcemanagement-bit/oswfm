@@ -36,6 +36,7 @@ public class CorsConfig {
                 "http://localhost:3001",   // Usermanagement MFE (if run standalone)
                 "http://localhost:3002",   // Timesheetmanagement MFE (if run standalone)
                 "http://localhost:3003",   // Administrationmanagement MFE (if run standalone)
+                "http://localhost:3004",   // Timesheetmanagement MFE dev server
                 "http://localhost:8080"    // Alternative / reverse-proxy port
         ));
 

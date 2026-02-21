@@ -8,9 +8,12 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
 import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
+import org.springframework.security.web.server.csrf.CsrfToken;
 import org.springframework.security.web.server.csrf.ServerCsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
+import org.springframework.web.server.WebFilter;
+import reactor.core.publisher.Mono;
 
 /**
  * Security configuration for the BFF (Backend-for-Frontend) pattern.
@@ -46,6 +49,27 @@ public class BffSecurityConfig {
     @Bean
     WebSessionServerSecurityContextRepository securityContextRepository() {
         return new WebSessionServerSecurityContextRepository();
+    }
+
+    /**
+     * Ensures the XSRF-TOKEN cookie is written on every response.
+     *
+     * <p>With {@link ServerCsrfTokenRequestAttributeHandler}, the CSRF token is stored as a
+     * lazy {@code Mono} attribute on the exchange. If nothing subscribes to it (e.g. on a GET
+     * request), {@link CookieServerCsrfTokenRepository} never writes the cookie. This filter
+     * explicitly subscribes on every response so the cookie is always present for the SPA to read.
+     */
+    @Bean
+    WebFilter csrfCookieWebFilter() {
+        return (exchange, chain) -> {
+            Mono<CsrfToken> csrfToken = exchange.getAttribute(CsrfToken.class.getName());
+            if (csrfToken != null) {
+                return csrfToken.doOnSuccess(token -> {
+                    // Subscribing causes CookieServerCsrfTokenRepository to write the cookie
+                }).then(chain.filter(exchange));
+            }
+            return chain.filter(exchange);
+        };
     }
 
     @Bean
