@@ -1,5 +1,6 @@
 package org.oswfm.userservice.service.impl;
 
+import io.jsonwebtoken.Claims;
 import org.oswfm.commons.model.user.dto.request.TokenInvalidateRequest;
 import org.oswfm.userservice.service.InvalidTokenService;
 import org.oswfm.userservice.service.LogoutService;
@@ -7,6 +8,9 @@ import org.oswfm.userservice.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -21,6 +25,9 @@ public class LogoutServiceImpl implements LogoutService {
 
     /**
      * Logs out a user by invalidating their access and refresh tokens.
+     * The natural JWT expiry of each token is stored alongside its ID so the
+     * cleanup scheduler can prune blacklist rows once they can no longer be
+     * presented as valid tokens.
      *
      * @param tokenInvalidateRequest the request containing the tokens to be invalidated.
      */
@@ -34,20 +41,24 @@ public class LogoutServiceImpl implements LogoutService {
                 )
         );
 
-        final String accessTokenId = tokenService
-                .getPayload(tokenInvalidateRequest.getAccessToken())
-                .getId();
+        final Claims accessTokenPayload = tokenService.getPayload(tokenInvalidateRequest.getAccessToken());
+        final String accessTokenId = accessTokenPayload.getId();
+        final LocalDateTime accessTokenExpiry = accessTokenPayload.getExpiration()
+                .toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
         invalidTokenService.checkForInvalidityOfToken(accessTokenId);
 
-
-        final String refreshTokenId = tokenService
-                .getPayload(tokenInvalidateRequest.getRefreshToken())
-                .getId();
+        final Claims refreshTokenPayload = tokenService.getPayload(tokenInvalidateRequest.getRefreshToken());
+        final String refreshTokenId = refreshTokenPayload.getId();
+        final LocalDateTime refreshTokenExpiry = refreshTokenPayload.getExpiration()
+                .toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
         invalidTokenService.checkForInvalidityOfToken(refreshTokenId);
 
-        invalidTokenService.invalidateTokens(Set.of(accessTokenId,refreshTokenId));
+        invalidTokenService.invalidateTokens(Map.of(
+                accessTokenId, accessTokenExpiry,
+                refreshTokenId, refreshTokenExpiry
+        ));
 
     }
 

@@ -8,8 +8,10 @@ import org.oswfm.userservice.service.InvalidTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of {@link InvalidTokenService} for managing invalid tokens.
@@ -22,20 +24,20 @@ public class InvalidTokenServiceImpl implements InvalidTokenService {
 
     /**
      * Invalidates a set of tokens by saving them as invalid in the repository.
+     * Each entry maps a token ID to its natural JWT expiry so the cleanup
+     * scheduler can prune rows once they can no longer be presented as valid.
      *
-     * @param tokenIds a set of token IDs to be invalidated.
+     * @param tokenExpiryMap map of token ID → expiry timestamp.
      */
     @Override
-    public void invalidateTokens(Set<String> tokenIds) {
+    public void invalidateTokens(Map<String, LocalDateTime> tokenExpiryMap) {
 
-        final Set<InvalidTokenEntity> enocaInvalidTokenEntities = tokenIds.stream()
-                .map(tokenId -> InvalidTokenEntity.builder()
-                        .tokenId(tokenId)
-                        .build()
-                )
-                .collect(Collectors.toSet());
+        final List<InvalidTokenEntity> invalidTokenEntities = new ArrayList<>();
+        for (Map.Entry<String, LocalDateTime> entry : tokenExpiryMap.entrySet()) {
+            invalidTokenEntities.add(new InvalidTokenEntity(entry.getKey(), entry.getValue()));
+        }
 
-        invalidTokenRepository.saveAll(enocaInvalidTokenEntities);
+        invalidTokenRepository.saveAll(invalidTokenEntities);
     }
 
     /**

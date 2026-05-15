@@ -1,6 +1,7 @@
 package org.oswfm.userservice.service;
 
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.Map;
 
 /**
  * Service interface named {@link InvalidTokenService} for managing invalid tokens.
@@ -8,11 +9,13 @@ import java.util.Set;
 public interface InvalidTokenService {
 
     /**
-     * Invalidates a set of tokens by their IDs.
+     * Invalidates a set of tokens, each paired with its natural expiry time.
+     * The expiry is stored so the cleanup scheduler can prune rows once they
+     * are no longer presentable as valid tokens.
      *
-     * @param tokenIds a set of token IDs to be invalidated.
+     * @param tokenExpiryMap map of token ID → expiry timestamp.
      */
-    void invalidateTokens(final Set<String> tokenIds);
+    void invalidateTokens(final Map<String, LocalDateTime> tokenExpiryMap);
 
     /**
      * Checks if a token has been invalidated by its ID.

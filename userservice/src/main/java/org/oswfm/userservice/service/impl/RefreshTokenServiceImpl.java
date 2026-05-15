@@ -1,12 +1,12 @@
 package org.oswfm.userservice.service.impl;
 
-import org.oswfm.userservice.exception.UserNotFoundException;
-import org.oswfm.userservice.exception.UserStatusNotValidException;
 import org.oswfm.commons.model.user.Token;
 import org.oswfm.commons.model.user.dto.request.TokenRefreshRequest;
 import org.oswfm.commons.model.user.entity.UserEntity;
 import org.oswfm.commons.model.user.enums.TokenClaims;
 import org.oswfm.commons.model.user.enums.UserStatus;
+import org.oswfm.userservice.exception.UserNotFoundException;
+import org.oswfm.userservice.exception.UserStatusNotValidException;
 import org.oswfm.userservice.repository.UserEntityRepository;
 import org.oswfm.userservice.service.RefreshTokenService;
 import org.oswfm.userservice.service.TokenService;
@@ -65,7 +65,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
      * @throws UserStatusNotValidException if the user's status is not active.
      */
     private void validateUserStatus(final UserEntity userEntity) {
-        if (!(UserStatus.ACTIVE.equals(userEntity.getUserStatus()))) {
+        if (!(UserStatus.ACTIVE.equals(UserStatus.fromValue(userEntity.getUserStatus())))) {
             throw new UserStatusNotValidException("UserStatus = " + userEntity.getUserStatus());
         }
     }

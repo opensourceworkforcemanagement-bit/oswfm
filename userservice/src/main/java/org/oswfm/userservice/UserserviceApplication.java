@@ -5,13 +5,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * The entry point for the Timesheet service Spring Boot application.
+ * The entry point for the Userservice Spring Boot application.
  * This application is a Eureka client that registers itself with a Eureka server.
  * The application is configured with the {@link SpringBootApplication} annotation.
  */
 @SpringBootApplication
+@EnableScheduling
 @ComponentScan(basePackages = {
 	"org.oswfm.userservice",
 	"org.oswfm.employeeservice",

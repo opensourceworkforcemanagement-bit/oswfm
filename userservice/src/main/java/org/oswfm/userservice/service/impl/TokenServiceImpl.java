@@ -160,8 +160,11 @@ public class TokenServiceImpl implements TokenService {
         final List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
         try{
-            final UserType userType = UserType.valueOf(payload.get(TokenClaims.USER_TYPE.getValue()).toString());       
-            authorities.add(new SimpleGrantedAuthority(userType.name()));
+            final Object userTypeClaim = payload.get(TokenClaims.USER_TYPE.getValue());
+            if (userTypeClaim != null) {
+                final UserType userType = UserType.valueOf(userTypeClaim.toString());
+                authorities.add(new SimpleGrantedAuthority(userType.name()));
+            }
         } catch (Exception e) {
             log.warn("Failed to extract user type from token claims, defaulting to empty authorities", e);
         }
