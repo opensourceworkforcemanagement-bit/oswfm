@@ -1,0 +1,34 @@
+server:
+  port: 1122
+
+spring:
+  application:
+    name: signalingservice
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    org.oswfm.signalingservice: DEBUG
+    org.springframework.web.socket: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: ${LOG_FILE_PATH:logs/signalingservice.log}
+    max-size: ${LOG_MAX_SIZE:50MB}
+    max-history: ${LOG_MAX_HISTORY:30}
+    total-size-cap: ${LOG_TOTAL_SIZE:1GB}
+  logback:
+    rollingpolicy:
+      file-name-pattern: ${LOG_FILE_PATH:logs/signalingservice}-%d{yyyy-MM-dd}-%i.log
+      max-file-size: ${LOG_MAX_SIZE:50MB}
+      max-history: ${LOG_MAX_HISTORY:30}
+      total-size-cap: ${LOG_TOTAL_SIZE:1GB}
