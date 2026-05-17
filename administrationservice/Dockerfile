@@ -20,8 +20,8 @@ WORKDIR administrationservice
 # Copy the JAR file from the build stage
 COPY --from=build target/*.jar administrationservice.jar
 
-# Expose port 1113
-EXPOSE 1113
+# Expose port 1115 for the application
+EXPOSE 1115
 
 # Set the entrypoint command for running the application
 ENTRYPOINT ["java", "-jar", "administrationservice.jar"]

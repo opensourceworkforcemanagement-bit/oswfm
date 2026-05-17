@@ -2,6 +2,8 @@ version: "3.9"
 
 services:
 
+  # ── Infrastructure ──────────────────────────────────────────────────────────
+
   eurekaserver:
     image: eurekaserver:latest
     build:
@@ -11,12 +13,52 @@ services:
       - "8761:8761"
     environment:
       - SPRING_APPLICATION_NAME=eurekaserver
-      - EUREKA_INSTANCE_HOSTNAME=localhost
+      - EUREKA_INSTANCE_HOSTNAME=eurekaserver
       - EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
       - EUREKA_CLIENT_FETCH_REGISTRY=false
       - SERVER_PORT=8761
     networks:
       - opensourceworkforcemanagement
+
+  db:
+    image: postgis/postgis:latest
+    container_name: opensourceworkforcemanagementdb
+    ports:
+      - "0.0.0.0:5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=oswfm
+      - POSTGRES_DB=opensourceworkforcemanagement
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./init_opensourceworkforcemanagementdb.sql:/docker-entrypoint-initdb.d/02-init_opensourceworkforcemanagementdb.sql
+    networks:
+      - opensourceworkforcemanagement
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  kafka:
+    image: bitnami/kafka:3.7
+    ports:
+      - "9095:9095"
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9095
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9095
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+    networks:
+      - opensourceworkforcemanagement
+
+  # ── Gateway ─────────────────────────────────────────────────────────────────
 
   apigateway:
     image: apigateway:latest
@@ -29,10 +71,11 @@ services:
       - SPRING_APPLICATION_NAME=apigateway
       - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
     depends_on:
-      eurekaserver:
-        condition: service_started
+      - eurekaserver
     networks:
       - opensourceworkforcemanagement
+
+  # ── Core Services ────────────────────────────────────────────────────────────
 
   authservice:
     image: authservice:latest
@@ -42,12 +85,11 @@ services:
     ports:
       - "1112:1112"
     environment:
-      - server.port=1112
+      - SERVER_PORT=1112
       - SPRING_APPLICATION_NAME=authservice
       - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
     depends_on:
-      eurekaserver:
-        condition: service_started
+      - eurekaserver
     networks:
       - opensourceworkforcemanagement
 
@@ -59,17 +101,19 @@ services:
     ports:
       - "1113:1113"
     environment:
-      - server.port=1113
+      - SERVER_PORT=1113
       - SPRING_APPLICATION_NAME=userservice
       - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
-      - SECURITY_DB_IP=localhost
+      - SECURITY_DB_IP=db
       - SECURITY_DB_PORT=5432
-      - spring.datasource.url=jdbc:postgresql://host.docker.internal:5432/opensourceworkforcemanagement
+      - spring.datasource.url=jdbc:postgresql://db:5432/cheredb
       - spring.datasource.username=${DATABASE_USERNAME}
       - spring.datasource.password=${DATABASE_PASSWORD}
     depends_on:
       eurekaserver:
         condition: service_started
+      db:
+        condition: service_healthy
     networks:
       - opensourceworkforcemanagement
 
@@ -81,17 +125,150 @@ services:
     ports:
       - "1114:1114"
     environment:
-      - server.port=1114
+      - SERVER_PORT=1114
       - SPRING_APPLICATION_NAME=timesheetservice
       - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
-      - SECURITY_DB_IP=localhost
+      - SECURITY_DB_IP=db
       - SECURITY_DB_PORT=5432
-      - spring.datasource.url=jdbc:postgresql://host.docker.internal:5432/opensourceworkforcemanagement
+      - spring.datasource.url=jdbc:postgresql://db:5432/cheredb
       - spring.datasource.username=${DATABASE_USERNAME}
       - spring.datasource.password=${DATABASE_PASSWORD}
     depends_on:
       eurekaserver:
         condition: service_started
+      db:
+        condition: service_healthy
+    networks:
+      - opensourceworkforcemanagement
+
+  administrationservice:
+    image: administrationservice:latest
+    build:
+      context: ./administrationservice
+      dockerfile: Dockerfile
+    ports:
+      - "1115:1115"
+    environment:
+      - SERVER_PORT=1115
+      - SPRING_APPLICATION_NAME=administrationservice
+      - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
+      - SECURITY_DB_IP=db
+      - SECURITY_DB_PORT=5432
+      - spring.datasource.url=jdbc:postgresql://db:5432/cheredb
+      - spring.datasource.username=${DATABASE_USERNAME}
+      - spring.datasource.password=${DATABASE_PASSWORD}
+    depends_on:
+      eurekaserver:
+        condition: service_started
+      db:
+        condition: service_healthy
+    networks:
+      - opensourceworkforcemanagement
+
+  # ── Kafka-dependent Services ─────────────────────────────────────────────────
+
+  kafkaservice:
+    image: kafkaservice:latest
+    build:
+      context: ./kafkaservice
+      dockerfile: Dockerfile
+    ports:
+      - "1120:1120"
+    environment:
+      - SERVER_PORT=1120
+      - SPRING_APPLICATION_NAME=kafkaservice
+      - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    depends_on:
+      - eurekaserver
+      - kafka
+    networks:
+      - opensourceworkforcemanagement
+
+  orderservice:
+    image: orderservice:latest
+    build:
+      context: ./orderservice
+      dockerfile: Dockerfile
+    ports:
+      - "1121:1121"
+    environment:
+      - SERVER_PORT=1121
+      - SPRING_APPLICATION_NAME=orderservice
+      - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
+      - ORDER_DB_IP=db
+      - ORDER_DB_PORT=5432
+      - spring.datasource.url=jdbc:postgresql://db:5432/cheredb
+      - spring.datasource.username=${DATABASE_USERNAME}
+      - spring.datasource.password=${DATABASE_PASSWORD}
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    depends_on:
+      eurekaserver:
+        condition: service_started
+      kafka:
+        condition: service_started
+      db:
+        condition: service_healthy
+    networks:
+      - opensourceworkforcemanagement
+
+  gisservice:
+    image: gisservice:latest
+    build:
+      context: ./gisservice
+      dockerfile: Dockerfile
+    ports:
+      - "1116:1116"
+    environment:
+      - SERVER_PORT=1116
+      - SPRING_APPLICATION_NAME=gisservice
+      - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
+      - GIS_DB_IP=db
+      - GIS_DB_PORT=5432
+      - spring.datasource.url=jdbc:postgresql://db:5432/cheredb
+      - spring.datasource.username=${DATABASE_USERNAME}
+      - spring.datasource.password=${DATABASE_PASSWORD}
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    depends_on:
+      eurekaserver:
+        condition: service_started
+      kafka:
+        condition: service_started
+      db:
+        condition: service_healthy
+    networks:
+      - opensourceworkforcemanagement
+
+  notificationservice:
+    image: notificationservice:latest
+    build:
+      context: ./notificationservice
+      dockerfile: Dockerfile
+    ports:
+      - "1130:1130"
+    environment:
+      - SERVER_PORT=1130
+      - SPRING_APPLICATION_NAME=notificationservice
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      # Mount your Firebase service account JSON and set the path below:
+      # - FIREBASE_CREDENTIALS_PATH=/app/firebase-service-account.json
+    depends_on:
+      - kafka
+    networks:
+      - opensourceworkforcemanagement
+
+  # ── Standalone Services ───────────────────────────────────────────────────────
+
+  signalingservice:
+    image: signalingservice:latest
+    build:
+      context: ./signalingservice
+      dockerfile: Dockerfile
+    ports:
+      - "1122:1122"
+    environment:
+      - SERVER_PORT=1122
+      - SPRING_APPLICATION_NAME=signalingservice
     networks:
       - opensourceworkforcemanagement
 
@@ -99,3 +276,6 @@ services:
 networks:
   opensourceworkforcemanagement:
     driver: bridge
+
+volumes:
+  pgdata:

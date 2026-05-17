@@ -20,8 +20,8 @@ WORKDIR timesheetservice
 # Copy the JAR file from the build stage
 COPY --from=build target/*.jar timesheetservice.jar
 
-# Expose port 1111
-EXPOSE 1111
+# Expose port 1114 for the application
+EXPOSE 1114
 
 # Set the entrypoint command for running the application
 ENTRYPOINT ["java", "-jar", "timesheetservice.jar"]
