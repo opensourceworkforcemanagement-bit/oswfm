@@ -29,4 +29,14 @@ public class UserLoginServiceImpl implements UserLoginService {
         return userServiceClient.loginUser(loginRequest);
     }
 
+    /**
+     * Validates the provided authentication token by delegating the validation to the {@link UserServiceClient}.
+     *
+     * @param token the authentication token to be validated
+     */
+    @Override
+    public CustomResponse<Void> validateToken(String token) {
+        return userServiceClient.validateToken(token);
+    }
+
 }

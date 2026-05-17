@@ -209,11 +209,13 @@
 	</dependencyManagement>
 
 	<build>
+		<sourceDirectory>src/main/Java</sourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<mainClass>org.oswfm.accesscontrolservice.AccessControlApiApplication</mainClass>
 					<jvmArguments>
 						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5006
 					</jvmArguments>

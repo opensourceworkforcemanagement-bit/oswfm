@@ -1,7 +1,10 @@
 package org.oswfm.accesscontrolservice.controller;
 
+import java.util.List;
+
 import org.oswfm.accesscontrolservice.dto.AccessDecisionRequest;
 import org.oswfm.accesscontrolservice.dto.AccessDecisionResponse;
+import org.oswfm.accesscontrolservice.dto.PolicyDTO;
 import org.oswfm.accesscontrolservice.service.PolicyEvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -41,7 +44,18 @@ public class PolicyEvaluationController {
         }
         
         AccessDecisionResponse response = policyEvaluationService.evaluateAccess(request);
-        
+
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/policies/user/{userId}")
+    @Operation(
+        summary = "Get relevant policies for a user",
+        description = "Returns active policies that would be evaluated for the given user " +
+                      "based on their resolved subject attributes. Useful for auditing."
+    )
+    public ResponseEntity<List<PolicyDTO>> getPoliciesForUser(@PathVariable Integer userId) {
+        List<PolicyDTO> policies = policyEvaluationService.getPoliciesForUser(userId);
+        return ResponseEntity.ok(policies);
     }
 }

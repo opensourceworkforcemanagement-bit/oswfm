@@ -8,7 +8,6 @@ import org.oswfm.commons.model.user.dto.request.TokenInvalidateRequest;
 import org.oswfm.commons.model.user.dto.request.TokenRefreshRequest;
 import org.oswfm.commons.model.user.dto.response.TokenResponse;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +29,7 @@ public interface UserServiceClient {
      * @return the registered user
      */
     @PostMapping("/register")
-    ResponseEntity<User> register(@RequestBody @Valid final RegisterRequest request);
+    CustomResponse<User> register(@RequestBody @Valid final RegisterRequest request);
 
     /**
      * Validates the given token by making a POST request to the User Service.
@@ -38,7 +37,7 @@ public interface UserServiceClient {
      * @param token the token to be validated
      */
     @PostMapping("/validate-token")
-    void validateToken(@RequestParam String token);
+    CustomResponse<Void> validateToken(@RequestParam String token);
 
     /**
      * Logs in a user with the provided login request.

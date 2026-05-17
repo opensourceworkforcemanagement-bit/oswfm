@@ -104,10 +104,13 @@ public class BffSecurityConfig {
                             if (isSafeMethod) {
                                 return ServerWebExchangeMatcher.MatchResult.notMatch();
                             }
-                            // Skip CSRF for login (unauthenticated — no session/cookie yet)
-                            ServerWebExchangeMatcher loginMatcher =
-                                    ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, "/api/bff/auth/login");
-                            return loginMatcher.matches(exchange)
+                            // Skip CSRF for login and all legacy auth-service routes —
+                            // these are unauthenticated public endpoints with no session/cookie yet
+                            ServerWebExchangeMatcher publicMatcher = ServerWebExchangeMatchers.pathMatchers(
+                                    "/api/bff/auth/login",
+                                    "/api/v1/authentication/**"
+                            );
+                            return publicMatcher.matches(exchange)
                                     .flatMap(result -> result.isMatch()
                                             ? ServerWebExchangeMatcher.MatchResult.notMatch()
                                             : ServerWebExchangeMatcher.MatchResult.match());

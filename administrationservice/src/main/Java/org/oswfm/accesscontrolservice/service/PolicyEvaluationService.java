@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.oswfm.accesscontrolservice.dto.AccessDecisionRequest;
 import org.oswfm.accesscontrolservice.dto.AccessDecisionResponse;
 import org.oswfm.accesscontrolservice.dto.AccessDecisionResponse.Decision;
+import org.oswfm.accesscontrolservice.dto.PolicyDTO;
 import org.oswfm.accesscontrolservice.model.entity.AccessRequest;
 import org.oswfm.accesscontrolservice.model.entity.GroupSubjectAttribute;
 import org.oswfm.accesscontrolservice.model.entity.Operation;
@@ -80,10 +81,13 @@ public class PolicyEvaluationService {
         Operation operation = operationRepository.findById(request.getOperationId())
                 .orElseThrow(() -> new RuntimeException("Operation not found"));
 
-        // Get all active policies ordered by priority
-        List<Policy> activePolicies = policyRepository.findActivePoliciesOrderedByPriority();
+        // Get only policies relevant to this user (pre-filtered by subject attribute IDs)
+        List<Integer> userAttributeIds = resolveUserAttributeIds(request.getUserId());
+        List<Integer> queryIds = userAttributeIds.isEmpty() ? List.of(-1) : userAttributeIds;
+        List<Policy> activePolicies = policyRepository.findRelevantPoliciesForUser(queryIds);
 
-        log.debug("Found {} active policies to evaluate", activePolicies.size());
+        log.debug("Found {} relevant policies to evaluate (pre-filtered for user {})",
+                activePolicies.size(), request.getUserId());
 
         AccessDecisionResponse response = new AccessDecisionResponse(
                 Decision.NOT_APPLICABLE,
@@ -394,6 +398,83 @@ public class PolicyEvaluationService {
             default:
                 return Collections.emptyList();
         }
+    }
+
+    /**
+     * Resolves all active attribute_definition IDs for a user (direct + group assignments).
+     * Used for DB-level policy pre-filtering before evaluation.
+     */
+    private List<Integer> resolveUserAttributeIds(Integer userId) {
+        OffsetDateTime now = OffsetDateTime.now();
+
+        List<UserSubjectAttribute> directAssignments =
+                userSubjectAttributeRepository.findByUser_UserId(userId);
+        List<Integer> directAttrIds = directAssignments.stream()
+                .map(usa -> usa.getSubjectAttribute().getSubjectAttrId())
+                .collect(Collectors.toList());
+
+        List<UserGroupMembership> memberships =
+                userGroupMembershipRepository.findByUser_UserId(userId);
+        List<Integer> groupIds = memberships.stream()
+                .map(m -> m.getGroup().getGroupId())
+                .collect(Collectors.toList());
+
+        List<Integer> groupAttrIds = Collections.emptyList();
+        if (!groupIds.isEmpty()) {
+            List<GroupSubjectAttribute> groupAssignments =
+                    groupSubjectAttributeRepository.findByGroup_GroupIdIn(groupIds);
+            groupAttrIds = groupAssignments.stream()
+                    .map(gsa -> gsa.getSubjectAttribute().getSubjectAttrId())
+                    .collect(Collectors.toList());
+        }
+
+        List<Integer> allAttrIds = new ArrayList<>(directAttrIds);
+        allAttrIds.addAll(groupAttrIds);
+
+        if (allAttrIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return subjectAttributeRepository.findActiveByIds(allAttrIds, now)
+                .stream()
+                .map(sa -> sa.getAttribute().getAttributeId())
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Returns the policies that would be evaluated for a given user,
+     * based on their resolved subject attributes. Does not perform a full
+     * access evaluation or log any access request.
+     */
+    @Transactional(readOnly = true)
+    public List<PolicyDTO> getPoliciesForUser(Integer userId) {
+        userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found: " + userId));
+
+        List<Integer> userAttributeIds = resolveUserAttributeIds(userId);
+        List<Integer> queryIds = userAttributeIds.isEmpty() ? List.of(-1) : userAttributeIds;
+        List<Policy> policies = policyRepository.findRelevantPoliciesForUser(queryIds);
+
+        return policies.stream()
+                .map(p -> {
+                    PolicyDTO dto = new PolicyDTO();
+                    dto.setPolicyId(p.getPolicyId());
+                    dto.setPolicyName(p.getPolicyName());
+                    dto.setDescription(p.getDescription());
+                    dto.setPolicyTypeId(p.getPolicyType().getPolicyTypeId());
+                    dto.setPolicyTypeName(p.getPolicyType().getTypeName());
+                    dto.setPriority(p.getPriority());
+                    dto.setIsActive(p.getIsActive());
+                    dto.setCreatedAt(p.getCreatedAt());
+                    dto.setUpdatedAt(p.getUpdatedAt());
+                    if (p.getCreatedBy() != null) {
+                        dto.setCreatedById(p.getCreatedBy().getUserId());
+                        dto.setCreatedByUsername(p.getCreatedBy().getUserName());
+                    }
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
     /**

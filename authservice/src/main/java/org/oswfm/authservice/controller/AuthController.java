@@ -1,21 +1,24 @@
 package org.oswfm.authservice.controller;
 
+import org.oswfm.authservice.service.LogoutService;
+import org.oswfm.authservice.service.RefreshTokenService;
+import org.oswfm.authservice.service.RegisterService;
+import org.oswfm.authservice.service.UserLoginService;
+import org.oswfm.commons.model.common.dto.response.CustomResponse;
+import org.oswfm.commons.model.user.User;
 import org.oswfm.commons.model.user.dto.request.LoginRequest;
 import org.oswfm.commons.model.user.dto.request.RegisterRequest;
 import org.oswfm.commons.model.user.dto.request.TokenInvalidateRequest;
 import org.oswfm.commons.model.user.dto.request.TokenRefreshRequest;
 import org.oswfm.commons.model.user.dto.response.TokenResponse;
-import org.oswfm.commons.model.common.dto.response.CustomResponse;
-import org.oswfm.authservice.service.LogoutService;
-import org.oswfm.authservice.service.RefreshTokenService;
-import org.oswfm.authservice.service.RegisterService;
-import org.oswfm.authservice.service.UserLoginService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Controller named {@link AuthController} for handling authentication-related operations.
@@ -41,9 +44,8 @@ public class AuthController {
      * @return a response indicating success
      */
     @PostMapping("/register")
-    public CustomResponse<Void> registerAdmin(@RequestBody @Valid final RegisterRequest registerRequest) {
-        registerService.registerUser(registerRequest);
-        return CustomResponse.SUCCESS;
+    public CustomResponse<User> registerAdmin(@RequestBody @Valid final RegisterRequest registerRequest) {
+        return registerService.registerUser(registerRequest);
     }
 
     /**
@@ -78,6 +80,17 @@ public class AuthController {
     public CustomResponse<Void> logout(@RequestBody @Valid final TokenInvalidateRequest tokenInvalidateRequest) {
         logoutService.logout(tokenInvalidateRequest);
         return CustomResponse.SUCCESS;
+    }
+
+    /**
+     * Validates the provided token.
+     *
+     * @param token the token to be validated
+     * @return a response indicating success
+     */
+    @PostMapping("/validate-token")
+    public CustomResponse<Void> validateToken(@RequestParam String token) {
+        return userLoginService.validateToken(token);
     }
 
 }

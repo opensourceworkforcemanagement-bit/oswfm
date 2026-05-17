@@ -18,4 +18,11 @@ public interface UserLoginService {
      */
     CustomResponse<TokenResponse> login(final LoginRequest loginRequest);
 
+    /**
+     * Validates the provided authentication token by delegating the validation to the {@link UserServiceClient}.
+     *
+     * @param token the authentication token to be validated
+     */
+    CustomResponse<Void> validateToken(String token);
+
 }

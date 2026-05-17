@@ -1,5 +1,6 @@
 package org.oswfm.authservice.service;
 
+import org.oswfm.commons.model.common.dto.response.CustomResponse;
 import org.oswfm.commons.model.user.User;
 import org.oswfm.commons.model.user.dto.request.RegisterRequest;
 
@@ -15,6 +16,6 @@ public interface RegisterService {
      * @param registerRequest the registration request containing user details (email, password, etc.)
      * @return the registered {@link User} object
      */
-    User registerUser(final RegisterRequest registerRequest);
+    CustomResponse<User> registerUser(final RegisterRequest registerRequest);
 
 }
