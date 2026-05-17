@@ -42,19 +42,28 @@ services:
       retries: 5
 
   kafka:
-    image: bitnami/kafka:3.7
+    image: apache/kafka:latest
     ports:
       - "9095:9095"
     environment:
-      - KAFKA_CFG_NODE_ID=0
-      - KAFKA_CFG_PROCESS_ROLES=controller,broker
-      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
-      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9095
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9095
-      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
-      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
-      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_NODE_ID=0
+      - KAFKA_PROCESS_ROLES=broker,controller
+      - KAFKA_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      - KAFKA_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9095
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9095
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+      - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
+    healthcheck:
+      test: ["CMD", "/opt/kafka/bin/kafka-broker-api-versions.sh", "--bootstrap-server", "localhost:9092"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
     networks:
       - opensourceworkforcemanagement
 
@@ -80,8 +89,8 @@ services:
   authservice:
     image: authservice:latest
     build:
-      context: ./authservice
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: authservice/Dockerfile
     ports:
       - "1112:1112"
     environment:
@@ -96,8 +105,8 @@ services:
   userservice:
     image: userservice:latest
     build:
-      context: ./userservice
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: userservice/Dockerfile
     ports:
       - "1113:1113"
     environment:
@@ -106,7 +115,7 @@ services:
       - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
       - SECURITY_DB_IP=db
       - SECURITY_DB_PORT=5432
-      - spring.datasource.url=jdbc:postgresql://db:5432/cheredb
+      - spring.datasource.url=jdbc:postgresql://db:5432/opensourceworkforcemanagement
       - spring.datasource.username=${DATABASE_USERNAME}
       - spring.datasource.password=${DATABASE_PASSWORD}
     depends_on:
@@ -114,14 +123,20 @@ services:
         condition: service_started
       db:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:1113/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     networks:
       - opensourceworkforcemanagement
 
   timesheetservice:
     image: timesheetservice:latest
     build:
-      context: ./timesheetservice
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: timesheetservice/Dockerfile
     ports:
       - "1114:1114"
     environment:
@@ -130,7 +145,7 @@ services:
       - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
       - SECURITY_DB_IP=db
       - SECURITY_DB_PORT=5432
-      - spring.datasource.url=jdbc:postgresql://db:5432/cheredb
+      - spring.datasource.url=jdbc:postgresql://db:5432/opensourceworkforcemanagement
       - spring.datasource.username=${DATABASE_USERNAME}
       - spring.datasource.password=${DATABASE_PASSWORD}
     depends_on:
@@ -138,14 +153,16 @@ services:
         condition: service_started
       db:
         condition: service_healthy
+      userservice:
+        condition: service_healthy
     networks:
       - opensourceworkforcemanagement
 
   administrationservice:
     image: administrationservice:latest
     build:
-      context: ./administrationservice
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: administrationservice/Dockerfile
     ports:
       - "1115:1115"
     environment:
@@ -154,13 +171,15 @@ services:
       - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
       - SECURITY_DB_IP=db
       - SECURITY_DB_PORT=5432
-      - spring.datasource.url=jdbc:postgresql://db:5432/cheredb
+      - spring.datasource.url=jdbc:postgresql://db:5432/opensourceworkforcemanagement
       - spring.datasource.username=${DATABASE_USERNAME}
       - spring.datasource.password=${DATABASE_PASSWORD}
     depends_on:
       eurekaserver:
         condition: service_started
       db:
+        condition: service_healthy
+      userservice:
         condition: service_healthy
     networks:
       - opensourceworkforcemanagement
@@ -170,8 +189,8 @@ services:
   kafkaservice:
     image: kafkaservice:latest
     build:
-      context: ./kafkaservice
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: kafkaservice/Dockerfile
     ports:
       - "1120:1120"
     environment:
@@ -180,16 +199,18 @@ services:
       - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     depends_on:
-      - eurekaserver
-      - kafka
+      eurekaserver:
+        condition: service_started
+      kafka:
+        condition: service_healthy
     networks:
       - opensourceworkforcemanagement
 
   orderservice:
     image: orderservice:latest
     build:
-      context: ./orderservice
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: orderservice/Dockerfile
     ports:
       - "1121:1121"
     environment:
@@ -198,7 +219,7 @@ services:
       - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
       - ORDER_DB_IP=db
       - ORDER_DB_PORT=5432
-      - spring.datasource.url=jdbc:postgresql://db:5432/cheredb
+      - spring.datasource.url=jdbc:postgresql://db:5432/opensourceworkforcemanagement
       - spring.datasource.username=${DATABASE_USERNAME}
       - spring.datasource.password=${DATABASE_PASSWORD}
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
@@ -206,8 +227,10 @@ services:
       eurekaserver:
         condition: service_started
       kafka:
-        condition: service_started
+        condition: service_healthy
       db:
+        condition: service_healthy
+      userservice:
         condition: service_healthy
     networks:
       - opensourceworkforcemanagement
@@ -215,8 +238,8 @@ services:
   gisservice:
     image: gisservice:latest
     build:
-      context: ./gisservice
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: gisservice/Dockerfile
     ports:
       - "1116:1116"
     environment:
@@ -225,7 +248,7 @@ services:
       - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
       - GIS_DB_IP=db
       - GIS_DB_PORT=5432
-      - spring.datasource.url=jdbc:postgresql://db:5432/cheredb
+      - spring.datasource.url=jdbc:postgresql://db:5432/opensourceworkforcemanagement
       - spring.datasource.username=${DATABASE_USERNAME}
       - spring.datasource.password=${DATABASE_PASSWORD}
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
@@ -233,8 +256,10 @@ services:
       eurekaserver:
         condition: service_started
       kafka:
-        condition: service_started
+        condition: service_healthy
       db:
+        condition: service_healthy
+      userservice:
         condition: service_healthy
     networks:
       - opensourceworkforcemanagement
@@ -242,8 +267,8 @@ services:
   notificationservice:
     image: notificationservice:latest
     build:
-      context: ./notificationservice
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: notificationservice/Dockerfile
     ports:
       - "1130:1130"
     environment:
@@ -253,7 +278,8 @@ services:
       # Mount your Firebase service account JSON and set the path below:
       # - FIREBASE_CREDENTIALS_PATH=/app/firebase-service-account.json
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
     networks:
       - opensourceworkforcemanagement
 
