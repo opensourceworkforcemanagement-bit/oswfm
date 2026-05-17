@@ -23,11 +23,15 @@ DB_PORT = '5432'
 # List the directory names for your Spring Boot projects
 PROJECT_DIRS = [
     {'eurekaserver': 5},
+    {'kafkaservice': 5},
     {'apigateway': 5},
     {'authservice': 5},
     {'userservice': 16},
     {'timesheetservice': 0},
-    {'administrationservice': 0}
+    {'administrationservice': 0},
+    {'gisservice': 0},
+    {'notificationservice': 0},
+    {'signalingservice': 0}
 ]
 
 def get_base_dir():
@@ -178,39 +182,62 @@ def main():
     print(f"Base Directory: {base_dir}")
     print()
 
+    parser = argparse.ArgumentParser(
+        description='Check for cli arguments and launch Spring Boot projects in new terminal windows'
+    )
+    parser.add_argument(
+        '--clean',
+        nargs='+',
+        required=False,
+        help='Determine if project directories need to be cleaned before launching (e.g. --clean userservice timesheetservice)'
+    )
+    args = parser.parse_args()
+
     # Run init.sql before launching Spring Boot projects
     init_sql_path = base_dir / 'init.sql'
     print("[STEP 1] Database Initialization")
     print("-" * 50)
     run_init_sql(init_sql_path)
+    init_sql_path = base_dir / 'init_opensourceworkforcemanagementdb.sql'
+    run_init_sql(init_sql_path)
     print()
 
-    print("[STEP 2] Launching Spring Boot Projects")
+    if args.clean:
+        print("[STEP 2] Installing shared libraries to local Maven repository")
+        print("-" * 50)
+        maven_home = os.environ.get('MAVEN_HOME', '')
+        maven_cmd = str(Path(maven_home) / 'bin' / 'mvn') if maven_home else 'mvn'
+
+        for lib_dir in ['commons', 'kafkaservice-client']:
+            lib_path = base_dir / lib_dir
+            print(f"[INFO] Installing {lib_dir}...")
+            result = subprocess.run(
+                [maven_cmd, 'clean', 'install', '-Dmaven.test.skip=true'],
+                cwd=str(lib_path),
+                shell=(sys.platform == 'win32')
+            )
+            if result.returncode != 0:
+                print(f"[ERROR] {lib_dir} install failed — aborting startup")
+                sys.exit(1)
+            print(f"[SUCCESS] {lib_dir} installed to ~/.m2")
+
+        print()
+
+    print("[STEP 3] Launching Spring Boot Projects")
     print("-" * 50)
-
-
-    parser = argparse.ArgumentParser(
-        description='Check for cli arguments and launch Spring Boot projects in new terminal windows'
-    )
-    parser.add_argument(
-        '--clean', 
-        nargs='+',
-        required=False,
-        help='Determine if project directories need to be cleaned before launching (e.g. --clean userservice timesheetservice)'
-    )
 
     for project_dir_sleep in PROJECT_DIRS:
 
         for project_dir, sleeping_for in project_dir_sleep.items():
 
             full_path = base_dir / project_dir
-            
-            if launch_spring_boot_project(project_dir, full_path, parser.parse_args().clean if parser.parse_args().clean else None):
+
+            if launch_spring_boot_project(project_dir, full_path, args.clean if args.clean else None):
                 print(f"[INFO] Waiting {sleeping_for} seconds before starting next service..." )
                 time.sleep(sleeping_for)
-            
+
             print()
-    
+
     print("[INFO] All terminal windows launched. Each project will run in its own window.")
     print("[INFO] Press Enter to exit...")
     input()
