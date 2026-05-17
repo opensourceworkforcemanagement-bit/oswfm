@@ -5,13 +5,6 @@ spring:
   config:
     import: optional:file:.env[.properties]
 
-  environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - LOG_FILE_PATH=/app/logs/timesheetservice.log
-  volumes:
-      # Windows-friendly relative path
-      - C:\development\TA\app_logs:/app/logs
-          
   datasource:
     name: postgresql
     url: jdbc:postgresql://${SECURITY_DB_IP:localhost}:${SECURITY_DB_PORT:5432}/opensourceworkforcemanagement?currentSchema=oswfm&charSet=UTF-8
@@ -34,7 +27,7 @@ spring:
   flyway:
     enabled: true  # Flyway is enabled by default if the dependency is present, but you can explicitly enable/disable it
     locations: classpath:db/migration # Specifies where migration scripts are located (default is classpath:db/migration)
-    baseline-on-migrate: true # Sets a baseline version if the schema is not empty
+    baseline-on-migrate: true
     # ... other Flyway properties can be added here
     table: timesheetservice_migration_history # Custom table name for tracking migrations (default is flyway_schema_history)
     

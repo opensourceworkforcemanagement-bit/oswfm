@@ -1,6 +1,13 @@
 spring:
   application:
     name: authservice
+  datasource:
+    name: postgresql
+    url: jdbc:postgresql://${SECURITY_DB_IP:localhost}:${SECURITY_DB_PORT:5432}/opensourceworkforcemanagement?currentSchema=oswfm&charSet=UTF-8
+    username: ${DATABASE_USERNAME:oswfm}
+    password: ${DATABASE_PASSWORD:oswfm}
+    driver-class-name: org.postgresql.Driver
+
 server:
   port: 1112
 #  ssl:
@@ -13,19 +20,6 @@ eureka:
     serviceUrl:
       defaultZone: ${EUREKA_SERVICE_URL:http://localhost:8761/eureka/}
 
-environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - LOG_FILE_PATH=/app/logs/authservice.log
-volumes:
-      # Windows-friendly relative path
-      - C:\development\TA\app_logs:/app/logs
-
-datasource:
-  name: postgresql
-  url: jdbc:postgresql://${SECURITY_DB_IP:localhost}:${SECURITY_DB_PORT:5432}/opensourceworkforcemanagement?currentSchema=oswfm&charSet=UTF-8
-  username: ${DATABASE_USERNAME:oswfm}
-  password: ${DATABASE_PASSWORD:oswfm}
-  driver-class-name: org.postgresql.Driver
 
 # Logging Configuration
 logging:
