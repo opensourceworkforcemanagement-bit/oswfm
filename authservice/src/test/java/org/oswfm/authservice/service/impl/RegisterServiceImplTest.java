@@ -2,10 +2,9 @@ package org.oswfm.authservice.service.impl;
 
 import org.oswfm.authservice.base.AbstractBaseServiceTest;
 import org.oswfm.authservice.client.UserServiceClient;
-import org.oswfm.authservice.model.auth.User;
-import org.oswfm.authservice.model.auth.dto.request.RegisterRequest;
-import org.oswfm.authservice.model.auth.enums.UserStatus;
-import org.oswfm.authservice.model.auth.enums.UserType;
+import org.oswfm.commons.model.common.dto.response.CustomResponse;
+import org.oswfm.commons.model.user.User;
+import org.oswfm.commons.model.user.dto.request.RegisterRequest;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,11 +12,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.http.ResponseEntity;
-
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.http.HttpStatus;
 
 class RegisterServiceImplTest extends AbstractBaseServiceTest {
 
@@ -33,32 +28,32 @@ class RegisterServiceImplTest extends AbstractBaseServiceTest {
         // Given
         RegisterRequest registerRequest = RegisterRequest.builder()
                 .email("valid.email@example.com")
+                .userName("johndoe1")
                 .password("validPassword123")
                 .firstName("John")
                 .lastName("Doe")
-                .phoneNumber("1234567890100")
-                .role("user")
                 .build();
 
         User expectedUser = User.builder()
-                .id(UUID.randomUUID().toString())
-                .email("valid.email@example.com")
+                .userId(1)
                 .firstName("John")
                 .lastName("Doe")
-                .phoneNumber("1234567890100")
-                .userStatus(UserStatus.ACTIVE)
-                .userType(UserType.USER)
+                .userName("johndoe1")
                 .build();
+
+        CustomResponse<User> expectedResponse = CustomResponse.successOf(expectedUser);
 
         // When
         when(userServiceClient.register(any(RegisterRequest.class)))
-                .thenReturn(ResponseEntity.ok(expectedUser));
+                .thenReturn(expectedResponse);
 
         // Then
-        User result = registerService.registerUser(registerRequest);
+        CustomResponse<User> result = registerService.registerUser(registerRequest);
 
         assertNotNull(result);
-        assertEquals(expectedUser, result);
+        assertTrue(result.getIsSuccess());
+        assertEquals(HttpStatus.OK, result.getHttpStatus());
+        assertEquals(expectedUser, result.getResponse());
 
         // Verify
         verify(userServiceClient, times(1)).register(any(RegisterRequest.class));
@@ -66,26 +61,32 @@ class RegisterServiceImplTest extends AbstractBaseServiceTest {
     }
 
     @Test
-    void registerUser_InvalidRegisterRequest_ReturnsNull() {
+    void registerUser_InvalidRegisterRequest_ReturnsErrorResponse() {
 
         // Given
         RegisterRequest registerRequest = RegisterRequest.builder()
                 .email("invalid.email")
+                .userName("short")
                 .password("short")
                 .firstName("")
                 .lastName("")
-                .phoneNumber("123")
-                .role("")
+                .build();
+
+        CustomResponse<User> errorResponse = CustomResponse.<User>builder()
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .isSuccess(false)
                 .build();
 
         // When
         when(userServiceClient.register(any(RegisterRequest.class)))
-                .thenReturn(ResponseEntity.badRequest().build());
+                .thenReturn(errorResponse);
 
         // Then
-        User result = registerService.registerUser(registerRequest);
+        CustomResponse<User> result = registerService.registerUser(registerRequest);
 
-        assertNull(result);
+        assertNotNull(result);
+        assertFalse(result.getIsSuccess());
+        assertEquals(HttpStatus.BAD_REQUEST, result.getHttpStatus());
 
         // Verify
         verify(userServiceClient, times(1)).register(any(RegisterRequest.class));

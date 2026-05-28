@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import jakarta.validation.constraints.*;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -20,7 +20,7 @@ public class TimesheetApprovalsRequestDTO {
 
     private Integer  operationTypeId;
 
-    private LocalTime approvalDate;
+    private LocalDateTime approvalDate;
 
     private String comments;
 

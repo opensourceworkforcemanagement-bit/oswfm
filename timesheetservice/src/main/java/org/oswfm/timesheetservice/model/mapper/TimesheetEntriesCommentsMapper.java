@@ -1,8 +1,8 @@
 package org.oswfm.timesheetservice.model.mapper;
 
-import org.oswfm.timesheetservice.model.entity.TimesheetEntriesComments;
 import org.oswfm.timesheetservice.model.dto.TimesheetEntriesCommentsRequestDTO;
 import org.oswfm.timesheetservice.model.dto.TimesheetEntriesCommentsResponseDTO;
+import org.oswfm.timesheetservice.model.entity.TimesheetEntriesComments;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,7 +14,7 @@ public class TimesheetEntriesCommentsMapper {
         }
         
         TimesheetEntriesComments entity = new TimesheetEntriesComments();
-        entity.setTimesheeId(dto.getTimesheeId());
+        entity.setTimesheetId(dto.getTimesheetId());
         entity.setEntryDay(dto.getEntryDay());
         entity.setComments(dto.getComments());
         return entity;
@@ -27,7 +27,7 @@ public class TimesheetEntriesCommentsMapper {
         
         TimesheetEntriesCommentsResponseDTO dto = new TimesheetEntriesCommentsResponseDTO();
         dto.setTimesheetEntriesCommentsId(entity.getTimesheetEntriesCommentsId());
-        dto.setTimesheeId(entity.getTimesheeId());
+        dto.setTimesheetId(entity.getTimesheetId());
         dto.setEntryDay(entity.getEntryDay());
         dto.setComments(entity.getComments());
         return dto;
@@ -38,7 +38,7 @@ public class TimesheetEntriesCommentsMapper {
             return;
         }
         
-        entity.setTimesheeId(dto.getTimesheeId());
+        entity.setTimesheetId(dto.getTimesheetId());
         entity.setEntryDay(dto.getEntryDay());
         entity.setComments(dto.getComments());
     }

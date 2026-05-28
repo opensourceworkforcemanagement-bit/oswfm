@@ -34,6 +34,25 @@ PROJECT_DIRS = [
     {'signalingservice': 0}
 ]
 
+MONOLITH_DIRS = [
+    {'monolith': 1},
+]
+
+# Services that must be installed to ~/.m2 before the monolith can compile.
+# Order matters: commons and kafkaservice-client first (they have no local deps).
+MONOLITH_INSTALL_LIBS = [
+    'commons',
+    'kafkaservice-client',
+    'authservice',
+    'userservice',
+    'gisservice',
+    'signalingservice',
+    'kafkaservice',
+    'notificationservice',
+    'timesheetservice',
+    'administrationservice',
+]
+
 def get_base_dir():
     """Get the directory where this script is located"""
     return Path(__file__).parent.resolve()
@@ -122,6 +141,7 @@ def launch_spring_boot_project(project_name, project_path, clean=False):
             cmd = (
                 f'start "Spring Boot - {project_name}" cmd /k '
                 f'"set PATH={maven_home}\\bin;%PATH% && '
+                f'set KAFKA_BOOTSTRAP_SERVERS=localhost:9095 && '
                 f'echo [INFO] MAVEN_HOME: {maven_home} && '
                 f'echo [INFO] JAVA_HOME: {java_home} && '
                 f'cd /d "{project_path}" && '
@@ -191,6 +211,12 @@ def main():
         required=False,
         help='Determine if project directories need to be cleaned before launching (e.g. --clean userservice timesheetservice)'
     )
+    parser.add_argument(
+        '--monolith',
+        action='store_true',
+        required=False,
+        help='Launch the monolith service instead of individual microservices'
+    )
     args = parser.parse_args()
 
     # Run init.sql before launching Spring Boot projects
@@ -202,12 +228,29 @@ def main():
     run_init_sql(init_sql_path)
     print()
 
-    if args.clean:
+    maven_home = os.environ.get('MAVEN_HOME', '')
+    maven_cmd = str(Path(maven_home) / 'bin' / 'mvn') if maven_home else 'mvn'
+
+    if args.monolith:
+        # Monolith mode: install all service JARs to ~/.m2 via the root aggregator POM,
+        # excluding the monolith module itself (it runs directly, not installed).
+        print("[STEP 2] Installing all service JARs to local Maven repository (monolith mode)")
+        print("-" * 50)
+        result = subprocess.run(
+            [maven_cmd, 'install', '-Dmaven.test.skip=true', '--projects',
+             ','.join(MONOLITH_INSTALL_LIBS), '--also-make'],
+            cwd=str(base_dir),
+            shell=(sys.platform == 'win32')
+        )
+        if result.returncode != 0:
+            print("[ERROR] Service JAR install failed — aborting startup")
+            sys.exit(1)
+        print("[SUCCESS] All service JARs installed to ~/.m2")
+        print()
+
+    elif args.clean:
         print("[STEP 2] Installing shared libraries to local Maven repository")
         print("-" * 50)
-        maven_home = os.environ.get('MAVEN_HOME', '')
-        maven_cmd = str(Path(maven_home) / 'bin' / 'mvn') if maven_home else 'mvn'
-
         for lib_dir in ['commons', 'kafkaservice-client']:
             lib_path = base_dir / lib_dir
             print(f"[INFO] Installing {lib_dir}...")
@@ -220,13 +263,15 @@ def main():
                 print(f"[ERROR] {lib_dir} install failed — aborting startup")
                 sys.exit(1)
             print(f"[SUCCESS] {lib_dir} installed to ~/.m2")
-
         print()
 
-    print("[STEP 3] Launching Spring Boot Projects")
+    dirs_to_launch = MONOLITH_DIRS if args.monolith else PROJECT_DIRS
+    mode_label = "Monolith" if args.monolith else "Microservices"
+
+    print(f"[STEP 3] Launching Spring Boot Projects ({mode_label})")
     print("-" * 50)
 
-    for project_dir_sleep in PROJECT_DIRS:
+    for project_dir_sleep in dirs_to_launch:
 
         for project_dir, sleeping_for in project_dir_sleep.items():
 

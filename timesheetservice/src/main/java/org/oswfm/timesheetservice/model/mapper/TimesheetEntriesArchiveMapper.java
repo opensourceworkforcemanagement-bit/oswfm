@@ -1,8 +1,8 @@
 package org.oswfm.timesheetservice.model.mapper;
 
-import org.oswfm.timesheetservice.model.entity.TimesheetEntriesArchive;
 import org.oswfm.timesheetservice.model.dto.TimesheetEntriesArchiveRequestDTO;
 import org.oswfm.timesheetservice.model.dto.TimesheetEntriesArchiveResponseDTO;
+import org.oswfm.timesheetservice.model.entity.TimesheetEntriesArchive;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -41,7 +41,7 @@ public class TimesheetEntriesArchiveMapper {
         }
         
         TimesheetEntriesArchiveResponseDTO dto = new TimesheetEntriesArchiveResponseDTO();
-        dto.setTimesheeId(entity.getTimesheeId());
+        dto.setTimesheetId(entity.getTimesheetId());
         dto.setEmployeeId(entity.getEmployeeId());
         dto.setPayPeriodId(entity.getPayPeriodId());
         dto.setWorkCodeId(entity.getWorkCodeId());

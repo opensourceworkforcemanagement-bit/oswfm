@@ -1,8 +1,8 @@
 package org.oswfm.timesheetservice.model.mapper;
 
-import org.oswfm.timesheetservice.model.entity.TimesheetEntriesInOut;
 import org.oswfm.timesheetservice.model.dto.TimesheetEntriesInOutRequestDTO;
 import org.oswfm.timesheetservice.model.dto.TimesheetEntriesInOutResponseDTO;
+import org.oswfm.timesheetservice.model.entity.TimesheetEntriesInOut;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -50,7 +50,7 @@ public class TimesheetEntriesInOutMapper {
         }
         
         TimesheetEntriesInOutResponseDTO dto = new TimesheetEntriesInOutResponseDTO();
-        dto.setTimesheeId(entity.getTimesheeId());
+        dto.setTimesheetId(entity.getTimesheetId());
         dto.setSu1InTime(entity.getSu1InTime());
         dto.setM1InTime(entity.getM1InTime());
         dto.setT1InTime(entity.getT1InTime());

@@ -1,6 +1,9 @@
 package org.oswfm.timesheetservice.model.entity;
 
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +26,8 @@ public class TaskCodes {
 
     private String description;
 
+    @JdbcTypeCode(SqlTypes.SMALLINT)
+    @Column(name = "status", columnDefinition = "int2")
     private Integer  status;
 
 }

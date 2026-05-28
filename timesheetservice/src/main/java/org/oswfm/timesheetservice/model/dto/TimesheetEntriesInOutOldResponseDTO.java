@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class TimesheetEntriesInOutOldResponseDTO {
 
-    private Integer  timesheeId;
+    private Integer  timesheetId;
 
     private String su1InTime;
 

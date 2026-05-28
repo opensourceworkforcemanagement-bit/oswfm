@@ -2,9 +2,9 @@ package org.oswfm.authservice.service.impl;
 
 import org.oswfm.authservice.base.AbstractBaseServiceTest;
 import org.oswfm.authservice.client.UserServiceClient;
-import org.oswfm.authservice.model.auth.dto.request.LoginRequest;
-import org.oswfm.authservice.model.auth.dto.response.TokenResponse;
-import org.oswfm.authservice.model.common.dto.response.CustomResponse;
+import org.oswfm.commons.model.user.dto.request.LoginRequest;
+import org.oswfm.commons.model.user.dto.response.TokenResponse;
+import org.oswfm.commons.model.common.dto.response.CustomResponse;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -27,7 +27,7 @@ class UserLoginServiceImplTest extends AbstractBaseServiceTest {
 
         // Given
         LoginRequest loginRequest = LoginRequest.builder()
-                .email("valid.email@example.com")
+                .userName("valid.email@example.com")
                 .password("validPassword123")
                 .build();
         TokenResponse tokenResponse = TokenResponse.builder()
@@ -57,7 +57,10 @@ class UserLoginServiceImplTest extends AbstractBaseServiceTest {
     void givenInvalidLoginRequest_whenLogin_ReturnsErrorResponse() {
 
         // Given
-        LoginRequest loginRequest = new LoginRequest();
+        LoginRequest loginRequest = LoginRequest.builder()
+                .userName("invalid")
+                .password("invalid")
+                .build();
         CustomResponse<TokenResponse> errorResponse = CustomResponse.<TokenResponse>builder()
                 .httpStatus(HttpStatus.UNAUTHORIZED)
                 .isSuccess(false)

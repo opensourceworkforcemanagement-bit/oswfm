@@ -1,8 +1,8 @@
 package org.oswfm.timesheetservice.model.mapper;
 
-import org.oswfm.timesheetservice.model.entity.TimesheetEntriesOld;
 import org.oswfm.timesheetservice.model.dto.TimesheetEntriesOldRequestDTO;
 import org.oswfm.timesheetservice.model.dto.TimesheetEntriesOldResponseDTO;
+import org.oswfm.timesheetservice.model.entity.TimesheetEntriesOld;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -41,7 +41,7 @@ public class TimesheetEntriesOldMapper {
         }
         
         TimesheetEntriesOldResponseDTO dto = new TimesheetEntriesOldResponseDTO();
-        dto.setTimesheeId(entity.getTimesheeId());
+        dto.setTimesheetId(entity.getTimesheetId());
         dto.setEmployeeId(entity.getEmployeeId());
         dto.setPayPeriodId(entity.getPayPeriodId());
         dto.setWorkCodeId(entity.getWorkCodeId());

@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -48,9 +50,11 @@ public class WorkforceCodes {
     @Column(name = "status", columnDefinition = "int2")
     private Integer status;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "effective_date")
     private Date effectiveDate;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "expiration_date")
     private Date expirationDate;
 }

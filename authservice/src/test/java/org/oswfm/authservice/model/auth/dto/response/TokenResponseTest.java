@@ -1,5 +1,6 @@
 package org.oswfm.authservice.model.auth.dto.response;
 
+import org.oswfm.commons.model.user.dto.response.TokenResponse;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

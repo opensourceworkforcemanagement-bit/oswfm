@@ -43,7 +43,13 @@ public class TopicManagementService {
             kafkaAdminClient.createTopics(List.of(newTopic)).all().get();
             log.info("[TopicMgmt] Created topic={} partitions={} replication={}", topicName, request.getPartitions(), request.getReplicationFactor());
 
-            return describeTopic(topicName);
+            return TopicInfo.builder()
+                    .topicName(topicName)
+                    .partitions(request.getPartitions())
+                    .replicationFactor(request.getReplicationFactor())
+                    .configs(configs)
+                    .subscriberCount(0)
+                    .build();
         } catch (TopicAlreadyExistsException e) {
             throw e;
         } catch (InterruptedException e) {

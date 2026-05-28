@@ -3,6 +3,11 @@ package org.oswfm.timesheetservice.model.entity;
 
 import java.util.Date;
 
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,12 +45,15 @@ public class WorkCodes {
     @Column(name = "suffix")
     private String suffix;
 
-    @Column(name = "status")    
+    @JdbcTypeCode(SqlTypes.SMALLINT)
+    @Column(name = "status", columnDefinition = "int2")
     private Integer  status;
 
+    @Temporal(TemporalType.DATE)
     @Column(name="effective_date")
     private Date effective_date;
 
+    @Temporal(TemporalType.DATE)
     @Column(name="expiration_date")
     private Date expiration_date;
 

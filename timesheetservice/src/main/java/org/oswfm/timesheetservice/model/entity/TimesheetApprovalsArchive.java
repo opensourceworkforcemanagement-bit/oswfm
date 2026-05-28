@@ -1,11 +1,14 @@
 package org.oswfm.timesheetservice.model.entity;
 
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "timesheet_approvals_archive")
@@ -25,11 +28,12 @@ public class TimesheetApprovalsArchive {
     @Column(name = "approver_id", nullable = false)
     private Integer  approverId;
 
-    @Column(name = "approval_status")
+    @JdbcTypeCode(SqlTypes.SMALLINT)
+    @Column(name = "approval_status", columnDefinition = "int2")
     private Integer  approvalStatus;
 
     @Column(name = "approval_date")
-    private LocalTime approvalDate;
+    private LocalDateTime approvalDate;
 
     private String comments;
 

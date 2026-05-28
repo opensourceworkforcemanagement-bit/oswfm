@@ -2,8 +2,8 @@ package org.oswfm.authservice.service.impl;
 
 import org.oswfm.authservice.base.AbstractBaseServiceTest;
 import org.oswfm.authservice.client.UserServiceClient;
-import org.oswfm.authservice.model.auth.dto.request.TokenInvalidateRequest;
-import org.oswfm.authservice.model.common.dto.response.CustomResponse;
+import org.oswfm.commons.model.user.dto.request.TokenInvalidateRequest;
+import org.oswfm.commons.model.common.dto.response.CustomResponse;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

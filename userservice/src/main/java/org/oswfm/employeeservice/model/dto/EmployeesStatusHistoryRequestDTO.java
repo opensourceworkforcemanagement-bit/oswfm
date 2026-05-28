@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import jakarta.validation.constraints.*;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -18,7 +18,7 @@ public class EmployeesStatusHistoryRequestDTO {
     @NotNull
     private Integer  status;
 
-    private LocalTime changedAt;
+    private LocalDateTime changedAt;
 
     private Integer  changedByEmployeeId;
 

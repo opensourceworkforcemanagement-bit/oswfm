@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.oswfm</groupId>
+    <artifactId>oswfm-services-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>OSWFM Services Parent</name>
+    <description>Aggregator POM for all OSWFM services and the monolith module</description>
+
+    <modules>
+        <module>commons</module>
+        <module>kafkaservice-client</module>
+        <module>eurekaserver</module>
+        <module>apigateway</module>
+        <module>authservice</module>
+        <module>userservice</module>
+        <module>gisservice</module>
+        <module>signalingservice</module>
+        <module>kafkaservice</module>
+        <module>notificationservice</module>
+        <module>timesheetservice</module>
+        <module>administrationservice</module>
+        <module>monolith</module>
+    </modules>
+</project>

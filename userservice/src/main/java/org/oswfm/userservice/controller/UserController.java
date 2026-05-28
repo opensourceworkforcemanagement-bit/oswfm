@@ -44,7 +44,7 @@ import lombok.extern.slf4j.Slf4j;
  * Provides endpoints for user registration, token validation, login, token refresh, logout, and authentication retrieval.
  */
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping({"/api/v1/users", "/api/v1/authentication/users"})
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {

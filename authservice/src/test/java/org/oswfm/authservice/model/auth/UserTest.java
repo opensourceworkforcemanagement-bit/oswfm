@@ -2,8 +2,7 @@ package org.oswfm.authservice.model.auth;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.oswfm.authservice.model.auth.enums.UserStatus;
-import org.oswfm.authservice.model.auth.enums.UserType;
+import org.oswfm.commons.model.user.User;
 import org.junit.jupiter.api.Test;
 
 class UserTest {
@@ -12,34 +11,22 @@ class UserTest {
     void testUserBuilder_WithAllFields() {
 
         // Given
-        String id = "12345";
-        String email = "example@example.com";
         String firstName = "John";
         String lastName = "Doe";
-        String phoneNumber = "1234567890";
-        UserStatus userStatus = UserStatus.ACTIVE;
-        UserType userType = UserType.ADMIN;
+        String userName = "johndoe1";
 
         // When
         User user = User.builder()
-                .id(id)
-                .email(email)
                 .firstName(firstName)
                 .lastName(lastName)
-                .phoneNumber(phoneNumber)
-                .userStatus(userStatus)
-                .userType(userType)
+                .userName(userName)
                 .build();
 
         // Then
         assertNotNull(user);
-        assertEquals(id, user.getId());
-        assertEquals(email, user.getEmail());
         assertEquals(firstName, user.getFirstName());
         assertEquals(lastName, user.getLastName());
-        assertEquals(phoneNumber, user.getPhoneNumber());
-        assertEquals(userStatus, user.getUserStatus());
-        assertEquals(userType, user.getUserType());
+        assertEquals(userName, user.getUserName());
 
     }
 
@@ -51,13 +38,9 @@ class UserTest {
 
         // Then
         assertNotNull(user);
-        assertNull(user.getId());
-        assertNull(user.getEmail());
         assertNull(user.getFirstName());
         assertNull(user.getLastName());
-        assertNull(user.getPhoneNumber());
-        assertNull(user.getUserStatus());
-        assertNull(user.getUserType());
+        assertNull(user.getUserName());
 
     }
 
@@ -68,22 +51,16 @@ class UserTest {
         User user = new User();
 
         // When
-        user.setId("12345");
-        user.setEmail("example@example.com");
         user.setFirstName("John");
         user.setLastName("Doe");
-        user.setPhoneNumber("1234567890");
-        user.setUserStatus(UserStatus.ACTIVE);
-        user.setUserType(UserType.ADMIN);
+        user.setUserName("johndoe1");
+        user.setUserId(1);
 
         // Then
-        assertEquals("12345", user.getId());
-        assertEquals("example@example.com", user.getEmail());
         assertEquals("John", user.getFirstName());
         assertEquals("Doe", user.getLastName());
-        assertEquals("1234567890", user.getPhoneNumber());
-        assertEquals(UserStatus.ACTIVE, user.getUserStatus());
-        assertEquals(UserType.ADMIN, user.getUserType());
+        assertEquals("johndoe1", user.getUserName());
+        assertEquals(1, user.getUserId());
 
     }
 
@@ -92,27 +69,19 @@ class UserTest {
 
         // Given
         User user1 = User.builder()
-                .id("12345")
-                .email("example@example.com")
                 .firstName("John")
                 .lastName("Doe")
-                .phoneNumber("1234567890")
-                .userStatus(UserStatus.ACTIVE)
-                .userType(UserType.ADMIN)
+                .userName("johndoe1")
                 .build();
 
-        User user3 = User.builder()
-                .id("67890")
-                .email("different@example.com")
+        User user2 = User.builder()
                 .firstName("Jane")
                 .lastName("Smith")
-                .phoneNumber("0987654321")
-                .userStatus(UserStatus.ACTIVE)
-                .userType(UserType.USER)
+                .userName("janesmith2")
                 .build();
 
         // When & Then
-        assertNotEquals(user1, user3);
+        assertNotEquals(user1, user2);
 
     }
 

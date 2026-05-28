@@ -14,7 +14,7 @@ public class TimesheetAuditLogArchiveMapper {
         }
         
         TimesheetAuditLogArchive entity = new TimesheetAuditLogArchive();
-        entity.setTimesheeId(dto.getTimesheeId());
+        entity.setTimesheetId(dto.getTimesheetId());
         entity.setCreatedAt(dto.getCreatedAt());
         entity.setCreatedBy(dto.getCreatedBy());
         entity.setOperationTypeId(dto.getOperationTypeId());
@@ -28,7 +28,7 @@ public class TimesheetAuditLogArchiveMapper {
         
         TimesheetAuditLogArchiveResponseDTO dto = new TimesheetAuditLogArchiveResponseDTO();
         dto.setTimesheetAuditLogId(entity.getTimesheetAuditLogId());
-        dto.setTimesheeId(entity.getTimesheeId());
+        dto.setTimesheetId(entity.getTimesheetId());
         dto.setCreatedAt(entity.getCreatedAt());
         dto.setCreatedBy(entity.getCreatedBy());
         dto.setOperationTypeId(entity.getOperationTypeId());
@@ -40,7 +40,7 @@ public class TimesheetAuditLogArchiveMapper {
             return;
         }
         
-        entity.setTimesheeId(dto.getTimesheeId());
+        entity.setTimesheetId(dto.getTimesheetId());
         entity.setCreatedAt(dto.getCreatedAt());
         entity.setCreatedBy(dto.getCreatedBy());
         entity.setOperationTypeId(dto.getOperationTypeId());

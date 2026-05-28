@@ -1,0 +1,109 @@
+{
+  "createEntryExample": {
+    "description": "POST /api/v1/timesheet-entries",
+    "request": {
+      "timesheetId": 1,
+      "codes": {
+        "WORK_CODE": {
+          "codeId": 101,
+          "codeValue": "Development"
+        },
+        "ACCOUNT_CODE": {
+          "codeId": 202,
+          "codeValue": "Client A - Acme Corp"
+        },
+        "PROJECT_CODE": {
+          "codeId": 303,
+          "codeValue": "Website Redesign"
+        },
+        "TASK_CODE": {
+          "codeId": 404,
+          "codeValue": "Frontend Development"
+        },
+        "COST_CENTER": {
+          "codeId": 505,
+          "codeValue": "Engineering"
+        }
+      },
+      "hours": {
+        "2025-01-06": 8.0,
+        "2025-01-07": 7.5,
+        "2025-01-08": 8.0,
+        "2025-01-09": 6.5,
+        "2025-01-10": 8.0,
+        "2025-01-13": 8.0,
+        "2025-01-14": 7.0,
+        "2025-01-15": 8.5,
+        "2025-01-16": 8.0,
+        "2025-01-17": 7.5
+      }
+    },
+    "response": {
+      "timesheetEntryId": 1,
+      "timesheetId": 1,
+      "codes": {
+        "WORK_CODE": {
+          "codeId": 101,
+          "codeValue": "Development"
+        },
+        "ACCOUNT_CODE": {
+          "codeId": 202,
+          "codeValue": "Client A - Acme Corp"
+        },
+        "PROJECT_CODE": {
+          "codeId": 303,
+          "codeValue": "Website Redesign"
+        },
+        "TASK_CODE": {
+          "codeId": 404,
+          "codeValue": "Frontend Development"
+        },
+        "COST_CENTER": {
+          "codeId": 505,
+          "codeValue": "Engineering"
+        }
+      },
+      "hours": {
+        "2025-01-06": 8.0,
+        "2025-01-07": 7.5,
+        "2025-01-08": 8.0,
+        "2025-01-09": 6.5,
+        "2025-01-10": 8.0,
+        "2025-01-13": 8.0,
+        "2025-01-14": 7.0,
+        "2025-01-15": 8.5,
+        "2025-01-16": 8.0,
+        "2025-01-17": 7.5
+      },
+      "createdAt": "2025-01-02T10:30:00",
+      "updatedAt": "2025-01-02T10:30:00"
+    }
+  },
+  "updateEntryExample": {
+    "description": "PUT /api/v1/timesheet-entries/1",
+    "request": {
+      "codes": {
+        "WORK_CODE": {
+          "codeId": 102,
+          "codeValue": "Testing"
+        },
+        "ACCOUNT_CODE": {
+          "codeId": 202,
+          "codeValue": "Client A - Acme Corp"
+        }
+      },
+      "hours": {
+        "2025-01-06": 7.0,
+        "2025-01-07": 8.0
+      }
+    }
+  },
+  "queryExamples": {
+    "getById": "GET /api/v1/timesheet-entries/1",
+    "getByTimesheetId": "GET /api/v1/timesheet-entries?timesheetId=1",
+    "getByCode": "GET /api/v1/timesheet-entries/by-code?codeType=WORK_CODE&codeId=101",
+    "getByDateRange": "GET /api/v1/timesheet-entries/by-date-range?startDate=2025-01-01&endDate=2025-01-31",
+    "getTotalHoursForEntry": "GET /api/v1/timesheet-entries/1/total-hours",
+    "getTotalHoursForTimesheet": "GET /api/v1/timesheet-entries/timesheet/1/total-hours"
+  }
+}

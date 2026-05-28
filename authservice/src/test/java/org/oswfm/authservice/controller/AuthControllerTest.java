@@ -1,18 +1,20 @@
 package org.oswfm.authservice.controller;
 
 import org.oswfm.authservice.base.AbstractRestControllerTest;
-import org.oswfm.authservice.model.auth.dto.request.LoginRequest;
-import org.oswfm.authservice.model.auth.dto.request.RegisterRequest;
-import org.oswfm.authservice.model.auth.dto.request.TokenInvalidateRequest;
-import org.oswfm.authservice.model.auth.dto.request.TokenRefreshRequest;
-import org.oswfm.authservice.model.auth.dto.response.TokenResponse;
-import org.oswfm.authservice.model.common.dto.response.CustomResponse;
+import org.oswfm.commons.model.user.User;
+import org.oswfm.commons.model.user.dto.request.LoginRequest;
+import org.oswfm.commons.model.user.dto.request.RegisterRequest;
+import org.oswfm.commons.model.user.dto.request.TokenInvalidateRequest;
+import org.oswfm.commons.model.user.dto.request.TokenRefreshRequest;
+import org.oswfm.commons.model.user.dto.response.TokenResponse;
+import org.oswfm.commons.model.common.dto.response.CustomResponse;
 import org.oswfm.authservice.service.LogoutService;
 import org.oswfm.authservice.service.RefreshTokenService;
 import org.oswfm.authservice.service.RegisterService;
 import org.oswfm.authservice.service.UserLoginService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,14 +44,20 @@ class AuthControllerTest extends AbstractRestControllerTest {
         // Given
         RegisterRequest registerRequest = RegisterRequest.builder()
                 .email("valid.email@example.com")
+                .userName("johnDoe1")
                 .password("validPassword123")
                 .firstName("John")
                 .lastName("Doe")
-                .phoneNumber("1234567890100")
-                .role("user")
                 .build();
 
-        // When & Then
+        // When
+        when(registerService.registerUser(any(RegisterRequest.class)))
+                .thenReturn(CustomResponse.<User>builder()
+                        .httpStatus(HttpStatus.OK)
+                        .isSuccess(true)
+                        .build());
+
+        // Then
         mockMvc.perform(post("/api/v1/authentication/users/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(registerRequest)))
@@ -67,7 +75,7 @@ class AuthControllerTest extends AbstractRestControllerTest {
 
         // Given
         LoginRequest loginRequest = LoginRequest.builder()
-                .email("valid.email@example.com")
+                .userName("valid.email@example.com")
                 .password("validPassword123")
                 .build();
 

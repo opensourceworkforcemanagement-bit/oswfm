@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "employees_audit_log")
@@ -26,7 +26,7 @@ public class EmployeesAuditLog {
     private String action;
 
     @Column(name = "action_timestamp")
-    private LocalTime actionTimestamp;
+    private LocalDateTime actionTimestamp;
 
     @Column(name = "action_by")
     private Integer  actionBy;

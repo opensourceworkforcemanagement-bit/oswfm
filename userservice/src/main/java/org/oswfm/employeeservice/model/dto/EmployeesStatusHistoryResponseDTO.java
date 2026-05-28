@@ -3,7 +3,7 @@ package org.oswfm.employeeservice.model.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -17,7 +17,7 @@ public class EmployeesStatusHistoryResponseDTO {
 
     private Integer  status;
 
-    private LocalTime changedAt;
+    private LocalDateTime changedAt;
 
     private Integer  changedByEmployeeId;
 

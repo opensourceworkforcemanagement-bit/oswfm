@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "timesheet_approvals")
@@ -29,7 +29,7 @@ public class TimesheetApprovals {
     private Integer  operationTypeId;
 
     @Column(name = "approval_date")
-    private LocalTime approvalDate;
+    private LocalDateTime approvalDate;
 
     private String comments;
 

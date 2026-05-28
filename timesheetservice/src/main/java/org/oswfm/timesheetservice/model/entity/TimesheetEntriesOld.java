@@ -16,8 +16,8 @@ public class TimesheetEntriesOld {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "timeshee_id")
-    private Integer  timesheeId;
+    @Column(name = "timesheet_id")
+    private Integer  timesheetId;
 
     @Column(name = "employee_id", nullable = false)
     private Integer  employeeId;

@@ -3,7 +3,7 @@ package org.oswfm.employeeservice.model.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -17,7 +17,7 @@ public class EmployeesAuditLogResponseDTO {
 
     private String action;
 
-    private LocalTime actionTimestamp;
+    private LocalDateTime actionTimestamp;
 
     private Integer  actionBy;
 

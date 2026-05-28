@@ -84,6 +84,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<classifier>exec</classifier>
 					<mainClass>org.oswfm.notificationservice.NotificationServiceApplication</mainClass>
 					<excludes>
 						<exclude>

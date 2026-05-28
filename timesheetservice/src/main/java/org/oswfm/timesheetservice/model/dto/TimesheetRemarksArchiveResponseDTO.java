@@ -1,9 +1,10 @@
 package org.oswfm.timesheetservice.model.dto;
 
+import java.time.LocalDateTime;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import java.time.LocalTime;
 
 
 @Data
@@ -19,7 +20,7 @@ public class TimesheetRemarksArchiveResponseDTO {
 
     private Integer  remarksOrder;
 
-    private LocalTime createdAt;
+    private LocalDateTime createdAt;
 
     private Integer  createdBy;
 

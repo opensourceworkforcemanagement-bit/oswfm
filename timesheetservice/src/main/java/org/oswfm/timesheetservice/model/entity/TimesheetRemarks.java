@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "timesheet_remarks")
@@ -28,7 +28,7 @@ public class TimesheetRemarks {
     private Integer  remarksOrder;
 
     @Column(name = "created_at")
-    private LocalTime createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "created_by")
     private Integer  createdBy;

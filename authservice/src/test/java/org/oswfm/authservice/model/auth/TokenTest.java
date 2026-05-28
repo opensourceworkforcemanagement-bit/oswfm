@@ -2,8 +2,8 @@ package org.oswfm.authservice.model.auth;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.oswfm.commons.model.user.Token;
 import org.junit.jupiter.api.Test;
-import org.springframework.util.StringUtils;
 
 class TokenTest {
 

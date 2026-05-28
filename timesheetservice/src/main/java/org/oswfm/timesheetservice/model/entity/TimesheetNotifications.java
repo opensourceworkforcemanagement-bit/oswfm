@@ -1,11 +1,14 @@
 package org.oswfm.timesheetservice.model.entity;
 
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "timesheet_notifications")
@@ -29,8 +32,10 @@ public class TimesheetNotifications {
     private String notificationType;
 
     @Column(name = "sent_at")
-    private LocalTime sentAt;
+    private LocalDateTime sentAt;
 
+    @JdbcTypeCode(SqlTypes.SMALLINT)
+    @Column(name = "status", columnDefinition = "int2")
     private Integer  status;
 
 }

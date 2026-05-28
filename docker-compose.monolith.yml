@@ -1,0 +1,63 @@
+# Infrastructure-only compose for the monolith deployment.
+# Starts Postgres + Kafka only — the monolith JVM replaces all service containers.
+#
+# Usage:
+#   docker-compose -f docker-compose.monolith.yml up -d
+#   cd monolith && mvn spring-boot:run
+#
+# To run as microservices instead use the regular:
+#   docker-compose up
+
+services:
+  db:
+    image: postgis/postgis:latest
+    container_name: oswfm-monolith-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: oswfm
+      POSTGRES_DB: opensourceworkforcemanagement
+    ports:
+      - "0.0.0.0:5432:5432"
+    volumes:
+      - pgdata_monolith:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./init_opensourceworkforcemanagementdb.sql:/docker-entrypoint-initdb.d/02-init_opensourceworkforcemanagementdb.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - oswfm-monolith
+
+  kafka:
+    image: apache/kafka:latest
+    container_name: oswfm-kafka-monolith
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,EXTERNAL://0.0.0.0:9095,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:9095
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      CLUSTER_ID: "oswfm-monolith-cluster-01"
+    ports:
+      - "0.0.0.0:9092:9092"
+      - "0.0.0.0:9095:9095"
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-broker-api-versions --bootstrap-server localhost:9092"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    networks:
+      - oswfm-monolith
+
+volumes:
+  pgdata_monolith:
+
+networks:
+  oswfm-monolith:
+    driver: bridge

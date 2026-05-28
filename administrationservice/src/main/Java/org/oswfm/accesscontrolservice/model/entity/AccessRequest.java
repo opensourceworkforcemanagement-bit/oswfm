@@ -5,6 +5,9 @@ import java.time.OffsetDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.oswfm.commons.model.user.entity.UserEntity;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -56,7 +59,8 @@ public class AccessRequest {
     @Column(name = "request_timestamp", updatable = false)
     private OffsetDateTime requestTimestamp;
     
-    @Column(name = "source_ip")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "source_ip", columnDefinition = "inet")
     private String sourceIp;
     
     @Column(name = "user_agent")

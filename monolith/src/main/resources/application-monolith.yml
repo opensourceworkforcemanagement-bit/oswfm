@@ -1,0 +1,99 @@
+server:
+  port: 8081
+
+# ─── Service discovery: disabled in monolith ───────────────────────────────
+eureka:
+  client:
+    enabled: false
+    register-with-eureka: false
+    fetch-registry: false
+
+spring:
+  # ─── Single shared datasource ──────────────────────────────────────────
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/opensourceworkforcemanagement?charSet=UTF8
+    username: ${DATABASE_USER:oswfm}
+    password: ${DATABASE_PASSWORD:oswfm}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  main:
+    allow-bean-definition-overriding: true
+
+  # ─── Flyway: monolith-owned migrations only; JAR-bundled scripts are excluded ──
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration/monolith
+
+  # ─── Kafka ─────────────────────────────────────────────────────────────
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9095}
+    consumer:
+      group-id: monolith-group
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+    producer:
+      acks: all
+      retries: 3
+
+  # ─── Disable Spring Cloud Gateway (WebFlux) in the servlet monolith ────
+  # ─── Feign: point every logical service name at localhost:8081 ─────────────
+  # In the monolith all service code runs in the same JVM, so Feign calls
+  # loop back to ourselves rather than hitting a separate process.
+  cloud:
+    gateway:
+      enabled: false
+    openfeign:
+      client:
+        config:
+          userservice:
+            url: http://localhost:8081
+          authservice:
+            url: http://localhost:8081
+          gisservice:
+            url: http://localhost:8081
+          orderservice:
+            url: http://localhost:8081
+          notificationservice:
+            url: http://localhost:8081
+          signalingservice:
+            url: http://localhost:8081
+          timesheetservice:
+            url: http://localhost:8081
+          administrationservice:
+            url: http://localhost:8081
+
+# ─── oswfm kafka client library ────────────────────────────────────────────
+chere:
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9095}
+
+# ─── Logging ────────────────────────────────────────────────────────────────
+logging:
+  level:
+    root: INFO
+    org.oswfm: DEBUG
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
+  file:
+    name: ${LOG_FILE_PATH:logs/monolith.log}
+  logback:
+    rollingpolicy:
+      max-file-size: ${LOG_MAX_SIZE:50MB}
+      max-history: ${LOG_MAX_HISTORY:30}
+      total-size-cap: ${LOG_TOTAL_SIZE:1GB}
+
+# ─── Actuator ───────────────────────────────────────────────────────────────
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

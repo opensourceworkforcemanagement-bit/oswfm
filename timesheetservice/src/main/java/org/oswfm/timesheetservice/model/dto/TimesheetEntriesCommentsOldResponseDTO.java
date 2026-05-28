@@ -11,7 +11,7 @@ public class TimesheetEntriesCommentsOldResponseDTO {
 
     private Integer  timesheetEntriesCommentsId;
 
-    private Integer  timesheeId;
+    private Integer  timesheetId;
 
     private Integer  entryDay;
 

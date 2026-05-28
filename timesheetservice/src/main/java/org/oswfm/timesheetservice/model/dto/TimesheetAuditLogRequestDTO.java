@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import jakarta.validation.constraints.*;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -13,9 +13,9 @@ import java.time.LocalTime;
 public class TimesheetAuditLogRequestDTO {
 
     @NotNull
-    private Integer  timesheeId;
+    private Integer  timesheetId;
 
-    private LocalTime createdAt;
+    private LocalDateTime createdAt;
 
     private Integer  createdBy;
 

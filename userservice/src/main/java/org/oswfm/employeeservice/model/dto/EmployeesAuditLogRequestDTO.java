@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import jakarta.validation.constraints.*;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -19,7 +19,7 @@ public class EmployeesAuditLogRequestDTO {
     @NotBlank
     private String action;
 
-    private LocalTime actionTimestamp;
+    private LocalDateTime actionTimestamp;
 
     private Integer  actionBy;
 

@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class TimesheetEntriesOldResponseDTO {
 
-    private Integer  timesheeId;
+    private Integer  timesheetId;
 
     private Integer  employeeId;
 

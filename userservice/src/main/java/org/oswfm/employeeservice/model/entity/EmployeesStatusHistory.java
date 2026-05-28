@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "employees_status_history")
@@ -26,7 +26,7 @@ public class EmployeesStatusHistory {
     private Integer  status;
 
     @Column(name = "changed_at")
-    private LocalTime changedAt;
+    private LocalDateTime changedAt;
 
     @Column(name = "changed_by_employee_id")
     private Integer  changedByEmployeeId;

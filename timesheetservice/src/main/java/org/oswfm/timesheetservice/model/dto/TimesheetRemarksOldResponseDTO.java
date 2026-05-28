@@ -3,7 +3,7 @@ package org.oswfm.timesheetservice.model.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -19,7 +19,7 @@ public class TimesheetRemarksOldResponseDTO {
 
     private Integer  remarksOrder;
 
-    private LocalTime createdAt;
+    private LocalDateTime createdAt;
 
     private Integer  createdBy;
 

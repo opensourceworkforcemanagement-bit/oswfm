@@ -65,24 +65,25 @@ public class CustomBearerTokenAuthenticationFilter extends OncePerRequestFilter 
 
             final String jwt = Token.getJwt(authorizationHeader);
             tokenService.verifyAndValidate(jwt);
-            
-            // Extract claims
-            Jws<Claims> claims = tokenService.getClaims(token);
+
+            final Jws<Claims> claims = tokenService.getClaims(token);
+            if (claims == null) {
+                filterChain.doFilter(httpServletRequest, httpServletResponse);
+                return;
+            }
+
             Integer userIdInt = claims.getPayload().get("userId", Integer.class);
             String userId = userIdInt != null ? userIdInt.toString() : null;
 
             final String tokenId = tokenService.getId(jwt);
             invalidTokenService.checkForInvalidityOfToken(tokenId);
 
-            // CREATE AND SET AUTHENTICATION 
-            UsernamePasswordAuthenticationToken authentication = 
+            UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(
-                    userId,  // principal
-                    null,    // credentials (not needed after validation) TODO
-                    Collections.emptyList()  // authorities (add roles if needed) TODO
+                    userId,
+                    null,
+                    Collections.emptyList()
                 );
-            
-            // Add additional details if needed
             authentication.setDetails(claims);
 
             SecurityContextHolder.getContext().setAuthentication(authentication);

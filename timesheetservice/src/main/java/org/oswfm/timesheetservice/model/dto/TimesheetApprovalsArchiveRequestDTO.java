@@ -1,10 +1,11 @@
 package org.oswfm.timesheetservice.model.dto;
 
+import java.time.LocalDateTime;
+
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import jakarta.validation.constraints.*;
-import java.time.LocalTime;
 
 
 @Data
@@ -20,7 +21,7 @@ public class TimesheetApprovalsArchiveRequestDTO {
 
     private Integer  approvalStatus;
 
-    private LocalTime approvalDate;
+    private LocalDateTime approvalDate;
 
     private String comments;
 

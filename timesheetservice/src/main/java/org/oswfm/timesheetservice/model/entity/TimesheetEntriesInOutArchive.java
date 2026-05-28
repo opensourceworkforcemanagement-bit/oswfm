@@ -15,8 +15,8 @@ public class TimesheetEntriesInOutArchive {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "timeshee_id")
-    private Integer  timesheeId;
+    @Column(name = "timesheet_id")
+    private Integer  timesheetId;
 
     @Column(name = "su1_in_time")
     private String su1InTime;

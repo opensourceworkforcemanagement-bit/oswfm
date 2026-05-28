@@ -11,7 +11,7 @@ import jakarta.validation.constraints.*;
 public class TimesheetEntriesCommentsRequestDTO {
 
     @NotNull
-    private Integer  timesheeId;
+    private Integer  timesheetId;
 
     @NotNull
     private Integer  entryDay;

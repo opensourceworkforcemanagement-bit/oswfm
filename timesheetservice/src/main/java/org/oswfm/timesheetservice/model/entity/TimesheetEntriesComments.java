@@ -18,8 +18,8 @@ public class TimesheetEntriesComments {
     @Column(name = "timesheet_entries_comments_id")
     private Integer  timesheetEntriesCommentsId;
 
-    @Column(name = "timeshee_id", nullable = false)
-    private Integer  timesheeId;
+    @Column(name = "timesheet_id", nullable = false)
+    private Integer  timesheetId;
 
     @Column(name = "entry_day", nullable = false)
     private Integer  entryDay;

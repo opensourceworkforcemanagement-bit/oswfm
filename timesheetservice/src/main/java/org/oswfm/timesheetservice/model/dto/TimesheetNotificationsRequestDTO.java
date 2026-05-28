@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import jakarta.validation.constraints.*;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -22,7 +22,7 @@ public class TimesheetNotificationsRequestDTO {
     @NotBlank
     private String notificationType;
 
-    private LocalTime sentAt;
+    private LocalDateTime sentAt;
 
     private Integer  status;
 
