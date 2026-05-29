@@ -7,7 +7,7 @@ spring:
 
   datasource:
     name: postgresql
-    url: jdbc:postgresql://${GIS_DB_IP:localhost}:${GIS_DB_PORT:5432}/opensourceworkforcemanagement?currentSchema=oswfm&charSet=UTF-8
+    url: jdbc:postgresql://${GIS_DB_IP:localhost}:${GIS_DB_PORT:5432}/opensourceworkforcemanagement?currentSchema=oswfm,public&charSet=UTF-8
     username: ${DATABASE_USERNAME:oswfm}
     password: ${DATABASE_PASSWORD:oswfm}
     driver-class-name: org.postgresql.Driver
