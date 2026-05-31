@@ -20,7 +20,7 @@ FROM public.ecr.aws/amazoncorretto/amazoncorretto:21
 WORKDIR administrationservice
 
 # Copy the JAR file from the build stage
-COPY --from=build target/*.jar administrationservice.jar
+COPY --from=build target/*-exec.jar administrationservice.jar
 
 # Expose port 1115 for the application
 EXPOSE 1115

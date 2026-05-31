@@ -19,7 +19,7 @@ FROM public.ecr.aws/amazoncorretto/amazoncorretto:21
 
 WORKDIR notificationservice
 
-COPY --from=build target/*.jar notificationservice.jar
+COPY --from=build target/*-exec.jar notificationservice.jar
 
 EXPOSE 1130
 

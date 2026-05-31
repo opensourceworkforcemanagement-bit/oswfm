@@ -20,7 +20,7 @@ FROM public.ecr.aws/amazoncorretto/amazoncorretto:21
 WORKDIR timesheetservice
 
 # Copy the JAR file from the build stage
-COPY --from=build target/*.jar timesheetservice.jar
+COPY --from=build target/*-exec.jar timesheetservice.jar
 
 # Expose port 1114 for the application
 EXPOSE 1114

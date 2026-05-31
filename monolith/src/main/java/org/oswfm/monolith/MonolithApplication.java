@@ -1,5 +1,13 @@
 package org.oswfm.monolith;
 
+import org.oswfm.accesscontrolservice.AccessControlApiApplication;
+import org.oswfm.authservice.AuthserviceApplication;
+import org.oswfm.gisservice.GISServiceApplication;
+import org.oswfm.kafkaservice.KafkaServiceApplication;
+import org.oswfm.notificationservice.NotificationServiceApplication;
+import org.oswfm.signalingservice.SignalingServiceApplication;
+import org.oswfm.timesheetservice.TimesheetserviceApplication;
+import org.oswfm.userservice.UserserviceApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -8,16 +16,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
-import org.oswfm.authservice.AuthserviceApplication;
-import org.oswfm.userservice.UserserviceApplication;
-import org.oswfm.gisservice.GISServiceApplication;
-import org.oswfm.signalingservice.SignalingServiceApplication;
-import org.oswfm.kafkaservice.KafkaServiceApplication;
-import org.oswfm.orderservice.OrderServiceApplication;
-import org.oswfm.notificationservice.NotificationServiceApplication;
-import org.oswfm.timesheetservice.TimesheetserviceApplication;
-import org.oswfm.accesscontrolservice.AccessControlApiApplication;
 
 /**
  * Monolith entry point — starts all OSWFM services in a single ApplicationContext.
@@ -62,7 +60,6 @@ import org.oswfm.accesscontrolservice.AccessControlApiApplication;
             GISServiceApplication.class,
             SignalingServiceApplication.class,
             KafkaServiceApplication.class,
-            OrderServiceApplication.class,
             NotificationServiceApplication.class,
             TimesheetserviceApplication.class,
             AccessControlApiApplication.class,
@@ -71,7 +68,6 @@ import org.oswfm.accesscontrolservice.AccessControlApiApplication;
             // Keep org.oswfm.userservice.config.SecurityConfig; exclude the rest
             org.oswfm.authservice.config.SecurityConfig.class,
             org.oswfm.gisservice.config.SecurityConfig.class,
-            org.oswfm.orderservice.config.SecurityConfig.class,
             org.oswfm.notificationservice.config.SecurityConfig.class,
             org.oswfm.timesheetservice.config.SecurityConfig.class,
             org.oswfm.accesscontrolservice.config.SecurityConfig.class,
@@ -107,7 +103,6 @@ import org.oswfm.accesscontrolservice.AccessControlApiApplication;
             // ── GlobalExceptionHandler duplicates ──────────────────────────────
             // Keep org.oswfm.userservice.exception.handler.GlobalExceptionHandler
             org.oswfm.kafkaservice.exception.GlobalExceptionHandler.class,
-            org.oswfm.orderservice.exception.GlobalExceptionHandler.class,
             org.oswfm.timesheetservice.exception.GlobalExceptionHandler.class,
 
             // ── FeignClientConfig duplicates ───────────────────────────────────

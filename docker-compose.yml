@@ -205,35 +205,7 @@ services:
         condition: service_healthy
     networks:
       - opensourceworkforcemanagement
-
-  orderservice:
-    image: orderservice:latest
-    build:
-      context: .
-      dockerfile: orderservice/Dockerfile
-    ports:
-      - "1121:1121"
-    environment:
-      - SERVER_PORT=1121
-      - SPRING_APPLICATION_NAME=orderservice
-      - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
-      - ORDER_DB_IP=db
-      - ORDER_DB_PORT=5432
-      - spring.datasource.url=jdbc:postgresql://db:5432/opensourceworkforcemanagement
-      - spring.datasource.username=${DATABASE_USERNAME}
-      - spring.datasource.password=${DATABASE_PASSWORD}
-      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
-    depends_on:
-      eurekaserver:
-        condition: service_started
-      kafka:
-        condition: service_healthy
-      db:
-        condition: service_healthy
-      userservice:
-        condition: service_healthy
-    networks:
-      - opensourceworkforcemanagement
+  
 
   gisservice:
     image: gisservice:latest

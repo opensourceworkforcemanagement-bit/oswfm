@@ -20,7 +20,7 @@ FROM public.ecr.aws/amazoncorretto/amazoncorretto:21
 WORKDIR userservice
 
 # Copy the JAR file from the build stage
-COPY --from=build target/*.jar userservice.jar
+COPY --from=build target/*-exec.jar userservice.jar
 
 # Expose port 1113
 EXPOSE 1113

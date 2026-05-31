@@ -20,7 +20,7 @@ FROM public.ecr.aws/amazoncorretto/amazoncorretto:21
 WORKDIR authservice
 
 # Copy the JAR file from the build stage
-COPY --from=build target/*.jar authservice.jar
+COPY --from=build target/*-exec.jar authservice.jar
 
 # Expose port 1112
 EXPOSE 1112

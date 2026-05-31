@@ -11,7 +11,7 @@ FROM public.ecr.aws/amazoncorretto/amazoncorretto:21
 
 WORKDIR signalingservice
 
-COPY --from=build target/*.jar signalingservice.jar
+COPY --from=build target/*-exec.jar signalingservice.jar
 
 EXPOSE 1122
 

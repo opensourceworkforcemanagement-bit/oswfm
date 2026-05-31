@@ -19,7 +19,7 @@ FROM public.ecr.aws/amazoncorretto/amazoncorretto:21
 
 WORKDIR gisservice
 
-COPY --from=build target/*.jar gisservice.jar
+COPY --from=build target/*-exec.jar gisservice.jar
 
 EXPOSE 1116
 

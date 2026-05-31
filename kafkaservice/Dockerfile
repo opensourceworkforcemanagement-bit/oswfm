@@ -19,7 +19,7 @@ FROM public.ecr.aws/amazoncorretto/amazoncorretto:21
 
 WORKDIR kafkaservice
 
-COPY --from=build target/*.jar kafkaservice.jar
+COPY --from=build target/*-exec.jar kafkaservice.jar
 
 EXPOSE 1120
 
