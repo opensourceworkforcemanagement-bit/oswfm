@@ -6,6 +6,7 @@ import jakarta.validation.ConstraintViolationException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -86,6 +87,20 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(customError, HttpStatus.BAD_REQUEST);
 
+    }
+
+    /**
+     * Handles HttpMessageNotReadableException thrown when the request body cannot be parsed (e.g. type mismatch).
+     */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(final HttpMessageNotReadableException ex) {
+        CustomError customError = CustomError.builder()
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .header(CustomError.Header.VALIDATION_ERROR.getName())
+                .message(ex.getMostSpecificCause().getMessage())
+                .build();
+
+        return new ResponseEntity<>(customError, HttpStatus.BAD_REQUEST);
     }
 
     /**

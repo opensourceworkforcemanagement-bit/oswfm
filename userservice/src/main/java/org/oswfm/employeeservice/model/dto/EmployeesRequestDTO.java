@@ -15,10 +15,14 @@ public class EmployeesRequestDTO {
     @NotBlank
     private String employeeIdentifier;
 
+    @NotNull
+    @NotBlank
     private String firstName;
 
     private String middleName;
 
+    @NotNull
+    @NotBlank
     private String lastName;
 
     private Integer  status;
