@@ -18,7 +18,7 @@ FROM public.ecr.aws/amazoncorretto/amazoncorretto:21
 WORKDIR apigateway
 
 # Copy the JAR file from the build stage
-COPY --from=build target/*.jar apigateway.jar
+COPY --from=build target/*-exec.jar apigateway.jar
 
 # Expose port 1110
 EXPOSE 1110

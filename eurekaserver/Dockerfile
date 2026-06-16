@@ -18,7 +18,7 @@ FROM public.ecr.aws/amazoncorretto/amazoncorretto:21
 WORKDIR eurekaserver
 
 # Copy the JAR file from the build stage
-COPY --from=build target/*.jar eurekaserver.jar
+COPY --from=build target/*-exec.jar eurekaserver.jar
 
 # Expose port 8761
 EXPOSE 8761

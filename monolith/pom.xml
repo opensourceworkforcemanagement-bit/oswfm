@@ -24,6 +24,8 @@
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <bouncycastle.version>1.77</bouncycastle.version>
         <jsonwebtoken.version>0.12.3</jsonwebtoken.version>
+        <otel.agent.version>2.16.0</otel.agent.version>
+        <otel.config.file>${project.basedir}/src/main/resources/otel.properties</otel.config.file>
     </properties>
 
     <dependencyManagement>
@@ -138,6 +140,10 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>org.oswfm.monolith.MonolithApplication</mainClass>
+                    <jvmArguments>
+                        -javaagent:${project.build.directory}/opentelemetry-javaagent.jar
+                        -Dotel.javaagent.configuration-file=${otel.config.file}
+                    </jvmArguments>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
@@ -145,6 +151,31 @@
                         </exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-otel-agent</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>io.opentelemetry.javaagent</groupId>
+                                    <artifactId>opentelemetry-javaagent</artifactId>
+                                    <version>${otel.agent.version}</version>
+                                    <type>jar</type>
+                                    <destFileName>opentelemetry-javaagent.jar</destFileName>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

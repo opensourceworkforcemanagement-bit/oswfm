@@ -1,0 +1,18 @@
+apiVersion: 1
+
+datasources:
+  - name: Tempo
+    type: tempo
+    uid: tempo
+    url: http://tempo:3200
+    access: proxy
+    isDefault: true
+    jsonData:
+      tracesToLogsV2:
+        datasourceUid: ''
+      serviceMap:
+        datasourceUid: ''
+      nodeGraph:
+        enabled: true
+      search:
+        hide: false

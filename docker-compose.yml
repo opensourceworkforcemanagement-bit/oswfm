@@ -1,5 +1,5 @@
 version: "3.9"
-
+name: oswfm
 services:
 
   # ── Infrastructure ──────────────────────────────────────────────────────────
@@ -17,6 +17,9 @@ services:
       - EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
       - EUREKA_CLIENT_FETCH_REGISTRY=false
       - SERVER_PORT=8761
+      - JAVA_TOOL_OPTIONS=-javaagent:/otel/opentelemetry-javaagent.jar -Dotel.service.name=eurekaserver -Dotel.exporter.otlp.endpoint=http://otel-collector:4317 -Dotel.exporter.otlp.protocol=grpc -Dotel.metrics.exporter=none -Dotel.logs.exporter=none
+    volumes:
+      - ./apigateway/target/opentelemetry-javaagent.jar:/otel/opentelemetry-javaagent.jar:ro
     networks:
       - opensourceworkforcemanagement
 
@@ -79,6 +82,9 @@ services:
     environment:
       - SPRING_APPLICATION_NAME=apigateway
       - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
+      - JAVA_TOOL_OPTIONS=-javaagent:/otel/opentelemetry-javaagent.jar -Dotel.service.name=apigateway -Dotel.exporter.otlp.endpoint=http://otel-collector:4317 -Dotel.exporter.otlp.protocol=grpc -Dotel.metrics.exporter=none -Dotel.logs.exporter=none
+    volumes:
+      - ./apigateway/target/opentelemetry-javaagent.jar:/otel/opentelemetry-javaagent.jar:ro
     depends_on:
       - eurekaserver
     networks:
@@ -97,6 +103,9 @@ services:
       - SERVER_PORT=1112
       - SPRING_APPLICATION_NAME=authservice
       - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
+      - JAVA_TOOL_OPTIONS=-javaagent:/otel/opentelemetry-javaagent.jar -Dotel.service.name=authservice -Dotel.exporter.otlp.endpoint=http://otel-collector:4317 -Dotel.exporter.otlp.protocol=grpc -Dotel.metrics.exporter=none -Dotel.logs.exporter=none
+    volumes:
+      - ./apigateway/target/opentelemetry-javaagent.jar:/otel/opentelemetry-javaagent.jar:ro
     depends_on:
       - eurekaserver
     networks:
@@ -118,6 +127,9 @@ services:
       - spring.datasource.url=jdbc:postgresql://db:5432/opensourceworkforcemanagement
       - spring.datasource.username=${DATABASE_USERNAME}
       - spring.datasource.password=${DATABASE_PASSWORD}
+      - JAVA_TOOL_OPTIONS=-javaagent:/otel/opentelemetry-javaagent.jar -Dotel.service.name=userservice -Dotel.exporter.otlp.endpoint=http://otel-collector:4317 -Dotel.exporter.otlp.protocol=grpc -Dotel.metrics.exporter=none -Dotel.logs.exporter=none
+    volumes:
+      - ./apigateway/target/opentelemetry-javaagent.jar:/otel/opentelemetry-javaagent.jar:ro
     depends_on:
       eurekaserver:
         condition: service_started
@@ -148,6 +160,9 @@ services:
       - spring.datasource.url=jdbc:postgresql://db:5432/opensourceworkforcemanagement
       - spring.datasource.username=${DATABASE_USERNAME}
       - spring.datasource.password=${DATABASE_PASSWORD}
+      - JAVA_TOOL_OPTIONS=-javaagent:/otel/opentelemetry-javaagent.jar -Dotel.service.name=timesheetservice -Dotel.exporter.otlp.endpoint=http://otel-collector:4317 -Dotel.exporter.otlp.protocol=grpc -Dotel.metrics.exporter=none -Dotel.logs.exporter=none
+    volumes:
+      - ./apigateway/target/opentelemetry-javaagent.jar:/otel/opentelemetry-javaagent.jar:ro
     depends_on:
       eurekaserver:
         condition: service_started
@@ -174,6 +189,9 @@ services:
       - spring.datasource.url=jdbc:postgresql://db:5432/opensourceworkforcemanagement
       - spring.datasource.username=${DATABASE_USERNAME}
       - spring.datasource.password=${DATABASE_PASSWORD}
+      - JAVA_TOOL_OPTIONS=-javaagent:/otel/opentelemetry-javaagent.jar -Dotel.service.name=administrationservice -Dotel.exporter.otlp.endpoint=http://otel-collector:4317 -Dotel.exporter.otlp.protocol=grpc -Dotel.metrics.exporter=none -Dotel.logs.exporter=none
+    volumes:
+      - ./apigateway/target/opentelemetry-javaagent.jar:/otel/opentelemetry-javaagent.jar:ro
     depends_on:
       eurekaserver:
         condition: service_started
@@ -198,6 +216,9 @@ services:
       - SPRING_APPLICATION_NAME=kafkaservice
       - EUREKA_SERVICE_URL=http://eurekaserver:8761/eureka/
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - JAVA_TOOL_OPTIONS=-javaagent:/otel/opentelemetry-javaagent.jar -Dotel.service.name=kafkaservice -Dotel.exporter.otlp.endpoint=http://otel-collector:4317 -Dotel.exporter.otlp.protocol=grpc -Dotel.metrics.exporter=none -Dotel.logs.exporter=none
+    volumes:
+      - ./apigateway/target/opentelemetry-javaagent.jar:/otel/opentelemetry-javaagent.jar:ro
     depends_on:
       eurekaserver:
         condition: service_started
@@ -205,7 +226,6 @@ services:
         condition: service_healthy
     networks:
       - opensourceworkforcemanagement
-  
 
   gisservice:
     image: gisservice:latest
@@ -224,6 +244,9 @@ services:
       - spring.datasource.username=${DATABASE_USERNAME}
       - spring.datasource.password=${DATABASE_PASSWORD}
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - JAVA_TOOL_OPTIONS=-javaagent:/otel/opentelemetry-javaagent.jar -Dotel.service.name=gisservice -Dotel.exporter.otlp.endpoint=http://otel-collector:4317 -Dotel.exporter.otlp.protocol=grpc -Dotel.metrics.exporter=none -Dotel.logs.exporter=none
+    volumes:
+      - ./apigateway/target/opentelemetry-javaagent.jar:/otel/opentelemetry-javaagent.jar:ro
     depends_on:
       eurekaserver:
         condition: service_started
@@ -249,6 +272,9 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       # Mount your Firebase service account JSON and set the path below:
       # - FIREBASE_CREDENTIALS_PATH=/app/firebase-service-account.json
+      - JAVA_TOOL_OPTIONS=-javaagent:/otel/opentelemetry-javaagent.jar -Dotel.service.name=notificationservice -Dotel.exporter.otlp.endpoint=http://otel-collector:4317 -Dotel.exporter.otlp.protocol=grpc -Dotel.metrics.exporter=none -Dotel.logs.exporter=none
+    volumes:
+      - ./apigateway/target/opentelemetry-javaagent.jar:/otel/opentelemetry-javaagent.jar:ro
     depends_on:
       kafka:
         condition: service_healthy
@@ -267,13 +293,18 @@ services:
     environment:
       - SERVER_PORT=1122
       - SPRING_APPLICATION_NAME=signalingservice
+      - JAVA_TOOL_OPTIONS=-javaagent:/otel/opentelemetry-javaagent.jar -Dotel.service.name=signalingservice -Dotel.exporter.otlp.endpoint=http://otel-collector:4317 -Dotel.exporter.otlp.protocol=grpc -Dotel.metrics.exporter=none -Dotel.logs.exporter=none
+    volumes:
+      - ./apigateway/target/opentelemetry-javaagent.jar:/otel/opentelemetry-javaagent.jar:ro
     networks:
       - opensourceworkforcemanagement
 
 
 networks:
   opensourceworkforcemanagement:
+    name: opensourceworkforcemanagement
     driver: bridge
 
 volumes:
   pgdata:
+    name: pgdata

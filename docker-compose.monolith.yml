@@ -1,3 +1,5 @@
+name: oswfm-monolith
+
 # Infrastructure-only compose for the monolith deployment.
 # Starts Postgres + Kafka only — the monolith JVM replaces all service containers.
 #
@@ -57,7 +59,9 @@ services:
 
 volumes:
   pgdata_monolith:
+    name: pgdata_monolith
 
 networks:
   oswfm-monolith:
+    name: oswfm-monolith
     driver: bridge

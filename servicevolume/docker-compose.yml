@@ -1,0 +1,61 @@
+services:
+
+  tempo:
+    image: grafana/tempo:latest
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ./tempo/tempo.yaml:/etc/tempo.yaml
+      - tempodata:/var/tempo
+    ports:
+      - "3200:3200"   # Tempo HTTP API / Grafana datasource
+      # 4317 stays internal — only the otel-collector talks to tempo:4317
+    healthcheck:
+      test: ["CMD", "/tempo", "-version"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 15s
+    networks:
+      - opensourceworkforcemanagement
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"   # Grafana UI (3000 is taken by the host frontend)
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - grafanadata:/var/lib/grafana
+    depends_on:
+      tempo:
+        condition: service_healthy
+    networks:
+      - opensourceworkforcemanagement
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    command: ["--config=/etc/otelcol-contrib/config.yaml"]
+    volumes:
+      - ./otel/otel-collector-config.yml:/etc/otelcol-contrib/config.yaml
+    ports:
+      - "4317:4317"   # OTLP gRPC — services send traces here
+      - "4318:4318"   # OTLP HTTP
+    depends_on:
+      tempo:
+        condition: service_healthy
+    networks:
+      - opensourceworkforcemanagement
+
+networks:
+  opensourceworkforcemanagement:
+    name: opensourceworkforcemanagement
+    driver: bridge
+
+volumes:
+  tempodata:
+    name: tempodata
+  grafanadata:
+    name: grafanadata

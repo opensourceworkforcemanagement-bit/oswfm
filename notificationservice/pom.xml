@@ -16,6 +16,8 @@
 
 	<properties>
 		<java.version>21</java.version>
+		<otel.agent.version>2.16.0</otel.agent.version>
+		<otel.config.file>${project.basedir}/src/main/resources/otel.properties</otel.config.file>
 	</properties>
 
 	<dependencies>
@@ -93,9 +95,36 @@
 						</exclude>
 					</excludes>
 					<jvmArguments>
+						-javaagent:${project.build.directory}/opentelemetry-javaagent.jar
+						-Dotel.javaagent.configuration-file=${otel.config.file}
 						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5015
 					</jvmArguments>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-otel-agent</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>io.opentelemetry.javaagent</groupId>
+									<artifactId>opentelemetry-javaagent</artifactId>
+									<version>${otel.agent.version}</version>
+		<type>jar</type>
+									<destFileName>opentelemetry-javaagent.jar</destFileName>
+									<outputDirectory>${project.build.directory}</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
